@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Starter Landing Page Logo</title>
+  <desc id="logoDesc">Rounded rectangle badge with the word Brand centered inside.</desc>
+  <rect x="0" y="0" width="160" height="48" rx="12" fill="#1d68d8" />
+  <text
+    x="80"
+    y="28"
+    text-anchor="middle"
+    font-family="Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    font-size="20"
+    font-weight="700"
+    fill="#ffffff"
+  >
+    Brand
+  </text>
+</svg>
