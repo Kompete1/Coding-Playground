@@ -343,6 +343,26 @@ main {
   gap: var(--spacing-sm);
 }
 
+.field-error {
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.field-error:not(:empty) {
+  color: hsl(0 72% 45%);
+}
+
+[aria-invalid="true"] {
+  outline: 2px solid hsl(0 72% 45%);
+  outline-offset: 2px;
+}
+
+.form-status {
+  min-height: 1.25rem;
+  margin-top: var(--spacing-xs);
+  font-size: 0.95rem;
+}
+
 .form-note {
   margin: 0;
   color: var(--color-text-muted);

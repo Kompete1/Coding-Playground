@@ -81,3 +81,112 @@ const observer = new IntersectionObserver(
 );
 
 sections.forEach((section) => observer.observe(section));
+
+const contactForm = document.querySelector("#contact-form");
+if (contactForm) {
+  const statusRegion = document.querySelector("#form-status");
+  const fieldConfigs = [
+    {
+      input: contactForm.querySelector("#name"),
+      error: contactForm.querySelector("#name-error"),
+      type: "name",
+    },
+    {
+      input: contactForm.querySelector("#email"),
+      error: contactForm.querySelector("#email-error"),
+      type: "email",
+    },
+    {
+      input: contactForm.querySelector("#message"),
+      error: contactForm.querySelector("#message-error"),
+      type: "message",
+    },
+  ];
+  let statusTimeoutId;
+
+  function setError(input, errorNode, message) {
+    if (!errorNode || !input) return;
+    errorNode.textContent = message;
+    if (message) {
+      input.setAttribute("aria-invalid", "true");
+    } else {
+      input.removeAttribute("aria-invalid");
+    }
+  }
+
+  function validateField({ input, error, type }) {
+    if (!input || !error) return true;
+
+    const trimmedValue = input.value.trim();
+    let message = "";
+
+    if (!trimmedValue) {
+      message = `Please enter your ${type === "message" ? "message" : type}.`;
+    } else if (type === "email" && input.type === "email" && input.validity.typeMismatch) {
+      message = "Please enter a valid email address.";
+    } else if (type === "message" && trimmedValue.length < 10) {
+      message = "Your message should be at least 10 characters.";
+    }
+
+    input.setCustomValidity(message);
+    setError(input, error, message);
+
+    return message === "";
+  }
+
+  function clearStatus() {
+    if (statusTimeoutId) {
+      clearTimeout(statusTimeoutId);
+      statusTimeoutId = undefined;
+    }
+    if (statusRegion) {
+      statusRegion.textContent = "";
+    }
+  }
+
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    clearStatus();
+
+    let firstInvalidField = null;
+    fieldConfigs.forEach((config) => {
+      const isValid = validateField(config);
+      if (!isValid && !firstInvalidField) {
+        firstInvalidField = config.input;
+      }
+    });
+
+    if (firstInvalidField) {
+      firstInvalidField.focus();
+      return;
+    }
+
+    contactForm.reset();
+    fieldConfigs.forEach(({ input, error }) => {
+      if (input && error) {
+        setError(input, error, "");
+      }
+    });
+
+    if (statusRegion) {
+      statusRegion.textContent = "Thanks! This is a demo; no message was sent.";
+      statusTimeoutId = window.setTimeout(() => {
+        if (statusRegion.textContent === "Thanks! This is a demo; no message was sent.") {
+          statusRegion.textContent = "";
+        }
+      }, 4500);
+    }
+  });
+
+  fieldConfigs.forEach((config) => {
+    const { input } = config;
+    if (!input) {
+      return;
+    }
+
+    input.addEventListener("input", () => {
+      validateField(config);
+    });
+  });
+}
