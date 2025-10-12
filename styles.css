@@ -18,6 +18,9 @@
   --spacing-xl: 4rem;
 
   --max-width: 68rem;
+  --hero-max: 1200px;
+  --hero-pad-y: clamp(4rem, 10vw, 8rem);
+  --container-pad-x: clamp(1rem, 4vw, 3rem);
   --radius-md: 1rem;
   --transition-speed: 220ms;
   .feature-card:hover,
@@ -181,14 +184,16 @@ main {
 }
 
 .hero {
-  padding: var(--spacing-xl) 0;
-  background: linear-gradient(155deg, rgba(29, 104, 216, 0.12), rgba(255, 255, 255, 0.9));
+  padding-block: var(--hero-pad-y);
+  background:
+    radial-gradient(900px 600px at 80% 20%, hsl(220 90% 60% / 0.1), transparent 60%),
+    linear-gradient(hsl(210 100% 97%), hsl(210 100% 97%));
 }
 
 .hero-container {
   margin: 0 auto;
-  max-width: 75rem;
-  padding: 0 var(--spacing-sm);
+  max-width: var(--hero-max);
+  padding-inline: var(--container-pad-x);
   display: grid;
   gap: var(--spacing-lg);
   align-items: center;
@@ -200,8 +205,8 @@ main {
   max-width: 32rem;
 }
 
-.hero-inner h1 {
-  font-size: clamp(2.25rem, 4vw + 1rem, 3.25rem);
+.hero h1 {
+  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
   line-height: 1.1;
 }
 
