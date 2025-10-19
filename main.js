@@ -82,6 +82,34 @@ const observer = new IntersectionObserver(
 
 sections.forEach((section) => observer.observe(section));
 
+const backToTopButton = document.querySelector(".back-to-top");
+if (backToTopButton) {
+  const visibilityOffset = 400;
+  let isUpdatingVisibility = false;
+
+  const updateBackToTopVisibility = () => {
+    const shouldShow = window.scrollY > visibilityOffset;
+    backToTopButton.classList.toggle("is-visible", shouldShow);
+    isUpdatingVisibility = false;
+  };
+
+  updateBackToTopVisibility();
+
+  window.addEventListener("scroll", () => {
+    if (!isUpdatingVisibility) {
+      isUpdatingVisibility = true;
+      window.requestAnimationFrame(updateBackToTopVisibility);
+    }
+  });
+
+  backToTopButton.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    });
+  });
+}
+
 const contactForm = document.querySelector("#contact-form");
 if (contactForm) {
   const statusRegion = document.querySelector("#form-status");
