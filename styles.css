@@ -229,7 +229,8 @@ main {
   border-radius: 999px;
   font-weight: 600;
   text-decoration: none;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease,
+    background-color var(--transition-speed) ease;
 }
 
 .primary-cta {
@@ -240,7 +241,8 @@ main {
 
 .primary-cta:hover,
 .primary-cta:focus-visible {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
+  background-color: #185bc2;
   box-shadow: 0 1rem 2.5rem -1rem rgba(29, 104, 216, 0.7);
 }
 
@@ -494,6 +496,11 @@ button[type="submit"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .primary-cta:hover,
+  .primary-cta:focus-visible {
+    transform: none;
   }
 }
 
