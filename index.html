@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script defer src="main.js"></script>
   </head>
-  <body>
+  <body id="top">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <!-- Header contains the site-wide navigation and branding -->
     <header class="site-header" role="banner">
@@ -120,8 +120,17 @@
     <!-- Footer wraps up the page with supporting details -->
     <footer class="site-footer" role="contentinfo">
       <div class="footer-inner">
-        <p>&copy; <span id="copyright-year"></span> Starter Landing Page. All rights reserved.</p>
-        <a href="#home">Back to top</a>
+        <p class="footer-copy">
+          &copy; <span id="copyright-year"></span> Starter Landing Page. All rights reserved.
+        </p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#top">Back to top</a></li>
+          </ul>
+        </nav>
       </div>
     </footer>
 
