@@ -6,6 +6,79 @@ const menuLinks = menu.querySelectorAll("a[href^='#']");
 const sections = document.querySelectorAll("main > section[id]");
 const header = document.querySelector(".site-header");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+const themeToggle = document.querySelector(".theme-toggle");
+const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
+const themeStorageKey = "preferred-theme";
+const rootElement = document.documentElement;
+
+function getStoredTheme() {
+  try {
+    const storedValue = window.localStorage.getItem(themeStorageKey);
+    if (storedValue === "light" || storedValue === "dark") {
+      return storedValue;
+    }
+  } catch (_) {
+    // Access to localStorage can fail; ignore gracefully.
+  }
+  return null;
+}
+
+function persistTheme(theme) {
+  try {
+    window.localStorage.setItem(themeStorageKey, theme);
+  } catch (_) {
+    // Ignore storage errors (e.g., privacy mode).
+  }
+}
+
+function updateToggleUI(theme) {
+  if (!themeToggle) return;
+  const isDark = theme === "dark";
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeToggle.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+  if (themeToggleLabel) {
+    themeToggleLabel.textContent = isDark ? "Dark" : "Light";
+  }
+}
+
+function applyTheme(theme, { persist = false } = {}) {
+  const normalizedTheme = theme === "dark" ? "dark" : "light";
+  rootElement.setAttribute("data-theme", normalizedTheme);
+  updateToggleUI(normalizedTheme);
+  if (persist) {
+    persistTheme(normalizedTheme);
+  }
+}
+
+const storedTheme = getStoredTheme();
+applyTheme(storedTheme ?? (prefersDarkScheme.matches ? "dark" : "light"));
+
+prefersDarkScheme.addEventListener("change", (event) => {
+  if (getStoredTheme()) {
+    return;
+  }
+  applyTheme(event.matches ? "dark" : "light");
+});
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = rootElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    applyTheme(nextTheme, { persist: true });
+  });
+}
+
+window.addEventListener("storage", (event) => {
+  if (event.key !== themeStorageKey) {
+    return;
+  }
+  if (event.newValue === "light" || event.newValue === "dark") {
+    applyTheme(event.newValue);
+  } else if (!event.newValue) {
+    applyTheme(prefersDarkScheme.matches ? "dark" : "light");
+  }
+});
 
 // Helper updates ARIA state and class list in tandem
 function setMenuState(isOpen) {
