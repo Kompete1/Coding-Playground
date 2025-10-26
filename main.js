@@ -291,3 +291,23 @@ if (contactForm) {
     });
   });
 }
+
+function formatCurrentTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
+
+function updateClock() {
+  const clockElement = document.querySelector("#clock");
+  if (!clockElement) {
+    return false;
+  }
+  clockElement.textContent = formatCurrentTime();
+  return true;
+}
+
+if (updateClock()) {
+  window.setInterval(updateClock, 60000);
+}
