@@ -169,10 +169,16 @@ img {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
   background-color: var(--color-surface-transparent);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
+  box-shadow: none;
+  transition: box-shadow var(--transition-speed) ease;
+}
+
+.site-header.is-scrolled {
+  box-shadow: var(--shadow-nav);
 }
 
 .site-nav {
