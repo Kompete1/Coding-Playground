@@ -12,6 +12,27 @@ const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
 const themeStorageKey = "preferred-theme";
 const rootElement = document.documentElement;
 
+const updateHeaderScrollState = () => {
+  if (!header) return;
+  const shouldElevate = window.scrollY > 8;
+  header.classList.toggle("is-scrolled", shouldElevate);
+};
+
+let isUpdatingHeaderState = false;
+
+const handleHeaderScroll = () => {
+  if (isUpdatingHeaderState) return;
+  isUpdatingHeaderState = true;
+  window.requestAnimationFrame(() => {
+    updateHeaderScrollState();
+    isUpdatingHeaderState = false;
+  });
+};
+
+updateHeaderScrollState();
+
+window.addEventListener("scroll", handleHeaderScroll, { passive: true });
+
 function getStoredTheme() {
   try {
     const storedValue = window.localStorage.getItem(themeStorageKey);
