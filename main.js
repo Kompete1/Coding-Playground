@@ -1,36 +1,43 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Mobile navigation toggle and smooth scrolling behaviors
-  const nav = document.querySelector(".site-nav");
-  const toggle = nav.querySelector(".menu-toggle");
-  const menu = nav.querySelector("#primary-menu");
-  const menuLinks = menu.querySelectorAll("a[href^='#']");
-  const sections = document.querySelectorAll("main > section[id]");
-  const header = document.querySelector(".site-header");
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-  const themeToggle = document.querySelector(".theme-toggle");
-  const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
-  const themeStorageKey = "preferred-theme";
-  const rootElement = document.documentElement;
+// Mobile navigation toggle and smooth scrolling behaviors
+const nav = document.querySelector(".site-nav");
+const toggle = nav.querySelector(".menu-toggle");
+const menu = nav.querySelector("#primary-menu");
+const menuLinks = menu.querySelectorAll("a[href^='#']");
+const sections = document.querySelectorAll("main > section[id]");
+const header = document.querySelector(".site-header");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+const themeToggle = document.querySelector(".theme-toggle");
+const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
+const themeStorageKey = "preferred-theme";
+const rootElement = document.documentElement;
 
-  if (header) {
-    const updateHeaderScrollState = () => {
-      const isScrolled = window.scrollY > 8;
-      header.classList.toggle("is-scrolled", isScrolled);
-    };
+const updateHeaderScrollState = () => {
+  if (!header) return;
+  const shouldElevate = window.scrollY > 8;
+  header.classList.toggle("is-scrolled", shouldElevate);
+};
 
+let isUpdatingHeaderState = false;
+
+const handleHeaderScroll = () => {
+  if (isUpdatingHeaderState) return;
+  isUpdatingHeaderState = true;
+  window.requestAnimationFrame(() => {
     updateHeaderScrollState();
-    window.addEventListener("scroll", updateHeaderScrollState);
-  }
+    isUpdatingHeaderState = false;
+  });
+};
 
-  function getStoredTheme() {
-    try {
-      const storedValue = window.localStorage.getItem(themeStorageKey);
-      if (storedValue === "light" || storedValue === "dark") {
-        return storedValue;
-      }
-    } catch (_) {
-      // Access to localStorage can fail; ignore gracefully.
+updateHeaderScrollState();
+
+window.addEventListener("scroll", handleHeaderScroll, { passive: true });
+
+function getStoredTheme() {
+  try {
+    const storedValue = window.localStorage.getItem(themeStorageKey);
+    if (storedValue === "light" || storedValue === "dark") {
+      return storedValue;
     }
     return null;
   }
