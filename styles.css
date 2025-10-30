@@ -52,10 +52,11 @@
   --radius-md: 1rem;
   --transition-speed: 220ms;
   --scroll-target-offset: 4.5rem;
-  .feature-card:hover,
-  .feature-card:focus-within {
-    transform: none;
-  }
+}
+
+.feature-card:hover,
+.feature-card:focus-within {
+  transform: none;
 }
 
 :root[data-theme="dark"] {
