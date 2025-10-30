@@ -7,6 +7,7 @@ const sections = document.querySelectorAll("main > section[id]");
 const header = document.querySelector(".site-header");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+const mobileNavBreakpoint = window.matchMedia("(max-width: 45rem)");
 const themeToggle = document.querySelector(".theme-toggle");
 const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
 const themeStorageKey = "preferred-theme";
@@ -101,18 +102,36 @@ window.addEventListener("storage", (event) => {
   }
 });
 
-// Helper updates ARIA state and class list in tandem
+let isMenuOpen = false;
+
+// Helper keeps the menu state and ARIA attributes in sync
+function updateMenuPresentation() {
+  if (mobileNavBreakpoint.matches) {
+    toggle.setAttribute("aria-expanded", String(isMenuOpen));
+    menu.setAttribute("aria-hidden", String(!isMenuOpen));
+    menu.classList.toggle("is-open", isMenuOpen);
+  } else {
+    toggle.setAttribute("aria-expanded", "false");
+    menu.removeAttribute("aria-hidden");
+    menu.classList.remove("is-open");
+  }
+}
+
 function setMenuState(isOpen) {
-  toggle.setAttribute("aria-expanded", String(isOpen));
-  menu.setAttribute("aria-hidden", String(!isOpen));
-  menu.classList.toggle("is-open", isOpen);
+  isMenuOpen = isOpen;
+  updateMenuPresentation();
 }
 
 setMenuState(false);
 
+if (typeof mobileNavBreakpoint.addEventListener === "function") {
+  mobileNavBreakpoint.addEventListener("change", updateMenuPresentation);
+} else if (typeof mobileNavBreakpoint.addListener === "function") {
+  mobileNavBreakpoint.addListener(updateMenuPresentation);
+}
+
 toggle.addEventListener("click", () => {
-  const isExpanded = toggle.getAttribute("aria-expanded") === "true";
-  setMenuState(!isExpanded);
+  setMenuState(!isMenuOpen);
 });
 
 // Collapse menu after navigating and enable smooth scroll
