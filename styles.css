@@ -132,6 +132,20 @@ body {
   }
 }
 
+@keyframes ctaPulse {
+  0% {
+    box-shadow: 0 1rem 2.5rem -1.25rem rgba(29, 104, 216, 0.65);
+  }
+
+  60% {
+    box-shadow: 0 1.75rem 3.5rem -1rem rgba(29, 104, 216, 0.85);
+  }
+
+  100% {
+    box-shadow: 0 1rem 2.5rem -1.25rem rgba(29, 104, 216, 0.65);
+  }
+}
+
 @keyframes heroGradientShift {
   0% {
     background-position: center, 0% 50%;
@@ -155,6 +169,11 @@ body {
   .fade-in {
     animation: none;
     opacity: 1;
+  }
+
+  .primary-cta:hover,
+  .primary-cta:focus-visible {
+    animation: none;
   }
 
   .hero {
@@ -422,20 +441,43 @@ main {
   font-weight: 600;
   text-decoration: none;
   transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease,
-    background-color var(--transition-speed) ease;
+    background var(--transition-speed) ease;
 }
 
 .primary-cta {
-  background-color: var(--color-accent);
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, rgba(29, 104, 216, 0.45) 0%, rgba(29, 104, 216, 0.3) 100%);
   color: var(--color-accent-contrast);
-  box-shadow: var(--shadow-accent-soft);
+  border: 1px solid rgba(29, 104, 216, 0.35);
+  box-shadow: 0 1rem 2.5rem -1.25rem rgba(29, 104, 216, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.primary-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.32) 10%, rgba(255, 255, 255, 0) 60%);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.primary-cta:hover::after,
+.primary-cta:focus-visible::after {
+  opacity: 1;
 }
 
 .primary-cta:hover,
 .primary-cta:focus-visible {
-  transform: translateY(-2px) scale(1.03);
-  background-color: var(--color-accent-strong);
-  box-shadow: var(--shadow-accent-strong);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 1.35rem 3rem -1.1rem rgba(29, 104, 216, 0.75);
+  animation: ctaPulse 1.4s ease-out infinite;
 }
 
 .secondary-cta {
