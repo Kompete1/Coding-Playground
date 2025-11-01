@@ -4,7 +4,6 @@ const toggle = nav.querySelector(".menu-toggle");
 const menu = nav.querySelector("#primary-menu");
 const menuLinks = menu.querySelectorAll("a[href^='#']");
 const sections = document.querySelectorAll("main > section[id]");
-const header = document.querySelector(".site-header");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 const mobileNavBreakpoint = window.matchMedia("(max-width: 45rem)");
@@ -12,27 +11,6 @@ const themeToggle = document.querySelector(".theme-toggle");
 const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
 const themeStorageKey = "preferred-theme";
 const rootElement = document.documentElement;
-
-const updateHeaderScrollState = () => {
-  if (!header) return;
-  const shouldElevate = window.scrollY > 8;
-  header.classList.toggle("is-scrolled", shouldElevate);
-};
-
-let isUpdatingHeaderState = false;
-
-const handleHeaderScroll = () => {
-  if (isUpdatingHeaderState) return;
-  isUpdatingHeaderState = true;
-  window.requestAnimationFrame(() => {
-    updateHeaderScrollState();
-    isUpdatingHeaderState = false;
-  });
-};
-
-updateHeaderScrollState();
-
-window.addEventListener("scroll", handleHeaderScroll, { passive: true });
 
 function getStoredTheme() {
   try {
@@ -145,7 +123,7 @@ menuLinks.forEach((link) => {
     }
 
     event.preventDefault();
-    const headerOffset = header?.offsetHeight ?? 0;
+    const headerOffset = nav?.offsetHeight ?? 0;
     const targetTop = target.getBoundingClientRect().top + window.scrollY;
     const scrollOptions = {
       top: targetTop - headerOffset - 8,
