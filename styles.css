@@ -517,12 +517,15 @@ main {
   background: var(--color-surface);
   color: var(--color-text);
   border: 2px solid var(--color-border-strong);
+  box-shadow: var(--shadow-card);
 }
 
 .secondary-cta:hover,
 .secondary-cta:focus-visible {
   border-color: var(--color-accent);
   color: var(--color-accent);
+  background: var(--color-accent-soft);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .hero-visual {
