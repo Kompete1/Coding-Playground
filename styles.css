@@ -1002,8 +1002,10 @@ button[type="submit"]:focus-visible {
   position: fixed;
   bottom: clamp(1.5rem, 4vw, 2.5rem);
   right: clamp(1rem, 4vw, 2.5rem);
-  width: 2.75rem;
-  height: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding-inline: 1.1rem;
+  padding-block: 0.5rem;
   border-radius: 999px;
   background-color: var(--color-accent);
   color: var(--color-accent-contrast);
@@ -1011,6 +1013,7 @@ button[type="submit"]:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1023,6 +1026,11 @@ button[type="submit"]:focus-visible {
   transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease,
     background-color var(--transition-speed) ease;
   z-index: 15;
+}
+
+.back-to-top__icon {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .back-to-top.is-visible {
