@@ -714,6 +714,31 @@ main {
 .testimonial-carousel {
   display: grid;
   gap: var(--spacing-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-carousel::before,
+.testimonial-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(4rem, 16vw);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.testimonial-carousel::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-surface-transparent) 0%, transparent 70%);
+}
+
+.testimonial-carousel::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--color-surface-transparent) 0%, transparent 70%);
 }
 
 .testimonial-track {
@@ -809,6 +834,11 @@ main {
 }
 
 @media (min-width: 48rem) {
+  .testimonial-carousel::before,
+  .testimonial-carousel::after {
+    opacity: 0;
+  }
+
   .testimonial-track {
     margin: 0;
     border-radius: var(--radius-md);
