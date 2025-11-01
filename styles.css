@@ -18,6 +18,14 @@
   --color-accent-soft-strong: rgba(29, 104, 216, 0.16);
   --color-accent-ring: rgba(29, 104, 216, 0.15);
   --color-accent-selection: rgba(29, 104, 216, 0.25);
+  --badge-popular-bg: rgba(29, 104, 216, 0.12);
+  --badge-popular-text: #185bc2;
+  --badge-adaptive-bg: rgba(16, 163, 127, 0.12);
+  --badge-adaptive-text: #0f7f69;
+  --badge-new-bg: rgba(255, 191, 71, 0.18);
+  --badge-new-text: #9a5a00;
+  --badge-trusted-bg: rgba(109, 76, 255, 0.12);
+  --badge-trusted-text: #4a31c3;
   --shadow-card: 0 1rem 2.5rem -2rem rgba(18, 23, 42, 0.2);
   --shadow-floating: 0 2rem 4rem -2rem rgba(18, 23, 42, 0.35);
   --shadow-card-hover: 0 1.25rem 3rem -2rem rgba(18, 23, 42, 0.28);
@@ -79,6 +87,14 @@
   --color-accent-soft-strong: rgba(139, 180, 255, 0.3);
   --color-accent-ring: rgba(139, 180, 255, 0.35);
   --color-accent-selection: rgba(139, 180, 255, 0.28);
+  --badge-popular-bg: rgba(139, 180, 255, 0.24);
+  --badge-popular-text: #d6e4ff;
+  --badge-adaptive-bg: rgba(78, 225, 195, 0.28);
+  --badge-adaptive-text: #b8fff1;
+  --badge-new-bg: rgba(255, 201, 102, 0.32);
+  --badge-new-text: #ffe3b5;
+  --badge-trusted-bg: rgba(174, 144, 255, 0.26);
+  --badge-trusted-text: #e0d4ff;
   --shadow-card: 0 1rem 2.5rem -2rem rgba(4, 9, 27, 0.6);
   --shadow-floating: 0 2rem 4rem -2rem rgba(4, 9, 27, 0.65);
   --shadow-card-hover: 0 1.25rem 3rem -2rem rgba(4, 9, 27, 0.55);
@@ -553,6 +569,76 @@ main {
   border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-card);
   transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.feature-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.feature-card__icon {
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.875rem;
+  background: linear-gradient(135deg, var(--color-accent-soft-strong), var(--color-accent-soft));
+  color: var(--color-accent-strong);
+  flex-shrink: 0;
+}
+
+.feature-card__icon-svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: currentColor;
+}
+
+.feature-card__title {
+  display: grid;
+  gap: var(--spacing-xs);
+}
+
+.feature-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.feature-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.feature-badge--popular {
+  background-color: var(--badge-popular-bg);
+  color: var(--badge-popular-text);
+}
+
+.feature-badge--adaptive {
+  background-color: var(--badge-adaptive-bg);
+  color: var(--badge-adaptive-text);
+}
+
+.feature-badge--new {
+  background-color: var(--badge-new-bg);
+  color: var(--badge-new-text);
+}
+
+.feature-badge--trusted {
+  background-color: var(--badge-trusted-bg);
+  color: var(--badge-trusted-text);
 }
 
 .feature-card:hover,
