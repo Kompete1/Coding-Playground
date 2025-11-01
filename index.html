@@ -15,6 +15,7 @@
     <!-- Link the stylesheet and main script -->
     <link rel="stylesheet" href="styles.css" />
     <script defer src="main.js"></script>
+    <script defer src="carousel.js"></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -88,6 +89,55 @@
             <h3>Lightweight stack</h3>
             <p>Pure HTML, CSS, and JavaScript mean zero build tools and fast loading experiences.</p>
           </article>
+        </div>
+      </section>
+
+      <section id="testimonials" class="testimonials" aria-labelledby="testimonials-heading">
+        <div class="section-heading">
+          <h2 id="testimonials-heading">Loved by teams of every size</h2>
+          <p class="section-intro">A few words from people who use this starter to share their next big idea.</p>
+        </div>
+        <div class="testimonial-carousel" data-carousel>
+          <div class="testimonial-track" data-carousel-track>
+            <article class="testimonial-card" id="testimonial-alex">
+              <figure>
+                <blockquote>
+                  “The layout was ready to ship in an afternoon. We simply plugged in our content and launched.”
+                </blockquote>
+                <figcaption>
+                  <span class="testimonial-name">Alex Morgan</span>
+                  <span class="testimonial-role">Product Designer, Flowspace</span>
+                </figcaption>
+              </figure>
+            </article>
+            <article class="testimonial-card" id="testimonial-sam">
+              <figure>
+                <blockquote>
+                  “It’s rare to find a starter that balances accessibility with style. Our marketing team adores it.”
+                </blockquote>
+                <figcaption>
+                  <span class="testimonial-name">Sam Rivera</span>
+                  <span class="testimonial-role">Head of Marketing, LumenLabs</span>
+                </figcaption>
+              </figure>
+            </article>
+            <article class="testimonial-card" id="testimonial-jordan">
+              <figure>
+                <blockquote>
+                  “From hero section to contact form, everything just works. It’s a great base for quick experiments.”
+                </blockquote>
+                <figcaption>
+                  <span class="testimonial-name">Jordan Lee</span>
+                  <span class="testimonial-role">Founder, Launchpad Studio</span>
+                </figcaption>
+              </figure>
+            </article>
+          </div>
+          <div class="testimonial-controls" role="group" aria-label="Testimonial navigation" data-carousel-dots>
+            <button type="button" class="testimonial-dot is-active" data-carousel-dot aria-controls="testimonial-alex" aria-label="Show testimonial from Alex Morgan" aria-pressed="true"></button>
+            <button type="button" class="testimonial-dot" data-carousel-dot aria-controls="testimonial-sam" aria-label="Show testimonial from Sam Rivera" aria-pressed="false"></button>
+            <button type="button" class="testimonial-dot" data-carousel-dot aria-controls="testimonial-jordan" aria-label="Show testimonial from Jordan Lee" aria-pressed="false"></button>
+          </div>
         </div>
       </section>
 

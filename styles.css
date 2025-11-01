@@ -565,6 +565,129 @@ main {
   margin: 0;
 }
 
+.testimonials {
+  margin: 0 auto;
+  max-width: var(--max-width);
+  padding: var(--spacing-xl) var(--spacing-sm);
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.testimonial-carousel {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.testimonial-track {
+  display: flex;
+  gap: var(--spacing-sm);
+  overflow-x: auto;
+  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-md);
+  margin: 0 calc(-1 * var(--spacing-sm));
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.testimonial-track:focus-within {
+  outline: 3px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.testimonial-track::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.testimonial-track::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.testimonial-track::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-strong);
+  border-radius: 999px;
+}
+
+.testimonial-card {
+  flex: 0 0 clamp(18rem, 70vw, 24rem);
+  background-color: var(--color-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg) var(--spacing-md);
+  box-shadow: var(--shadow-card);
+  scroll-snap-align: center;
+  display: grid;
+  gap: var(--spacing-sm);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.testimonial-card figure {
+  margin: 0;
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.testimonial-card blockquote {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.testimonial-card figcaption {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.testimonial-name {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.testimonial-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.testimonial-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  border: 2px solid var(--color-accent);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.testimonial-dot:hover,
+.testimonial-dot:focus-visible {
+  transform: scale(1.1);
+  background: var(--color-accent-soft);
+}
+
+.testimonial-dot.is-active {
+  background: var(--color-accent);
+}
+
+@media (min-width: 48rem) {
+  .testimonial-track {
+    margin: 0;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-strong) 100%);
+  }
+
+  .testimonial-card {
+    flex-basis: clamp(20rem, 32vw, 24rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-track {
+    scroll-behavior: auto;
+  }
+}
+
 .contact {
   background-color: var(--color-surface);
   padding: var(--spacing-xl) var(--spacing-sm);
