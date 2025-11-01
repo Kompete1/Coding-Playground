@@ -162,6 +162,17 @@ body {
   }
 }
 
+@keyframes scrollIndicatorFloat {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, 10px);
+  }
+}
+
 @keyframes heroGradientShift {
   0% {
     background-position: center, 0% 50%;
@@ -195,6 +206,11 @@ body {
   .hero {
     animation: none;
     background-position: center, 50% 50%;
+  }
+
+  .scroll-indicator {
+    animation: none;
+    transform: translate(-50%, 0);
   }
 }
 
@@ -409,6 +425,7 @@ main {
 }
 
 .hero {
+  position: relative;
   padding-block: var(--hero-pad-y);
   background-image: var(--gradient-hero-overlay), var(--gradient-hero-animated);
   background-size: 100% 100%, 400% 400%;
@@ -512,6 +529,38 @@ main {
   display: grid;
   align-items: center;
   justify-content: center;
+}
+
+.scroll-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 4vw, 3rem);
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: 2rem;
+  color: var(--color-accent);
+  pointer-events: none;
+  animation: scrollIndicatorFloat 3.5s ease-in-out infinite;
+}
+
+.scroll-indicator__line {
+  width: 2px;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.scroll-indicator__chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.8;
 }
 
 .hero-card {
