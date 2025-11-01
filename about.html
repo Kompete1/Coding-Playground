@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Learn more about the goals and foundations of the Coding Playground site." />
+    <meta property="og:title" content="Coding Playground — About" />
+    <meta property="og:description" content="Discover the mission, approach, and technology powering this static experience." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://example.com/about" />
+    <meta property="og:image" content="https://example.com/social-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Coding Playground — About</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="main.js"></script>
+    <script defer src="carousel.js"></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header" role="banner">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="logo" href="/index.html" aria-label="Site home">
+          <img src="assets/logo.svg" alt="Starter Landing Page" />
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu">
+          <span class="menu-label">Menu</span>
+          <span class="menu-icon" aria-hidden="true"></span>
+        </button>
+        <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
+          <span class="theme-toggle__icon" aria-hidden="true"></span>
+          <span class="theme-toggle__label">Theme</span>
+        </button>
+        <span id="clock" aria-live="polite"></span>
+        <ul id="primary-menu" class="nav-links" aria-hidden="true">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/about.html" aria-current="page">About</a></li>
+          <li><a href="/index.html#features">Features</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="about-hero-heading">
+        <div class="hero-container fade-in">
+          <div class="hero-inner">
+            <h1 id="about-hero-heading">About this site</h1>
+            <p class="hero-copy">
+              Coding Playground is a lightweight, accessible template built to help you prototype ideas quickly and share them with confidence.
+            </p>
+            <div class="hero-actions">
+              <a class="primary-cta" href="/index.html">Explore the homepage</a>
+              <a class="secondary-cta" href="/contact.html">Start a conversation</a>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-card">
+              <p class="hero-card-title">Built for clarity</p>
+              <p class="hero-card-copy">Consistent patterns, reusable components, and fast load times support every experiment.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" aria-labelledby="about-principles-heading">
+        <div class="section-heading">
+          <h2 id="about-principles-heading">What guides the Coding Playground</h2>
+          <p class="section-intro">Three pillars keep the experience focused, delightful, and easy to maintain.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-card__header">
+              <span class="feature-card__icon" aria-hidden="true">
+                <svg class="feature-card__icon-svg" viewBox="0 0 48 48" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 5a11 11 0 0 1 11 11c0 6.273-5.209 11.328-10.466 14.94-.39.26-.717.495-1.01.704-.293-.21-.62-.445-1.01-.704C18.209 27.328 13 22.273 13 16a11 11 0 0 1 11-11Zm0 38.5c-4.27 0-8.378-1.695-11.404-4.722a1.5 1.5 0 0 1 2.121-2.122A12.5 12.5 0 0 0 24 40.5a12.5 12.5 0 0 0 9.283-3.844 1.5 1.5 0 0 1 2.121 2.122A15.5 15.5 0 0 1 24 43.5Z" />
+                </svg>
+              </span>
+              <div class="feature-card__title">
+                <div class="feature-card__title-row">
+                  <h3>Mission</h3>
+                </div>
+                <p>Empower makers with a ready-to-ship foundation that keeps accessibility, performance, and clarity in focus.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-card__header">
+              <span class="feature-card__icon" aria-hidden="true">
+                <svg class="feature-card__icon-svg" viewBox="0 0 48 48" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 10.5A4.5 4.5 0 0 1 12.5 6h23A4.5 4.5 0 0 1 40 10.5v21A4.5 4.5 0 0 1 35.5 36H28v4.5a1.5 1.5 0 0 1-2.379 1.176L20 36h-7.5A4.5 4.5 0 0 1 8 31.5v-21Z" />
+                  <path d="M19.5 18h9a1.5 1.5 0 0 1 0 3h-9a1.5 1.5 0 0 1 0-3Zm-3 7h15a1.5 1.5 0 0 1 0 3h-15a1.5 1.5 0 0 1 0-3Z" />
+                </svg>
+              </span>
+              <div class="feature-card__title">
+                <div class="feature-card__title-row">
+                  <h3>Approach</h3>
+                </div>
+                <p>Start with semantic HTML, layer in purposeful styles, then sprinkle interactivity that enhances—not distracts.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-card__header">
+              <span class="feature-card__icon" aria-hidden="true">
+                <svg class="feature-card__icon-svg" viewBox="0 0 48 48" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 6a4.5 4.5 0 0 1 4.5 4.5V15H33a4.5 4.5 0 1 1 0 9h-4.5v3H33a4.5 4.5 0 1 1 0 9h-4.5v4.5a4.5 4.5 0 1 1-9 0V36H15a4.5 4.5 0 1 1 0-9h4.5v-3H15a4.5 4.5 0 1 1 0-9h4.5v-4.5A4.5 4.5 0 0 1 24 6Z" />
+                </svg>
+              </span>
+              <div class="feature-card__title">
+                <div class="feature-card__title-row">
+                  <h3>Tech stack</h3>
+                </div>
+                <p>Pure HTML, CSS, and vanilla JavaScript keep the experience fast, portable, and easy to remix.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-copy">
+          &copy; <span id="copyright-year"></span> Starter Landing Page. All rights reserved.
+        </p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <ul class="footer-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/about.html" aria-current="page">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="#top">Back to top</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <button type="button" class="back-to-top" aria-label="Back to top">
+      <span class="back-to-top__icon" aria-hidden="true">↑</span>
+      <span class="back-to-top__label" aria-hidden="true">Top</span>
+    </button>
+  </body>
+</html>
