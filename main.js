@@ -1,50 +1,38 @@
-const themeStorageKey = "preferred-theme";
-const rootElement = document.documentElement;
+// Mobile navigation toggle and smooth scrolling behaviors
+const nav = document.querySelector(".site-nav");
+const toggle = nav.querySelector(".menu-toggle");
+const menu = nav.querySelector("#primary-menu");
+const menuLinks = menu.querySelectorAll("a[href^='#']");
+const sections = document.querySelectorAll("main > section[id]");
+const header = document.querySelector(".site-header");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 const mobileNavBreakpoint = window.matchMedia("(max-width: 45rem)");
+const themeToggle = document.querySelector(".theme-toggle");
+const themeToggleLabel = themeToggle?.querySelector(".theme-toggle__label");
+const themeStorageKey = "preferred-theme";
+const rootElement = document.documentElement;
 
-let themeToggleButton = null;
-let themeToggleLabel = null;
-let clockIntervalId = null;
+const updateHeaderScrollState = () => {
+  if (!header) return;
+  const shouldElevate = window.scrollY > 8;
+  header.classList.toggle("is-scrolled", shouldElevate);
+};
 
-const FALLBACK_HEADER_HTML = `
-<header class="site-header" role="banner">
-  <nav class="site-nav" aria-label="Primary navigation">
-    <a class="brand" href="index.html" aria-label="Site home">Brand</a>
-    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
-      <span class="theme-toggle__icon" aria-hidden="true"></span>
-      <span class="theme-toggle__label">Theme</span>
-    </button>
-    <span id="clock" aria-live="polite"></span>
-    <ul id="primary-menu" class="nav-links is-open" aria-hidden="false">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="index.html#features">Features</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-`;
+let isUpdatingHeaderState = false;
 
-const FALLBACK_FOOTER_HTML = `
-<footer class="site-footer" role="contentinfo">
-  <div class="footer-inner">
-    <p class="footer-copy">
-      &copy; <span id="copyright-year"></span> Starter Landing Page. All rights reserved.
-    </p>
-    <nav class="footer-nav" aria-label="Footer navigation">
-      <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="#top">Back to top</a></li>
-      </ul>
-    </nav>
-  </div>
-</footer>
-`;
+const handleHeaderScroll = () => {
+  if (isUpdatingHeaderState) return;
+  isUpdatingHeaderState = true;
+  window.requestAnimationFrame(() => {
+    updateHeaderScrollState();
+    isUpdatingHeaderState = false;
+  });
+};
+
+updateHeaderScrollState();
+
+window.addEventListener("scroll", handleHeaderScroll, { passive: true });
 
 function getStoredTheme() {
   try {
@@ -67,10 +55,10 @@ function persistTheme(theme) {
 }
 
 function updateToggleUI(theme) {
-  if (!themeToggleButton) return;
+  if (!themeToggle) return;
   const isDark = theme === "dark";
-  themeToggleButton.setAttribute("aria-pressed", String(isDark));
-  themeToggleButton.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeToggle.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
   if (themeToggleLabel) {
     themeToggleLabel.textContent = isDark ? "Dark" : "Light";
   }
@@ -95,6 +83,14 @@ prefersDarkScheme.addEventListener("change", (event) => {
   applyTheme(event.matches ? "dark" : "light");
 });
 
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = rootElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    applyTheme(nextTheme, { persist: true });
+  });
+}
+
 window.addEventListener("storage", (event) => {
   if (event.key !== themeStorageKey) {
     return;
@@ -106,44 +102,75 @@ window.addEventListener("storage", (event) => {
   }
 });
 
-async function loadPartial(container, url, fallbackContent) {
-  if (!container) return false;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to load ${url}: ${response.status}`);
-    }
-    const markup = await response.text();
-    container.innerHTML = markup;
-    return true;
-  } catch (error) {
-    console.warn(`Unable to load partial: ${url}`, error);
-    container.innerHTML = fallbackContent;
-    return false;
+let isMenuOpen = false;
+
+// Helper keeps the menu state and ARIA attributes in sync
+function updateMenuPresentation() {
+  if (mobileNavBreakpoint.matches) {
+    toggle.setAttribute("aria-expanded", String(isMenuOpen));
+    menu.setAttribute("aria-hidden", String(!isMenuOpen));
+    menu.classList.toggle("is-open", isMenuOpen);
+  } else {
+    toggle.setAttribute("aria-expanded", "false");
+    menu.removeAttribute("aria-hidden");
+    menu.classList.remove("is-open");
   }
 }
 
-function getCurrentPage() {
-  const rawPath = window.location.pathname.split("/").pop();
-  return rawPath && rawPath !== "" ? rawPath : "index.html";
+function setMenuState(isOpen) {
+  isMenuOpen = isOpen;
+  updateMenuPresentation();
 }
 
-function setPageActiveLinks(root = document) {
-  const currentPage = getCurrentPage();
-  const pageLinks = root.querySelectorAll(".site-nav a[href], .footer-nav a[href]");
-  pageLinks.forEach((link) => {
-    const href = link.getAttribute("href") ?? "";
-    if (href.startsWith("#")) {
-      link.removeAttribute("aria-current");
+setMenuState(false);
+
+if (typeof mobileNavBreakpoint.addEventListener === "function") {
+  mobileNavBreakpoint.addEventListener("change", updateMenuPresentation);
+} else if (typeof mobileNavBreakpoint.addListener === "function") {
+  mobileNavBreakpoint.addListener(updateMenuPresentation);
+}
+
+toggle.addEventListener("click", () => {
+  setMenuState(!isMenuOpen);
+});
+
+// Collapse menu after navigating and enable smooth scroll
+menuLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const targetId = link.getAttribute("href");
+    const target = document.querySelector(targetId);
+
+    if (!target) {
       return;
     }
-    const hashIndex = href.indexOf("#");
-    if (hashIndex !== -1) {
-      link.removeAttribute("aria-current");
-      return;
-    }
-    const normalizedPath = href === "" ? "index.html" : href;
-    if (normalizedPath === currentPage) {
+
+    event.preventDefault();
+    const headerOffset = header?.offsetHeight ?? 0;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
+    const scrollOptions = {
+      top: targetTop - headerOffset - 8,
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    };
+    window.scrollTo(scrollOptions);
+    setMenuState(false);
+  });
+});
+
+// Keep footer year current without manual edits
+const yearTarget = document.querySelector("#copyright-year");
+if (yearTarget) {
+  yearTarget.textContent = new Date().getFullYear();
+}
+
+const linkBySection = new Map(
+  Array.from(menuLinks).map((link) => [link.getAttribute("href")?.replace("#", ""), link]),
+);
+
+function updateActiveLink(activeId) {
+  linkBySection.forEach((link, sectionId) => {
+    if (!sectionId) return;
+    const isActive = sectionId === activeId;
+    if (isActive) {
       link.setAttribute("aria-current", "page");
     } else {
       link.removeAttribute("aria-current");
@@ -151,207 +178,25 @@ function setPageActiveLinks(root = document) {
   });
 }
 
-function initializeNavigation() {
-  const header = document.querySelector(".site-header");
-  if (!header) {
-    return;
-  }
-
-  const nav = header.querySelector(".site-nav");
-  const menu = nav?.querySelector("#primary-menu");
-  const toggle = nav?.querySelector(".menu-toggle");
-
-  themeToggleButton = nav?.querySelector(".theme-toggle") ?? null;
-  themeToggleLabel = themeToggleButton?.querySelector(".theme-toggle__label") ?? null;
-  const currentTheme = rootElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-  updateToggleUI(currentTheme);
-
-  if (themeToggleButton && !themeToggleButton.dataset.enhanced) {
-    themeToggleButton.addEventListener("click", () => {
-      const activeTheme = rootElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-      const nextTheme = activeTheme === "dark" ? "light" : "dark";
-      applyTheme(nextTheme, { persist: true });
-    });
-    themeToggleButton.dataset.enhanced = "true";
-  }
-
-  if (menu && !toggle) {
-    menu.removeAttribute("aria-hidden");
-    menu.classList.add("is-open");
-  }
-
-  if (!header.dataset.scrollEnhanced) {
-    const updateHeaderScrollState = () => {
-      const shouldElevate = window.scrollY > 8;
-      header.classList.toggle("is-scrolled", shouldElevate);
-    };
-
-    let isUpdatingHeaderState = false;
-
-    const handleHeaderScroll = () => {
-      if (isUpdatingHeaderState) return;
-      isUpdatingHeaderState = true;
-      window.requestAnimationFrame(() => {
-        updateHeaderScrollState();
-        isUpdatingHeaderState = false;
-      });
-    };
-
-    updateHeaderScrollState();
-    window.addEventListener("scroll", handleHeaderScroll, { passive: true });
-    header.dataset.scrollEnhanced = "true";
-  }
-
-  if (!menu) {
-    return;
-  }
-
-  const currentPage = getCurrentPage();
-  const sectionLinks = Array.from(menu.querySelectorAll("a[href]")).filter((link) => {
-    const href = link.getAttribute("href") ?? "";
-    const hashIndex = href.indexOf("#");
-    if (hashIndex === -1) {
-      return false;
+const observer = new IntersectionObserver(
+  (entries) => {
+    const inView = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    if (inView.length > 0) {
+      updateActiveLink(inView[0].target.id);
     }
-    const sectionId = href.slice(hashIndex + 1);
-    if (!sectionId) {
-      return false;
-    }
-    const pathPart = href.slice(0, hashIndex);
-    const normalizedPath = pathPart === "" ? currentPage : pathPart;
-    return normalizedPath === currentPage;
-  });
+  },
+  {
+    rootMargin: "-40% 0px -40% 0px",
+    threshold: [0.25, 0.5, 0.75],
+  },
+);
 
-  const sections = Array.from(document.querySelectorAll("main > section[id]"));
-  const linkBySection = new Map();
+sections.forEach((section) => observer.observe(section));
 
-  sectionLinks.forEach((link) => {
-    const href = link.getAttribute("href") ?? "";
-    const hashIndex = href.indexOf("#");
-    if (hashIndex === -1) {
-      return;
-    }
-    const sectionId = href.slice(hashIndex + 1);
-    if (!sectionId) {
-      return;
-    }
-    linkBySection.set(sectionId, link);
-  });
-
-  let closeMenu = () => {};
-
-  if (toggle && !toggle.dataset.menuEnhanced) {
-    let isMenuOpen = false;
-
-    const updateMenuPresentation = () => {
-      if (mobileNavBreakpoint.matches) {
-        toggle.setAttribute("aria-expanded", String(isMenuOpen));
-        menu.setAttribute("aria-hidden", String(!isMenuOpen));
-        menu.classList.toggle("is-open", isMenuOpen);
-      } else {
-        toggle.setAttribute("aria-expanded", "false");
-        menu.removeAttribute("aria-hidden");
-        menu.classList.add("is-open");
-      }
-    };
-
-    const setMenuState = (isOpen) => {
-      isMenuOpen = isOpen;
-      updateMenuPresentation();
-    };
-
-    setMenuState(false);
-
-    if (typeof mobileNavBreakpoint.addEventListener === "function") {
-      mobileNavBreakpoint.addEventListener("change", updateMenuPresentation);
-    } else if (typeof mobileNavBreakpoint.addListener === "function") {
-      mobileNavBreakpoint.addListener(updateMenuPresentation);
-    }
-
-    toggle.addEventListener("click", () => {
-      setMenuState(!isMenuOpen);
-    });
-
-    closeMenu = () => setMenuState(false);
-    toggle.dataset.menuEnhanced = "true";
-  }
-
-  sectionLinks.forEach((link) => {
-    if (link.dataset.smoothScrollEnhanced) {
-      return;
-    }
-    link.addEventListener("click", (event) => {
-      const href = link.getAttribute("href") ?? "";
-      const hashIndex = href.indexOf("#");
-      if (hashIndex === -1) {
-        return;
-      }
-      const pathPart = href.slice(0, hashIndex);
-      const sectionId = href.slice(hashIndex + 1);
-      if (!sectionId) {
-        return;
-      }
-      const normalizedPath = pathPart === "" ? currentPage : pathPart;
-      if (normalizedPath !== currentPage) {
-        return;
-      }
-
-      const target = document.getElementById(sectionId);
-      if (!target) {
-        return;
-      }
-
-      event.preventDefault();
-
-      const headerOffset = header.offsetHeight ?? 0;
-      const targetTop = target.getBoundingClientRect().top + window.scrollY;
-      const scrollOptions = {
-        top: targetTop - headerOffset - 8,
-        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
-      };
-      window.scrollTo(scrollOptions);
-      closeMenu();
-    });
-    link.dataset.smoothScrollEnhanced = "true";
-  });
-
-  if (sections.length > 0 && linkBySection.size > 0) {
-    const updateActiveLink = (activeId) => {
-      linkBySection.forEach((link, sectionId) => {
-        if (!sectionId) return;
-        if (sectionId === activeId) {
-          link.setAttribute("aria-current", "page");
-        } else {
-          link.removeAttribute("aria-current");
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const inView = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (inView.length > 0) {
-          updateActiveLink(inView[0].target.id);
-        }
-      },
-      {
-        rootMargin: "-40% 0px -40% 0px",
-        threshold: [0.25, 0.5, 0.75],
-      },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-  }
-}
-
-function initBackToTop() {
-  const backToTopButton = document.querySelector(".back-to-top");
-  if (!backToTopButton) {
-    return;
-  }
-
+const backToTopButton = document.querySelector(".back-to-top");
+if (backToTopButton) {
   const visibilityOffset = 400;
   let isUpdatingVisibility = false;
 
@@ -378,12 +223,8 @@ function initBackToTop() {
   });
 }
 
-function initContactForm() {
-  const contactForm = document.querySelector("#contact-form");
-  if (!contactForm) {
-    return;
-  }
-
+const contactForm = document.querySelector("#contact-form");
+if (contactForm) {
   const statusRegion = document.querySelector("#form-status");
   const fieldConfigs = [
     {
@@ -507,34 +348,6 @@ function updateClock() {
   return true;
 }
 
-function startClock() {
-  if (clockIntervalId !== null) {
-    window.clearInterval(clockIntervalId);
-    clockIntervalId = null;
-  }
-
-  if (updateClock()) {
-    clockIntervalId = window.setInterval(updateClock, 60000);
-  }
+if (updateClock()) {
+  window.setInterval(updateClock, 60000);
 }
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const headerContainer = document.querySelector("#site-header");
-  const footerContainer = document.querySelector("#site-footer");
-
-  await Promise.all([
-    loadPartial(headerContainer, "partials/header.html", FALLBACK_HEADER_HTML),
-    loadPartial(footerContainer, "partials/footer.html", FALLBACK_FOOTER_HTML),
-  ]);
-
-  initializeNavigation();
-  setPageActiveLinks();
-  initBackToTop();
-  initContactForm();
-  startClock();
-
-  const yearTarget = document.querySelector("#copyright-year");
-  if (yearTarget) {
-    yearTarget.textContent = new Date().getFullYear();
-  }
-});
