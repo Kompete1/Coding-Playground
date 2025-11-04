@@ -264,15 +264,24 @@ img {
   gap: var(--spacing-sm);
 }
 
-.logo {
+.brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
-.logo img {
-  width: 120px;
-  height: auto;
+.brand:hover,
+.brand:focus-visible {
+  color: var(--color-accent);
+  background-color: var(--color-accent-soft);
 }
 
 .nav-links {
