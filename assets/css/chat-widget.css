@@ -1,0 +1,190 @@
+.chat-widget-bubble {
+  position: fixed;
+  right: clamp(1rem, 4vw, 1.5rem);
+  bottom: calc(clamp(1.5rem, 4vw, 2.5rem) + 4.75rem);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-floating);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  z-index: 999;
+}
+
+.chat-widget-bubble:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.chat-widget-bubble:hover,
+.chat-widget-bubble:focus-visible {
+  box-shadow: var(--shadow-accent-strong);
+  transform: translateY(-2px);
+}
+
+.chat-widget-bubble-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+}
+
+.chat-widget-panel[hidden] {
+  display: none;
+}
+
+.chat-widget-panel {
+  position: fixed;
+  inset: auto clamp(1.25rem, 5vw, 2rem) calc(clamp(1.5rem, 5vw, 2.5rem) + 4.75rem) auto;
+  width: min(440px, calc(100vw - clamp(2.5rem, 10vw, 3.5rem)));
+  max-height: min(640px, calc(100vh - clamp(2.5rem, 10vw, 3.5rem)));
+  display: flex;
+  flex-direction: column;
+  background: var(--color-elevated);
+  color: var(--color-text);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-floating);
+  border: 1px solid var(--color-border);
+  z-index: 1000;
+}
+
+@media (max-width: 600px) {
+  .chat-widget-panel {
+    inset: 0;
+    width: 100%;
+    max-height: none;
+    border-radius: 0;
+    border: none;
+  }
+}
+
+.chat-widget-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.chat-widget-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.chat-widget-close {
+  border: none;
+  background: transparent;
+  color: inherit;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.chat-widget-close:hover,
+.chat-widget-close:focus-visible {
+  background-color: var(--color-accent-soft);
+}
+
+.chat-widget-close:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.chat-widget-body {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+}
+
+.chat-widget-faqs {
+  padding: 1rem 1.25rem;
+  background: var(--color-surface);
+  display: grid;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.chat-widget-faqs button {
+  text-align: left;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-elevated);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.chat-widget-faqs button:hover,
+.chat-widget-faqs button:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.chat-widget-thread {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  background: var(--color-surface-transparent);
+  min-height: 16rem;
+}
+
+.chat-widget-message {
+  max-width: 100%;
+  width: fit-content;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.4;
+  display: inline-flex;
+  background: var(--color-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+.chat-widget-message[data-role="user"] {
+  align-self: flex-end;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.chat-widget-message[data-role="assistant"] {
+  align-self: flex-start;
+}
+
+.chat-widget-thread:empty::before {
+  content: "Select a question to see the answer.";
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-widget-bubble,
+  .chat-widget-panel,
+  .chat-widget-faqs button,
+  .chat-widget-close {
+    transition: none !important;
+  }
+  .chat-widget-thread {
+    scroll-behavior: auto;
+  }
+}
