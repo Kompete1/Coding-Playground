@@ -40,9 +40,9 @@
 
 .chat-widget-panel {
   position: fixed;
-  inset: auto clamp(1rem, 4vw, 1.5rem) clamp(1rem, 4vw, 1.5rem) auto;
-  width: min(420px, calc(100vw - clamp(2rem, 8vw, 3rem)));
-  max-height: min(520px, calc(100vh - clamp(2rem, 8vw, 3rem)));
+  inset: auto clamp(1.25rem, 5vw, 2rem) clamp(1.25rem, 5vw, 2rem) auto;
+  width: min(440px, calc(100vw - clamp(2.5rem, 10vw, 3.5rem)));
+  max-height: min(640px, calc(100vh - clamp(2.5rem, 10vw, 3.5rem)));
   display: flex;
   flex-direction: column;
   background: var(--color-elevated);
@@ -140,16 +140,19 @@
 }
 
 .chat-widget-thread {
-  padding: 1rem 1.25rem 1.25rem;
+  padding: 1.25rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   overflow-y: auto;
+  scroll-behavior: smooth;
   background: var(--color-surface-transparent);
+  min-height: 16rem;
 }
 
 .chat-widget-message {
-  max-width: 80%;
+  max-width: 100%;
+  width: fit-content;
   padding: 0.75rem 1rem;
   border-radius: 1rem;
   line-height: 1.4;
@@ -180,5 +183,8 @@
   .chat-widget-faqs button,
   .chat-widget-close {
     transition: none !important;
+  }
+  .chat-widget-thread {
+    scroll-behavior: auto;
   }
 }
