@@ -32,6 +32,11 @@ const state = {
   lastFocused: null,
 };
 
+const prefersReducedMotion =
+  typeof window.matchMedia === "function"
+    ? window.matchMedia("(prefers-reduced-motion: reduce)")
+    : { matches: false };
+
 document.addEventListener("DOMContentLoaded", () => {
   state.bubble = createBubble();
   state.panel = createPanel();
@@ -229,5 +234,11 @@ function addMessage(role, text) {
   message.setAttribute("data-role", role);
   message.textContent = text;
   state.thread.append(message);
+  if (typeof state.thread.scrollTo === "function") {
+    const behavior = prefersReducedMotion.matches ? "auto" : "smooth";
+    state.thread.scrollTo({ top: state.thread.scrollHeight, behavior });
+    return;
+  }
+
   state.thread.scrollTop = state.thread.scrollHeight;
 }
