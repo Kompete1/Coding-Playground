@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home Loan (Bond) Sliding Calculator — Starter</title>
+  <meta name="description" content="Single‑file demo of a slider‑driven home‑loan repayment calculator for South Africa (ZAR)." />
+  <!-- Chart.js for the small doughnut chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      /* Palette aligned to Coding‑Playground look (clean light UI + blue accent). Adjust here to match site exactly. */
+      --bg: #ffffff;
+      --surface: #f5f7fb; /* subtle panel */
+      --text: #0f172a;    /* slate‑900 */
+      --muted: #475569;   /* slate‑600 */
+      --line: #e5e7eb;    /* gray‑200 */
+      --primary: #2563eb; /* blue‑600 */
+      --primary-700: #1d4ed8;
+      --ring: #93c5fd;    /* blue‑300 */
+      --ok: #10b981;      /* emerald‑500 */
+      --warn: #f59e0b;    /* amber‑500 */
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0b1220; --surface:#0f172a; --text:#e5e7eb; --muted:#94a3b8; --line:#1f2937; --ring:#3b82f6; }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; color: var(--text); background: var(--bg); }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 8px 16px; border-bottom: 1px solid var(--line); }
+    header h1 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0; letter-spacing: 0.1px; }
+    header .badge { font: 600 12px/1 ui-sans-serif, system-ui; color: var(--primary); background: color-mix(in oklab, var(--primary) 12%, transparent); padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--primary) 25%, transparent); }
+
+    main { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; padding-block: 20px; }
+    @media (max-width: 920px) { main { grid-template-columns: 1fr; } }
+
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 .5px 0 rgba(0,0,0,.03) inset; }
+    .panel h2 { margin: 0 0 12px; font-size: 1.1rem; }
+
+    /* Inputs grid */
+    .inputs { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .field { display: grid; grid-template-columns: 1fr minmax(140px, 200px); align-items: center; gap: 14px; }
+    @media (max-width:720px){ .field { grid-template-columns: 1fr; } }
+
+    .label-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .label-row label { font-weight: 600; }
+    .value-pill { min-width: 120px; text-align: right; font-variant-numeric: tabular-nums; padding: 8px 10px; border-radius: 10px; background: #fff; border: 1px solid var(--line); box-shadow: 0 0 0 2px transparent; }
+
+    input[type="range"] { appearance: none; width: 100%; height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--primary) var(--_pct,0%), #cbd5e1 0); outline: none; }
+    input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid var(--primary); box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 35%, transparent); cursor: pointer; }
+    input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border: 2px solid var(--primary); border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 35%, transparent); cursor: pointer; }
+
+    .number { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #fff; font: inherit; text-align: right; font-variant-numeric: tabular-nums; }
+    .number:focus, .value-pill:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .btn { border: 1px solid var(--line); background: #fff; padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+    .btn.primary { color: #fff; background: var(--primary); border-color: var(--primary-700); }
+    .btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+    .results { display: grid; gap: 18px; }
+    .result-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .result-card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--muted); }
+    .big { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; }
+    .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width:480px){ .kpi-row { grid-template-columns: 1fr; } }
+
+    .muted { color: var(--muted); font-size: 0.9rem; }
+    .foot { margin-top: 4px; font-size: 0.85rem; color: var(--muted); }
+    .chart-wrap { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Home Loan (Bond) Sliding Calculator</h1>
+      <span class="badge">Demo — single file</span>
+    </header>
+
+    <main>
+      <!-- LEFT: Inputs -->
+      <section class="panel" aria-labelledby="inputs-title">
+        <h2 id="inputs-title">Inputs</h2>
+        <div class="inputs">
+          <!-- Property price -->
+          <div class="field">
+            <div>
+              <div class="label-row">
+                <label for="priceRange">Property price</label>
+                <output id="priceOut" class="value-pill" aria-live="polite">R 1 500 000</output>
+              </div>
+              <input id="priceRange" type="range" min="200000" max="10000000" step="50000" value="1500000" />
+            </div>
+            <input id="priceNumber" class="number" type="number" min="200000" max="10000000" step="50000" value="1500000" inputmode="numeric" aria-label="Property price number"/>
+          </div>
+
+          <!-- Deposit percent -->
+          <div class="field">
+            <div>
+              <div class="label-row">
+                <label for="depositRange">Deposit percent</label>
+                <output id="depositOut" class="value-pill" aria-live="polite">10%</output>
+              </div>
+              <input id="depositRange" type="range" min="0" max="50" step="1" value="10" />
+            </div>
+            <input id="depositNumber" class="number" type="number" min="0" max="50" step="1" value="10" aria-label="Deposit percent number"/>
+          </div>
+
+          <!-- Interest rate -->
+          <div class="field">
+            <div>
+              <div class="label-row">
+                <label for="rateRange">Interest rate (annual, %)</label>
+                <output id="rateOut" class="value-pill" aria-live="polite">11.75%</output>
+              </div>
+              <input id="rateRange" type="range" min="5" max="20" step="0.25" value="11.75" />
+            </div>
+            <input id="rateNumber" class="number" type="number" min="5" max="20" step="0.25" value="11.75" aria-label="Interest rate percent number"/>
+          </div>
+
+          <!-- Term years -->
+          <div class="field">
+            <div>
+              <div class="label-row">
+                <label for="termRange">Term (years)</label>
+                <output id="termOut" class="value-pill" aria-live="polite">20</output>
+              </div>
+              <input id="termRange" type="range" min="5" max="30" step="1" value="20" />
+            </div>
+            <input id="termNumber" class="number" type="number" min="5" max="30" step="1" value="20" aria-label="Term years number"/>
+          </div>
+
+          <div class="controls">
+            <button id="resetBtn" class="btn" type="button">Reset</button>
+            <button id="exampleBtn" class="btn primary" type="button">Try an example</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Results -->
+      <section class="panel results" aria-labelledby="results-title">
+        <h2 id="results-title">Results</h2>
+        <div class="result-card" aria-live="polite">
+          <h3>Monthly repayment</h3>
+          <div id="monthly" class="big">R 0</div>
+          <div class="foot" id="headlineDetail">Based on the inputs at left.</div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="result-card">
+            <h3>Total interest</h3>
+            <div id="totalInterest" class="big">R 0</div>
+          </div>
+          <div class="result-card">
+            <h3>Total repaid (principal + interest)</h3>
+            <div id="totalRepaid" class="big">R 0</div>
+          </div>
+        </div>
+
+        <div class="chart-wrap">
+          <canvas id="piChart" height="180"></canvas>
+        </div>
+
+        <p class="muted">This demo assumes a fixed rate and monthly compounding. It’s for illustration only and not financial advice.</p>
+      </section>
+    </main>
+
+    <footer class="muted">Built for quick visualisation. © <span id="year"></span></footer>
+  </div>
+
+<script>
+(function(){
+  // Shorthand helpers
+  const $ = (id) => document.getElementById(id);
+  const fmtZAR = (n) => n.toLocaleString('en-ZA', { style:'currency', currency:'ZAR', maximumFractionDigits:0 });
+  const fmtPct = (n) => `${Number(n).toFixed(2).replace(/\.00$/, '')}%`;
+
+  // Link slider + number pairs bi‑directionally, and update the progress fill via CSS var --_pct
+  function bindPair(range, number, onChange){
+    const sync = (fromRange) => (e) => {
+      const val = Number(fromRange ? range.value : number.value);
+      range.value = number.value = val;
+      // compute percentage position for the pretty track fill
+      const pct = ( (val - range.min) / (range.max - range.min) ) * 100;
+      range.style.setProperty('--_pct', pct + '%');
+      onChange(val);
+    };
+    range.addEventListener('input', sync(true));
+    number.addEventListener('input', sync(false));
+    // kick once to paint initial fill
+    range.dispatchEvent(new Event('input'));
+  }
+
+  // Inputs
+  const priceRange = $('priceRange'), priceNumber = $('priceNumber'), priceOut = $('priceOut');
+  const depositRange = $('depositRange'), depositNumber = $('depositNumber'), depositOut = $('depositOut');
+  const rateRange = $('rateRange'), rateNumber = $('rateNumber'), rateOut = $('rateOut');
+  const termRange = $('termRange'), termNumber = $('termNumber'), termOut = $('termOut');
+
+  // Outputs
+  const monthlyEl = $('monthly');
+  const totalInterestEl = $('totalInterest');
+  const totalRepaidEl = $('totalRepaid');
+  const headlineDetail = $('headlineDetail');
+
+  // Chart
+  let chart;
+  function ensureChart(){
+    if(chart) return chart;
+    const ctx = $('piChart');
+    chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels: ['Principal','Interest'], datasets:[{ data:[1,1], borderWidth:0, hoverOffset:4, backgroundColor:['#60a5fa','#cbd5e1'] }] },
+      options: { plugins:{ legend:{ position:'bottom' } }, cutout:'62%' }
+    });
+    return chart;
+  }
+
+  // Core calculation (annuity formula)
+  function calc(){
+    const price = Number(priceRange.value);
+    const depositPct = Number(depositRange.value) / 100;
+    const rateAnnual = Number(rateRange.value) / 100; // e.g., 0.1175 for 11.75%
+    const years = Number(termRange.value);
+
+    const principal = Math.max(0, price * (1 - depositPct));
+    const r = rateAnnual / 12;            // monthly rate
+    const n = years * 12;                 // number of payments
+
+    let monthly;
+    if (r === 0) {
+      monthly = principal / n;
+    } else {
+      const pow = Math.pow(1 + r, n);
+      monthly = principal * r * pow / (pow - 1);
+    }
+
+    const totalRepaid = monthly * n;
+    const totalInterest = totalRepaid - principal;
+
+    // Write to UI
+    priceOut.textContent = fmtZAR(price);
+    depositOut.textContent = `${Math.round(depositPct*100)}%`;
+    rateOut.textContent = fmtPct(rateAnnual*100);
+    termOut.textContent = years;
+
+    monthlyEl.textContent = fmtZAR(monthly);
+    totalRepaidEl.textContent = fmtZAR(totalRepaid);
+    totalInterestEl.textContent = fmtZAR(totalInterest);
+    headlineDetail.textContent = `Price ${fmtZAR(price)} • Deposit ${Math.round(depositPct*100)}% • Rate ${fmtPct(rateAnnual*100)} • Term ${years} years`;
+
+    // Chart
+    const c = ensureChart();
+    c.data.datasets[0].data = [principal, totalInterest];
+    c.update();
+  }
+
+  // Bind pairs and compute
+  bindPair(priceRange, priceNumber, () => calc());
+  bindPair(depositRange, depositNumber, () => calc());
+  bindPair(rateRange, rateNumber, () => calc());
+  bindPair(termRange, termNumber, () => calc());
+
+  // Buttons
+  $('resetBtn').addEventListener('click', () => {
+    priceRange.value = priceNumber.value = 1500000;
+    depositRange.value = depositNumber.value = 10;
+    rateRange.value = rateNumber.value = 11.75;
+    termRange.value = termNumber.value = 20;
+    // repaint fills
+    [priceRange, depositRange, rateRange, termRange].forEach(r => r.dispatchEvent(new Event('input')));
+    calc();
+  });
+
+  $('exampleBtn').addEventListener('click', () => {
+    priceRange.value = priceNumber.value = 3500000;
+    depositRange.value = depositNumber.value = 12;
+    rateRange.value = rateNumber.value = 10.5;
+    termRange.value = termNumber.value = 25;
+    [priceRange, depositRange, rateRange, termRange].forEach(r => r.dispatchEvent(new Event('input')));
+    calc();
+  });
+
+  // First render
+  document.getElementById('year').textContent = new Date().getFullYear();
+  calc();
+})();
+</script>
+</body>
+</html>
