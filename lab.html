@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Playground Lab — Coding Playground</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --page-bg: #020617;       /* very dark navy */
+      --surface-bg: #020617;
+      --card-bg: #0b1120;       /* deep slate/blue */
+      --card-border: #1f2937;
+      --card-border-soft: #111827;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --text-soft: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.12);
+      --accent-strong: #1d4ed8;
+      --danger: #f97316;
+      --success: #22c55e;
+      --idea: #eab308;
+      --shell-max: 72rem;
+      --radius-lg: 1.25rem;
+      --radius-md: 0.75rem;
+      --radius-pill: 999px;
+      --shadow-soft: 0 12px 40px rgba(15, 23, 42, 0.6);
+      --shadow-subtle: 0 10px 25px rgba(15, 23, 42, 0.35);
+      --gap-section: 4rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .shell {
+      max-width: var(--shell-max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header / Nav */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), transparent 55%),
+                  rgba(15, 23, 42, 0.92);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+    }
+
+    .site-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      gap: 1.25rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .brand-pill {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.75rem;
+      background: radial-gradient(circle at 20% 0%, #38bdf8, #1d4ed8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: white;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+    }
+
+    .brand span:last-child {
+      opacity: 0.8;
+      font-weight: 500;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .main-nav a {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .main-nav a:hover {
+      color: #f9fafb;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .main-nav a.nav-primary {
+      background: var(--accent-soft);
+      color: #eff6ff;
+      border: 1px solid rgba(37, 99, 235, 0.35);
+    }
+
+    .main-nav a.nav-primary:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    @media (max-width: 640px) {
+      .site-header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Hero / Intro */
+
+    .lab-hero {
+      padding: 3.25rem 0 2.5rem;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 60%),
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.25), transparent 65%),
+        linear-gradient(to bottom, #020617 0%, #020617 55%, #020617 100%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .lab-hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 880px) {
+      .lab-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #a5b4fc;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.86);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      margin-bottom: 0.75rem;
+    }
+
+    .eyebrow-dot {
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    .lab-hero h1 {
+      font-size: clamp(2.3rem, 2.8vw + 1.4rem, 3.2rem);
+      letter-spacing: -0.04em;
+      margin: 0 0 0.5rem;
+      color: #f9fafb;
+    }
+
+    .hero-lead {
+      margin: 0 0 1.75rem;
+      max-width: 40rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(31, 41, 55, 0.8);
+    }
+
+    .status-dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+    }
+
+    .status-dot.shipped {
+      background: var(--success);
+    }
+
+    .status-dot.progress {
+      background: var(--accent);
+    }
+
+    .status-dot.idea {
+      background: var(--idea);
+    }
+
+    .last-updated {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .hero-panel {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.4rem;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-panel h2 {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .hero-panel p {
+      margin: 0 0 0.9rem;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .hero-panel-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    .hero-panel-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-panel-badge {
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      background: rgba(37, 99, 235, 0.16);
+      border: 1px solid rgba(37, 99, 235, 0.5);
+      color: #e5edff;
+    }
+
+    /* Sections */
+
+    main {
+      padding-bottom: 3.5rem;
+    }
+
+    .lab-section {
+      padding: var(--gap-section) 0;
+      background: var(--surface-bg);
+    }
+
+    .lab-section--alt {
+      background: radial-gradient(circle at top center, rgba(15, 23, 42, 0.9), #020617);
+    }
+
+    .section-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .section-header h2 {
+      margin: 0 0 0.3rem;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      color: #e5e7eb;
+    }
+
+    .section-lead {
+      margin: 0;
+      max-width: 36rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Experiments grid & cards */
+
+    .lab-experiments-grid {
+      display: grid;
+      gap: 1.75rem;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 800px) {
+      .lab-experiments-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 600px) and (max-width: 799px) {
+      .lab-experiments-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .experiment-card {
+      position: relative;
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.38), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9), #020617);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.35rem 1.25rem;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      overflow: hidden;
+    }
+
+    .experiment-card--placeholder {
+      background: radial-gradient(circle at top left, rgba(107, 114, 128, 0.4), #020617);
+      border-style: dashed;
+    }
+
+    .experiment-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .status-pill {
+      align-self: flex-start;
+      padding: 0.18rem 0.7rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.94);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .status--shipped {
+      border-color: rgba(34, 197, 94, 0.7);
+      background: rgba(22, 163, 74, 0.16);
+      color: #bbf7d0;
+    }
+
+    .status--in-progress {
+      border-color: rgba(37, 99, 235, 0.8);
+      background: rgba(37, 99, 235, 0.18);
+      color: #bfdbfe;
+    }
+
+    .status--idea {
+      border-color: rgba(234, 179, 8, 0.8);
+      background: rgba(234, 179, 8, 0.16);
+      color: #fef9c3;
+    }
+
+    .experiment-title {
+      font-size: 1.05rem;
+      margin: 0;
+      color: #e5e7eb;
+    }
+
+    .experiment-summary {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .experiment-meta {
+      margin: 0.25rem 0 0.35rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem 0.8rem;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .experiment-meta div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .experiment-meta dt {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+
+    .experiment-meta dd {
+      margin: 0;
+      color: #e5e7eb;
+    }
+
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .tool-pill {
+      font-size: 0.75rem;
+      padding: 0.18rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.85);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .experiment-notes {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .experiment-notes strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .experiment-footer {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: inherit;
+      transition: background 0.15s ease, border-color 0.15s ease,
+        transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #eff6ff;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.6);
+    }
+
+    .button.primary:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.65);
+    }
+
+    .button.ghost {
+      border-color: rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+    }
+
+    .button.ghost:hover {
+      border-color: rgba(75, 85, 99, 0.95);
+      background: rgba(15, 23, 42, 1);
+      color: #e5e7eb;
+    }
+
+    .button[aria-disabled="true"] {
+      opacity: 0.5;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Hover lift for cards */
+
+    .experiment-card {
+      transform: translateY(0);
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    .experiment-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    /* Workflow steps */
+
+    .workflow-steps {
+      margin: 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.9rem;
+      counter-reset: step-counter;
+    }
+
+    .workflow-steps li {
+      position: relative;
+      list-style: none;
+      padding: 0.85rem 0.9rem 0.85rem 2.1rem;
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .workflow-steps li::before {
+      counter-increment: step-counter;
+      content: counter(step-counter);
+      position: absolute;
+      left: 0.65rem;
+      top: 1.05rem;
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .workflow-steps h3 {
+      margin: 0 0 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .workflow-steps p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    code,
+    kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.35rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(31, 41, 55, 0.85);
+      color: #e5e7eb;
+    }
+
+    /* Roadmap */
+
+    .roadmap-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    @media (min-width: 800px) {
+      .roadmap-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .roadmap-item {
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.65);
+    }
+
+    .roadmap-item h3 {
+      margin: 0 0 0.3rem;
+      font-size: 0.95rem;
+      color: #e5e7eb;
+    }
+
+    .roadmap-summary {
+      margin: 0 0 0.4rem;
+      font-size: 0.86rem;
+      color: var(--text-soft);
+    }
+
+    .roadmap-meta {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+
+    .site-footer {
+      border-top: 1px solid rgba(15, 23, 42, 0.95);
+      background: #020617;
+      padding: 1.2rem 0 1.5rem;
+    }
+
+    .site-footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .back-to-top {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      font-size: 0.78rem;
+      color: #e5e7eb;
+    }
+
+    .back-to-top:hover {
+      border-color: rgba(148, 163, 184, 0.9);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    @media (max-width: 640px) {
+      .site-footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell site-header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-pill">CP</span>
+        <span>Coding&nbsp;Playground · Lab</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="#experiments">Experiments</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#roadmap" class="nav-primary">Up next</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Intro -->
+    <section class="lab-hero" id="top">
+      <div class="shell lab-hero-inner">
+        <div>
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>Playground · Learning diary</span>
+          </div>
+          <h1>Playground Lab</h1>
+          <p class="hero-lead">
+            A gallery of mini-experiments I’ve built while learning GitHub, Windsurf, Codex and the OpenAI platform. Each card links to a live demo or a part of this site.
+          </p>
+          <div class="hero-meta">
+            <div class="legend" aria-label="Experiment status legend">
+              <span class="legend-item">
+                <span class="status-dot shipped"></span>✅ Shipped
+              </span>
+              <span class="legend-item">
+                <span class="status-dot progress"></span>🛠️ In progress
+              </span>
+              <span class="legend-item">
+                <span class="status-dot idea"></span>💡 Idea
+              </span>
+            </div>
+            <p class="last-updated">Last updated: 13 Nov 2025</p>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="How to read this page">
+          <h2>How to read this page</h2>
+          <p>
+            Each card represents a small experiment: what I built, which tools I used, and what I was practising.
+          </p>
+          <ul class="hero-panel-list">
+            <li>
+              <span class="hero-panel-badge">1</span>
+              <span><strong>Pick a card</strong> to see what the experiment does and which skills it touches.</span>
+            </li>
+            <li>
+              <span class="hero-panel-badge">2</span>
+              <span>Use the <strong>tools row</strong> to connect the feature with GitHub, Windsurf, Codex or APIs.</span>
+            </li>
+            <li>
+              <span class="hero-panel-badge">3</span>
+              <span><strong>Follow the demo link</strong> to see the experiment live on the site.</span>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Experiments -->
+    <section class="lab-section" id="experiments">
+      <div class="shell">
+        <header class="section-header">
+          <h2>Experiments</h2>
+          <p class="section-lead">
+            Each card captures a small change shipped to the Coding Playground site — what it does, the tools involved, and what I practised.
+          </p>
+        </header>
+
+        <div class="lab-experiments-grid">
+          <!-- Experiment card 1 -->
+          <article class="experiment-card">
+            <header class="experiment-header">
+              <p class="status-pill status--shipped">✅ Shipped</p>
+              <h3 class="experiment-title">Home Loan Calculator v1</h3>
+              <p class="experiment-summary">
+                A slider-based calculator that shows how loan amount, term and interest rate affect your monthly repayment.
+              </p>
+            </header>
+
+            <dl class="experiment-meta">
+              <div>
+                <dt>Category</dt>
+                <dd>Calculator</dd>
+              </div>
+              <div>
+                <dt>Difficulty</dt>
+                <dd>🟠 Medium</dd>
+              </div>
+              <div>
+                <dt>Shipped</dt>
+                <dd>Nov 2025 · v1.0</dd>
+              </div>
+            </dl>
+
+            <div class="tools-list" aria-label="Tools used">
+              <span class="tool-pill">HTML</span>
+              <span class="tool-pill">CSS</span>
+              <span class="tool-pill">JavaScript</span>
+              <span class="tool-pill">Codex (cloud)</span>
+              <span class="tool-pill">GitHub PR</span>
+              <span class="tool-pill">GitHub Pages</span>
+            </div>
+
+            <div class="experiment-notes">
+              <p>
+                <strong>Learning focus:</strong>
+                Using JavaScript to sync sliders with a visual diagram and update results without reloading the page.
+              </p>
+              <p>
+                <strong>Workflow:</strong>
+                Built with a Codex cloud task → opened a draft PR on GitHub → reviewed &amp; merged → pulled into Windsurf and deployed via GitHub Pages.
+              </p>
+            </div>
+
+            <footer class="experiment-footer">
+              <a class="button primary" href="calculator.html">View demo</a>
+              <a class="button ghost" href="#workflow">See workflow</a>
+            </footer>
+          </article>
+
+          <!-- Experiment card 2 -->
+          <article class="experiment-card">
+            <header class="experiment-header">
+              <p class="status-pill status--shipped">✅ Shipped</p>
+              <h3 class="experiment-title">FAQ Chatbot Panel Readability</h3>
+              <p class="experiment-summary">
+                Refined spacing, typography and layout of the FAQ/chat panel so it’s easier to scan and read.
+              </p>
+            </header>
+
+            <dl class="experiment-meta">
+              <div>
+                <dt>Category</dt>
+                <dd>UI</dd>
+              </div>
+              <div>
+                <dt>Difficulty</dt>
+                <dd>🟢 Easy</dd>
+              </div>
+              <div>
+                <dt>Shipped</dt>
+                <dd>Nov 2025 · v1.0</dd>
+              </div>
+            </dl>
+
+            <div class="tools-list" aria-label="Tools used">
+              <span class="tool-pill">HTML</span>
+              <span class="tool-pill">CSS</span>
+              <span class="tool-pill">Codex (cloud)</span>
+              <span class="tool-pill">GitHub PR</span>
+              <span class="tool-pill">GitHub Pages</span>
+            </div>
+
+            <div class="experiment-notes">
+              <p>
+                <strong>Learning focus:</strong>
+                Practising small, visual UI improvements and checking diffs before merging.
+              </p>
+              <p>
+                <strong>Workflow:</strong>
+                Asked Codex to plan and implement readability tweaks → updated the feature branch → created a draft PR → merged once verified → pulled into Windsurf for local preview.
+              </p>
+            </div>
+
+            <footer class="experiment-footer">
+              <a class="button primary" href="index.html#faq-chatbot">View demo</a>
+              <a class="button ghost" href="#workflow">See workflow</a>
+            </footer>
+          </article>
+
+          <!-- Placeholder card for next experiment -->
+          <article class="experiment-card experiment-card--placeholder">
+            <header class="experiment-header">
+              <p class="status-pill status--idea">💡 Idea</p>
+              <h3 class="experiment-title">New experiment</h3>
+              <p class="experiment-summary">
+                Use this card template to add your next micro-enhancement once it’s planned or shipped.
+              </p>
+            </header>
+
+            <dl class="experiment-meta">
+              <div>
+                <dt>Category</dt>
+                <dd>Choose one</dd>
+              </div>
+              <div>
+                <dt>Difficulty</dt>
+                <dd>To be decided</dd>
+              </div>
+              <div>
+                <dt>Shipped</dt>
+                <dd>–</dd>
+              </div>
+            </dl>
+
+            <div class="tools-list" aria-label="Tools you plan to use">
+              <span class="tool-pill">HTML</span>
+              <span class="tool-pill">CSS</span>
+              <span class="tool-pill">JavaScript</span>
+            </div>
+
+            <div class="experiment-notes">
+              <p>
+                <strong>Learning focus:</strong>
+                Describe what you want to practise (for example: “first API call”, “better layout”, “form validation”).
+              </p>
+              <p>
+                <strong>Workflow:</strong>
+                Note which tools you’ll use: Codex in cloud, Windsurf, GitHub PR, OpenAI API, ChatKit widgets, and so on.
+              </p>
+            </div>
+
+            <footer class="experiment-footer">
+              <button type="button" class="button ghost" aria-disabled="true">
+                Coming soon
+              </button>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workflow section -->
+    <section class="lab-section lab-section--alt" id="workflow">
+      <div class="shell">
+        <header class="section-header">
+          <h2>How this lab works</h2>
+          <p class="section-lead">
+            A simple loop I use to practise GitHub, Windsurf, Codex and the OpenAI platform with small, safe changes.
+          </p>
+        </header>
+
+        <ol class="workflow-steps">
+          <li>
+            <h3>1. Pick a tiny experiment</h3>
+            <p>
+              Choose one small change: a visual tweak, a new card, a widget, or a behaviour to test. Keep the scope small enough to finish in one session.
+            </p>
+          </li>
+          <li>
+            <h3>2. Create or select a feature branch</h3>
+            <p>
+              Name the branch clearly (for example, <code>feat/home-loan-calculator</code> or <code>ui/faq-readability</code>) so it’s obvious what the change is about.
+            </p>
+          </li>
+          <li>
+            <h3>3. Ask Codex to help implement</h3>
+            <p>
+              Use Codex in the cloud or in Windsurf to plan the change, see the file diffs, and only then approve updates to the branch.
+            </p>
+          </li>
+          <li>
+            <h3>4. Open a draft pull request</h3>
+            <p>
+              On GitHub, open a draft PR so you can review the diff, add notes, and connect the code change to a specific experiment card in this lab.
+            </p>
+          </li>
+          <li>
+            <h3>5. Preview locally in Windsurf</h3>
+            <p>
+              Pull the branch into Windsurf, run the local preview (for example <code>http://localhost:8000</code>), and click through the demo link from the experiment card.
+            </p>
+          </li>
+          <li>
+            <h3>6. Merge, deploy, then update the card</h3>
+            <p>
+              Once you’re happy, merge the PR, pull <code>main</code> into Windsurf, confirm it’s live on GitHub Pages, and then update or create the experiment card here.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Roadmap / Up next -->
+    <section class="lab-section" id="roadmap">
+      <div class="shell">
+        <header class="section-header">
+          <h2>Up next in the lab</h2>
+          <p class="section-lead">
+            A short list of planned experiments that will extend this site and stretch my skills step by step.
+          </p>
+        </header>
+
+        <div class="roadmap-list">
+          <article class="roadmap-item">
+            <h3>Weather Widget v1</h3>
+            <p class="roadmap-summary">
+              Show today’s weather in a small card and practise calling a simple public API from JavaScript.
+            </p>
+            <p class="roadmap-meta">
+              <strong>Status:</strong> 💡 Idea ·
+              <strong>Target skills:</strong> JavaScript · API basics · async code
+            </p>
+          </article>
+
+          <article class="roadmap-item">
+            <h3>AI Hero Tagline Lab</h3>
+            <p class="roadmap-summary">
+              Use a small Node/Express endpoint and the OpenAI Responses API to generate alternative hero headlines for the home page.
+            </p>
+            <p class="roadmap-meta">
+              <strong>Status:</strong> 💡 Idea ·
+              <strong>Target skills:</strong> Node.js · OpenAI API · structured prompts
+            </p>
+          </article>
+
+          <article class="roadmap-item">
+            <h3>Theme presets &amp; saved preference</h3>
+            <p class="roadmap-summary">
+              Add 3–4 visual themes (Default, Fintech, Motorsport, Playground) and store the selected theme in <code>localStorage</code>.
+            </p>
+            <p class="roadmap-meta">
+              <strong>Status:</strong> 💡 Idea ·
+              <strong>Target skills:</strong> CSS variables · JavaScript · localStorage
+            </p>
+          </article>
+
+          <article class="roadmap-item">
+            <h3>Command palette navigation</h3>
+            <p class="roadmap-summary">
+              Introduce a <kbd>Ctrl</kbd> + <kbd>K</kbd> shortcut to open a tiny command palette for jumping between pages and key sections.
+            </p>
+            <p class="roadmap-meta">
+              <strong>Status:</strong> 💡 Idea ·
+              <strong>Target skills:</strong> Keyboard events · accessibility · UX patterns
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell site-footer-inner">
+      <p class="footer-text">
+        Built as part of the Coding Playground learning project.
+      </p>
+      <a class="back-to-top" href="#top">↑ Back to top</a>
+    </div>
+  </footer>
+</body>
+</html>
