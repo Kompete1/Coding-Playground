@@ -52,16 +52,14 @@
     .field { display: grid; grid-template-columns: 1fr minmax(140px, 200px); align-items: center; gap: 14px; }
     @media (max-width:720px){ .field { grid-template-columns: 1fr; } }
 
-    .label-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .label-row label { font-weight: 600; }
-    .value-pill { min-width: 120px; text-align: right; font-variant-numeric: tabular-nums; padding: 8px 10px; border-radius: 10px; background: #fff; border: 1px solid var(--line); box-shadow: 0 0 0 2px transparent; }
+    .field-label { display: block; font-weight: 600; margin-bottom: 8px; }
 
     input[type="range"] { appearance: none; width: 100%; height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--primary) var(--_pct,0%), #cbd5e1 0); outline: none; }
     input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid var(--primary); box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 35%, transparent); cursor: pointer; }
     input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border: 2px solid var(--primary); border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 35%, transparent); cursor: pointer; }
 
     .number { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #fff; font: inherit; text-align: right; font-variant-numeric: tabular-nums; }
-    .number:focus, .value-pill:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+    .number:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 
     .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
     .btn { border: 1px solid var(--line); background: #fff; padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600; }
@@ -119,10 +117,7 @@
               <!-- Property price -->
               <div class="field">
                 <div>
-                  <div class="label-row">
-                    <label for="priceRange">Property price</label>
-                    <output id="priceOut" class="value-pill" aria-live="polite">R 1 500 000</output>
-                  </div>
+                  <label class="field-label" for="priceRange">Property price</label>
                   <input id="priceRange" type="range" min="200000" max="10000000" step="50000" value="1500000" />
                 </div>
                 <input id="priceNumber" class="number" type="number" min="200000" max="10000000" step="50000" value="1500000" inputmode="numeric" aria-label="Property price number"/>
@@ -131,10 +126,7 @@
               <!-- Deposit percent -->
               <div class="field">
                 <div>
-                  <div class="label-row">
-                    <label for="depositRange">Deposit percent</label>
-                    <output id="depositOut" class="value-pill" aria-live="polite">10%</output>
-                  </div>
+                  <label class="field-label" for="depositRange">Deposit percent</label>
                   <input id="depositRange" type="range" min="0" max="50" step="1" value="10" />
                 </div>
                 <input id="depositNumber" class="number" type="number" min="0" max="50" step="1" value="10" aria-label="Deposit percent number"/>
@@ -143,10 +135,7 @@
               <!-- Interest rate -->
               <div class="field">
                 <div>
-                  <div class="label-row">
-                    <label for="rateRange">Interest rate (annual, %)</label>
-                    <output id="rateOut" class="value-pill" aria-live="polite">11.75%</output>
-                  </div>
+                  <label class="field-label" for="rateRange">Interest rate (annual, %)</label>
                   <input id="rateRange" type="range" min="5" max="20" step="0.25" value="11.75" />
                 </div>
                 <input id="rateNumber" class="number" type="number" min="5" max="20" step="0.25" value="11.75" aria-label="Interest rate percent number"/>
@@ -155,10 +144,7 @@
               <!-- Term years -->
               <div class="field">
                 <div>
-                  <div class="label-row">
-                    <label for="termRange">Term (years)</label>
-                    <output id="termOut" class="value-pill" aria-live="polite">20</output>
-                  </div>
+                  <label class="field-label" for="termRange">Term (years)</label>
                   <input id="termRange" type="range" min="5" max="30" step="1" value="20" />
                 </div>
                 <input id="termNumber" class="number" type="number" min="5" max="30" step="1" value="20" aria-label="Term years number"/>
@@ -234,25 +220,90 @@
 
   // Link slider + number pairs bi‑directionally, and update the progress fill via CSS var --_pct
   function bindPair(range, number, onChange){
-    const sync = (fromRange) => (e) => {
-      const val = Number(fromRange ? range.value : number.value);
-      range.value = number.value = val;
-      // compute percentage position for the pretty track fill
-      const pct = ( (val - range.min) / (range.max - range.min) ) * 100;
+    const min = Number(range.min);
+    const max = Number(range.max);
+    const stepAttr = range.step && range.step !== 'any' ? range.step : (number.step && number.step !== 'any' ? number.step : '1');
+    const step = Number(stepAttr);
+    const stepDigits = (() => {
+      if (!stepAttr) return 0;
+      if (stepAttr.includes('e-')) {
+        const exp = Number(stepAttr.split('e-')[1]);
+        return Number.isFinite(exp) ? exp : 0;
+      }
+      const dot = stepAttr.indexOf('.');
+      return dot === -1 ? 0 : (stepAttr.length - dot - 1);
+    })();
+    const effectiveStep = Number.isFinite(step) && step > 0 ? step : 1;
+
+    const formatValue = (val) => {
+      if (stepDigits <= 0) return String(Math.round(val));
+      return val.toFixed(stepDigits).replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1');
+    };
+
+    const clampToStep = (raw) => {
+      let val = Number(raw);
+      if (!Number.isFinite(val)) {
+        val = Number(range.value);
+      }
+      val = Math.min(Math.max(val, min), max);
+      const steps = Math.round((val - min) / effectiveStep);
+      val = min + steps * effectiveStep;
+      val = Number(val.toFixed(stepDigits));
+      if (val < min) val = min;
+      if (val > max) val = max;
+      return val;
+    };
+
+    const update = (val) => {
+      const pctDenom = max - min;
+      const pct = pctDenom === 0 ? 0 : ((val - min) / pctDenom) * 100;
+      range.value = String(val);
+      number.value = formatValue(val);
       range.style.setProperty('--_pct', pct + '%');
+      range.setAttribute('aria-valuenow', String(val));
       onChange(val);
     };
-    range.addEventListener('input', sync(true));
-    number.addEventListener('input', sync(false));
-    // kick once to paint initial fill
-    range.dispatchEvent(new Event('input'));
+
+    const handleRangeInput = () => {
+      const val = clampToStep(range.value);
+      update(val);
+    };
+
+    const handleNumberInput = (force) => {
+      const raw = number.value.trim();
+      if (raw === '') {
+        if (force) {
+          number.value = formatValue(clampToStep(range.value));
+        }
+        return;
+      }
+      const parsed = Number(raw);
+      if (!Number.isFinite(parsed)) {
+        if (force) {
+          number.value = formatValue(clampToStep(range.value));
+        }
+        return;
+      }
+      const val = clampToStep(parsed);
+      if (!force && Math.abs(val - parsed) > Number.EPSILON * 10) {
+        return;
+      }
+      update(val);
+    };
+
+    range.addEventListener('input', handleRangeInput);
+    number.addEventListener('input', () => handleNumberInput(false));
+    number.addEventListener('change', () => handleNumberInput(true));
+    number.addEventListener('blur', () => handleNumberInput(true));
+
+    update(clampToStep(range.value));
   }
 
   // Inputs
-  const priceRange = $('priceRange'), priceNumber = $('priceNumber'), priceOut = $('priceOut');
-  const depositRange = $('depositRange'), depositNumber = $('depositNumber'), depositOut = $('depositOut');
-  const rateRange = $('rateRange'), rateNumber = $('rateNumber'), rateOut = $('rateOut');
-  const termRange = $('termRange'), termNumber = $('termNumber'), termOut = $('termOut');
+  const priceRange = $('priceRange'), priceNumber = $('priceNumber');
+  const depositRange = $('depositRange'), depositNumber = $('depositNumber');
+  const rateRange = $('rateRange'), rateNumber = $('rateNumber');
+  const termRange = $('termRange'), termNumber = $('termNumber');
 
   // Outputs
   const monthlyEl = $('monthly');
@@ -296,10 +347,10 @@
     const totalInterest = totalRepaid - principal;
 
     // Write to UI
-    priceOut.textContent = fmtZAR(price);
-    depositOut.textContent = `${Math.round(depositPct*100)}%`;
-    rateOut.textContent = fmtPct(rateAnnual*100);
-    termOut.textContent = years;
+    priceRange.setAttribute('aria-valuetext', fmtZAR(price));
+    depositRange.setAttribute('aria-valuetext', `${Math.round(depositPct*100)} percent`);
+    rateRange.setAttribute('aria-valuetext', fmtPct(rateAnnual*100).replace('%', ' percent'));
+    termRange.setAttribute('aria-valuetext', `${years} years`);
 
     monthlyEl.textContent = fmtZAR(monthly);
     totalRepaidEl.textContent = fmtZAR(totalRepaid);
