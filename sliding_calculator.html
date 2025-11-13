@@ -41,7 +41,7 @@
     .calc-header h1 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0; letter-spacing: 0.1px; }
     .calc-header .badge { font: 600 12px/1 ui-sans-serif, system-ui; color: var(--primary); background: color-mix(in oklab, var(--primary) 12%, transparent); padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--primary) 25%, transparent); }
 
-    .calc-layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; padding-block: 20px; }
+    .calc-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 24px; padding-block: 20px; }
     @media (max-width: 920px) { .calc-layout { grid-template-columns: 1fr; } }
 
     .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 .5px 0 rgba(0,0,0,.03) inset; }
@@ -69,7 +69,7 @@
     .results { display: grid; gap: 18px; }
     .result-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
     .result-card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--muted); }
-    .big { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; }
+    .big { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
     .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width:480px){ .kpi-row { grid-template-columns: 1fr; } }
 
