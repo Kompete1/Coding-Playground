@@ -41,7 +41,7 @@
     .calc-header h1 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0; letter-spacing: 0.1px; }
     .calc-header .badge { font: 600 12px/1 ui-sans-serif, system-ui; color: var(--primary); background: color-mix(in oklab, var(--primary) 12%, transparent); padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--primary) 25%, transparent); }
 
-    .calc-layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; padding-block: 20px; }
+    .calc-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 24px; padding-block: 20px; }
     @media (max-width: 920px) { .calc-layout { grid-template-columns: 1fr; } }
 
     .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 .5px 0 rgba(0,0,0,.03) inset; }
@@ -67,15 +67,15 @@
     .btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 
     .results { display: grid; gap: 18px; }
-    .result-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; align-items: stretch; }
+    .result-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+    .result-card.featured { grid-column: 1 / -1; }
+    .chart-card { justify-content: center; }
+    .chart-card canvas { width: 100% !important; height: auto !important; max-height: 220px; }
     .result-card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--muted); }
-    .big { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; }
-    .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width:480px){ .kpi-row { grid-template-columns: 1fr; } }
-
+    .big { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
     .muted { color: var(--muted); font-size: 0.9rem; }
     .foot { margin-top: 4px; font-size: 0.85rem; color: var(--muted); }
-    .chart-wrap { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
   </style>
   </head>
   <body id="top">
@@ -160,25 +160,27 @@
           <!-- RIGHT: Results -->
           <section class="panel results" aria-labelledby="results-title">
             <h2 id="results-title">Results</h2>
-            <div class="result-card" aria-live="polite">
-              <h3>Monthly repayment</h3>
-              <div id="monthly" class="big">R 0</div>
-              <div class="foot" id="headlineDetail">Based on the inputs at left.</div>
-            </div>
+            <div class="results-grid">
+              <div class="result-card featured" aria-live="polite">
+                <h3>Monthly repayment</h3>
+                <div id="monthly" class="big">R 0</div>
+                <div class="foot" id="headlineDetail">Based on the inputs at left.</div>
+              </div>
 
-            <div class="kpi-row">
               <div class="result-card">
                 <h3>Total interest</h3>
                 <div id="totalInterest" class="big">R 0</div>
               </div>
+
               <div class="result-card">
                 <h3>Total repaid (principal + interest)</h3>
                 <div id="totalRepaid" class="big">R 0</div>
               </div>
-            </div>
 
-            <div class="chart-wrap">
-              <canvas id="piChart" height="180"></canvas>
+              <div class="result-card chart-card">
+                <h3>Payment breakdown</h3>
+                <canvas id="piChart" height="180"></canvas>
+              </div>
             </div>
 
             <p class="muted">This demo assumes a fixed rate and monthly compounding. It’s for illustration only and not financial advice.</p>
