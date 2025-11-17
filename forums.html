@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coding Playground — Forums</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --card-bg: #020617;
+      --card-elevated: #0b1120;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.18);
+      --accent-strong: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.25);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+      --shadow-chip: 0 10px 30px rgba(15, 23, 42, 0.7);
+      --nav-height: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, #1f2937 0, #020617 48%, #020617 100%);
+      min-height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Top nav */
+
+    .nav {
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background:
+        conic-gradient(from 210deg, #22c55e, #38bdf8, #f97316, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .nav-logo span {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #020617;
+    }
+
+    .nav-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .nav-title-main {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .nav-title-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-link {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: all 0.15s ease-out;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .nav-link--primary {
+      background: radial-gradient(circle at top left, #38bdf8, #22c55e);
+      color: #020617;
+      font-weight: 600;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .nav-link--primary:hover {
+      filter: brightness(1.05);
+      border-color: transparent;
+    }
+
+    .nav-link--active {
+      border-color: rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text);
+    }
+
+    /* Page layout */
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      margin: 1.75rem auto 3rem;
+      padding: 0 1.5rem 3rem;
+    }
+
+    @media (min-width: 1200px) {
+      .page {
+        margin-top: 2.25rem;
+      }
+    }
+
+    /* Hero / intro */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.7fr);
+      gap: 2rem;
+      margin-bottom: 2.75rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-main {
+      position: relative;
+      padding: 1.5rem;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.2rem 0.8rem 0.2rem 0.3rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      margin-bottom: 0.8rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .hero-pill-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #22c55e, #16a34a);
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.26);
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 3.1vw, 2.4rem);
+      letter-spacing: 0.03em;
+      margin: 0 0 0.6rem;
+    }
+
+    .hero h1 span.hero-highlight {
+      background: linear-gradient(120deg, #38bdf8, #22c55e, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-lead {
+      margin: 0;
+      font-size: 0.98rem;
+      color: var(--muted);
+      max-width: 36rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+      font-size: 0.78rem;
+    }
+
+    .hero-meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+    }
+
+    .hero-meta-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #38bdf8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.4rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.3rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease-out;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, #38bdf8, #22c55e);
+      color: #020617;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.88);
+      color: var(--text);
+      border-color: rgba(148, 163, 184, 0.45);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: rgba(148, 163, 184, 0.75);
+    }
+
+    .hero-side {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .hero-card {
+      padding: 1rem 1rem 1.1rem;
+      border-radius: 20px;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-card h2 {
+      margin: 0 0 0.35rem;
+      font-size: 0.98rem;
+    }
+
+    .hero-card p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .legend-pills {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .legend-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+    }
+
+    .legend-pill-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+    }
+
+    .legend-pill-dot--hot {
+      background: #f97316;
+    }
+
+    .legend-pill-dot--new {
+      background: #22c55e;
+    }
+
+    .legend-pill-dot--help {
+      background: #38bdf8;
+    }
+
+    /* Sections */
+
+    section {
+      margin-bottom: 2.8rem;
+    }
+
+    section header {
+      margin-bottom: 1.2rem;
+    }
+
+    section header h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    section header p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /* Categories */
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .category-card {
+      position: relative;
+      padding: 1rem 1rem 1rem;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.85);
+      overflow: hidden;
+    }
+
+    .category-chip-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.28rem 0.7rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .category-badge-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #0ea5e9);
+      color: #020617;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+
+    .category-status-pill {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+      background: rgba(22, 163, 74, 0.2);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+    }
+
+    .category-status-pill--busy {
+      background: rgba(249, 115, 22, 0.22);
+      color: #fed7aa;
+      border-color: rgba(248, 153, 50, 0.6);
+    }
+
+    .category-title {
+      margin: 0.25rem 0;
+      font-size: 1rem;
+    }
+
+    .category-description {
+      margin: 0;
+      font-size: 0.83rem;
+      color: var(--muted);
+      min-height: 2.3rem;
+    }
+
+    .category-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .category-meta strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .category-footer {
+      margin-top: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.78rem;
+    }
+
+    .category-footer a {
+      text-decoration: none;
+    }
+
+    .category-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      transition: all 0.15s ease-out;
+    }
+
+    .category-link span.icon {
+      font-size: 0.9rem;
+    }
+
+    .category-link:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .category-last {
+      text-align: right;
+      color: var(--muted);
+    }
+
+    /* Highlighted topics */
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.1fr);
+      gap: 1.4rem;
+    }
+
+    @media (max-width: 900px) {
+      .topics-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .topics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .topic-card {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.9);
+    }
+
+    .topic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .topic-title {
+      margin: 0 0 0.25rem;
+      font-size: 0.93rem;
+    }
+
+    .topic-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .topic-title a:hover {
+      color: var(--accent);
+    }
+
+    .topic-meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .topic-tag {
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.73rem;
+      color: #020617;
+      background: linear-gradient(120deg, #38bdf8, #22c55e);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
+    }
+
+    .topic-tag--setup {
+      background: linear-gradient(120deg, #f97316, #fb923c);
+    }
+
+    .topic-tag--mindset {
+      background: linear-gradient(120deg, #a855f7, #6366f1);
+    }
+
+    .topic-stats {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .topic-body {
+      margin-top: 0.45rem;
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    .topics-side {
+      padding: 0.9rem 1rem 1rem;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.97));
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .topics-side h3 {
+      margin: 0 0 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .topics-side ol {
+      margin: 0.45rem 0 0.45rem 1rem;
+      padding: 0;
+    }
+
+    .topics-side li {
+      margin-bottom: 0.3rem;
+    }
+
+    .topics-side-footer {
+      margin-top: 0.7rem;
+      font-size: 0.78rem;
+    }
+
+    /* Footer */
+
+    .footer {
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at bottom, rgba(15, 23, 42, 0.9), #020617);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <span>CP</span>
+      </div>
+      <div class="nav-title">
+        <div class="nav-title-main">Coding Playground</div>
+        <div class="nav-title-sub">Forums · Paddock Chat</div>
+      </div>
+    </div>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="lab.html" class="nav-link">Lab</a>
+      <a href="calculator.html" class="nav-link">Calculator</a>
+      <a href="pricing.html" class="nav-link">Pricing</a>
+      <a href="forums.html" class="nav-link nav-link--active" aria-current="page">Forums</a>
+      <a href="contact.html" class="nav-link nav-link--primary">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <!-- Intro / hero -->
+    <section class="hero" aria-labelledby="forum-title">
+      <div class="hero-main">
+        <div class="hero-pill">
+          <span class="hero-pill-dot"></span>
+          Paddock conversations for racers, parents & tech nerds
+        </div>
+        <h1 id="forum-title">
+          <span class="hero-highlight">Paddock Forum</span> for your racing brain
+        </h1>
+        <p class="hero-lead">
+          Swap race-weekend stories, ask setup questions, and share notes from the
+          Coding Playground experiments. All static for now – a safe space to
+          practise layouts before wiring up a real community.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-chip">
+            <span class="hero-meta-dot"></span>
+            <span>5 forum categories</span>
+          </div>
+          <div class="hero-meta-chip">
+            <span class="hero-meta-dot" style="background:#f97316;"></span>
+            <span>Highlighted topics from dummy seasons</span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a href="#categories" class="btn btn-primary">
+            Browse categories
+          </a>
+          <a href="#highlighted-topics" class="btn btn-ghost">
+            View highlighted topics
+          </a>
+        </div>
+      </div>
+
+      <aside class="hero-side" aria-label="Forum legend">
+        <div class="hero-card">
+          <h2>How this forums page works</h2>
+          <p>
+            This is a purely static prototype. Every card and topic is
+            hard-coded so you can iterate layouts without worrying about user
+            logins, authentication, or moderation logic (yet).
+          </p>
+        </div>
+        <div class="hero-card">
+          <h2>Legend</h2>
+          <p>Each tag gives you a quick feel for where the traffic is:</p>
+          <div class="legend-pills">
+            <div class="legend-pill">
+              <span class="legend-pill-dot legend-pill-dot--hot"></span>
+              High-traffic / race-weekend hot zone
+            </div>
+            <div class="legend-pill">
+              <span class="legend-pill-dot legend-pill-dot--new"></span>
+              New or growing category
+            </div>
+            <div class="legend-pill">
+              <span class="legend-pill-dot legend-pill-dot--help"></span>
+              Tech & “please help” questions
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Forum categories -->
+    <section id="categories" aria-labelledby="categories-heading">
+      <header>
+        <h2 id="categories-heading">Forum categories</h2>
+        <p>
+          Start with high-level paddock zones. Later, you can turn each card
+          into its own page with real threads and replies.
+        </p>
+      </header>
+
+      <div class="categories-grid">
+        <!-- Race Weekend Talk -->
+        <article class="category-card">
+          <div class="category-chip-row">
+            <div class="category-badge">
+              <span class="category-badge-icon">RW</span>
+              Race-weekend chatter
+            </div>
+            <div class="category-status-pill category-status-pill--busy">
+              Hot on race weekends
+            </div>
+          </div>
+          <h3 class="category-title">Race Weekend Talk</h3>
+          <p class="category-description">
+            General race-day stories, drama, wins and “we almost had it”
+            moments from karting and main-circuit events.
+          </p>
+          <div class="category-meta">
+            <span><strong>24</strong> topics</span>
+            <span><strong>132</strong> replies</span>
+            <span>Last updated <strong>2 hrs</strong> ago</span>
+          </div>
+          <div class="category-footer">
+            <a href="#" class="category-link">
+              <span class="icon">🏁</span>
+              Enter Race Weekend Talk
+            </a>
+            <div class="category-last">
+              Last post:<br />
+              “Zwartkops night race debrief”
+            </div>
+          </div>
+        </article>
+
+        <!-- Technical Setup & Data -->
+        <article class="category-card">
+          <div class="category-chip-row">
+            <div class="category-badge">
+              <span class="category-badge-icon">TS</span>
+              Gearing, tyres & data
+            </div>
+            <div class="category-status-pill category-status-pill--busy">
+              Busy on practice days
+            </div>
+          </div>
+          <h3 class="category-title">Technical Setup &amp; Data</h3>
+          <p class="category-description">
+            Ask about gearing, tyre pressures, data traces, and the “why” behind
+            setup changes for different tracks and conditions.
+          </p>
+          <div class="category-meta">
+            <span><strong>18</strong> topics</span>
+            <span><strong>87</strong> replies</span>
+            <span>Last updated <strong>5 hrs</strong> ago</span>
+          </div>
+          <div class="category-footer">
+            <a href="#" class="category-link">
+              <span class="icon">🛠️</span>
+              Enter Setup &amp; Data
+            </a>
+            <div class="category-last">
+              Last post:<br />
+              “Wet vs dry pressures at iDube?”
+            </div>
+          </div>
+        </article>
+
+        <!-- Driver Fitness & Mindset -->
+        <article class="category-card">
+          <div class="category-chip-row">
+            <div class="category-badge">
+              <span class="category-badge-icon">DM</span>
+              Fitness & focus
+            </div>
+            <div class="category-status-pill">
+              Calm but consistent
+            </div>
+          </div>
+          <h3 class="category-title">Driver Fitness &amp; Mindset</h3>
+          <p class="category-description">
+            Talk about physical training, race nerves, routines, and how to
+            bounce back after a tough weekend.
+          </p>
+          <div class="category-meta">
+            <span><strong>11</strong> topics</span>
+            <span><strong>42</strong> replies</span>
+            <span>Last updated <strong>1 day</strong> ago</span>
+          </div>
+          <div class="category-footer">
+            <a href="#" class="category-link">
+              <span class="icon">🧠</span>
+              Enter Fitness &amp; Mindset
+            </a>
+            <div class="category-last">
+              Last post:<br />
+              “Pre-race breathing routine”
+            </div>
+          </div>
+        </article>
+
+        <!-- Parents & Budgeting -->
+        <article class="category-card">
+          <div class="category-chip-row">
+            <div class="category-badge">
+              <span class="category-badge-icon">PB</span>
+              Parents & planning
+            </div>
+            <div class="category-status-pill">
+              New but growing
+            </div>
+          </div>
+          <h3 class="category-title">Parents &amp; Budgeting</h3>
+          <p class="category-description">
+            Travel planning, race calendars, budgeting for tyres, fuel and
+            upgrades, plus honest conversations about cost vs benefit.
+          </p>
+          <div class="category-meta">
+            <span><strong>8</strong> topics</span>
+            <span><strong>29</strong> replies</span>
+            <span>Last updated <strong>3 days</strong> ago</span>
+          </div>
+          <div class="category-footer">
+            <a href="#" class="category-link">
+              <span class="icon">💸</span>
+              Enter Parents &amp; Budgeting
+            </a>
+            <div class="category-last">
+              Last post:<br />
+              “Sharing transport to Killarney”
+            </div>
+          </div>
+        </article>
+
+        <!-- Site Feedback & Ideas -->
+        <article class="category-card">
+          <div class="category-chip-row">
+            <div class="category-badge">
+              <span class="category-badge-icon">LAB</span>
+              Site & lab ideas
+            </div>
+            <div class="category-status-pill category-status-pill--busy">
+              Active during experiments
+            </div>
+          </div>
+          <h3 class="category-title">Site Feedback &amp; Ideas</h3>
+          <p class="category-description">
+            Thoughts on the Coding Playground, wishlist features, micro-UI
+            tweaks, and future KartingBuddy v2 experiments.
+          </p>
+          <div class="category-meta">
+            <span><strong>14</strong> topics</span>
+            <span><strong>51</strong> replies</span>
+            <span>Last updated <strong>6 hrs</strong> ago</span>
+          </div>
+          <div class="category-footer">
+            <a href="#" class="category-link">
+              <span class="icon">🧪</span>
+              Enter Site Feedback &amp; Ideas
+            </a>
+            <div class="category-last">
+              Last post:<br />
+              “Should the race calendar be its own app?”
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Highlighted topics -->
+    <section id="highlighted-topics" aria-labelledby="highlighted-topics-heading">
+      <header>
+        <h2 id="highlighted-topics-heading">Highlighted topics</h2>
+        <p>
+          A few example threads to show how real conversations could look when
+          this page eventually connects to a live backend.
+        </p>
+      </header>
+
+      <div class="topics-grid">
+        <div class="topics-list">
+          <!-- Topic 1 -->
+          <article class="topic-card">
+            <div class="topic-header">
+              <div>
+                <h3 class="topic-title">
+                  <a href="#">Zwartkops Senior Max – race-weekend debrief</a>
+                </h3>
+                <div class="topic-meta-line">
+                  <span class="topic-tag">Race Weekend Talk</span>
+                  <span>Posted by <strong>KentSim</strong></span>
+                  <span>Yesterday · 14 replies</span>
+                </div>
+              </div>
+              <div class="topic-stats">
+                238 views<br />
+                Last reply 1 hr ago
+              </div>
+            </div>
+            <p class="topic-body">
+              Sharing notes from a tricky mixed-conditions weekend: quali vs
+              race pace, passing in turn 2, and how the kart felt on older
+              rubber in the final.
+            </p>
+          </article>
+
+          <!-- Topic 2 -->
+          <article class="topic-card">
+            <div class="topic-header">
+              <div>
+                <h3 class="topic-title">
+                  <a href="#">Gear ratio &amp; tyre pressures for iDube in light rain?</a>
+                </h3>
+                <div class="topic-meta-line">
+                  <span class="topic-tag topic-tag--setup">Tech &amp; Setup</span>
+                  <span>Posted by <strong>DataNerd</strong></span>
+                  <span>2 days ago · 9 replies</span>
+                </div>
+              </div>
+              <div class="topic-stats">
+                164 views<br />
+                Last reply 6 hrs ago
+              </div>
+            </div>
+            <p class="topic-body">
+              Looking for a starting point for Senior Max: gearing, tyre
+              pressures and any tips for keeping the kart settled through the
+              downhill section when grip is changing.
+            </p>
+          </article>
+
+          <!-- Topic 3 -->
+          <article class="topic-card">
+            <div class="topic-header">
+              <div>
+                <h3 class="topic-title">
+                  <a href="#">Resetting after a DNF – teen driver mindset tips</a>
+                </h3>
+                <div class="topic-meta-line">
+                  <span class="topic-tag topic-tag--mindset">Mindset</span>
+                  <span>Posted by <strong>PaddockParent</strong></span>
+                  <span>5 days ago · 6 replies</span>
+                </div>
+              </div>
+              <div class="topic-stats">
+                121 views<br />
+                Last reply 1 day ago
+              </div>
+            </div>
+            <p class="topic-body">
+              How do you help a young driver bounce back after a mechanical DNF
+              in the final? Routines, language, or debrief structure that
+              worked well for your family or team?
+            </p>
+          </article>
+        </div>
+
+        <aside class="topics-side">
+          <h3>How you can extend this later</h3>
+          <p>
+            Once you’re happy with the layout, this section is a perfect place
+            to practise:
+          </p>
+          <ol>
+            <li>Loading highlighted topics from a JSON file.</li>
+            <li>Adding filters (category, track, season).</li>
+            <li>Hooking up to a real backend or Firebase collection.</li>
+          </ol>
+          <p class="topics-side-footer">
+            For now, everything here is dummy content – safe to redesign,
+            rename, or rebuild as many times as you like while you learn.
+          </p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Built as part of the Coding Playground · Forums prototype. This page is
+    static, for layout practice only.
+  </footer>
+</body>
+</html>
