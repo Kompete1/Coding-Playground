@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coding Playground — Race Blog</title>
+
+  <!-- Optional Google Font; you can remove if you prefer your site's default -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-elevated: #0b1020;
+      --card: #111827;
+      --accent: #22d3ee;
+      --accent-soft: #818cf8;
+      --accent-warm: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #f97373;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1f2937 0, #020617 40%, #020617 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    /* Top mini-nav so it feels part of the Playground family */
+    .mini-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    .mini-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: conic-gradient(from 200deg, #22d3ee, #a855f7, #f97316, #22d3ee);
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.8);
+    }
+
+    .mini-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .mini-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+    }
+
+    .mini-pill-link {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.2));
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .mini-pill-link span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #22d3ee, #0ea5e9);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+    }
+
+    .mini-pill-link:hover {
+      background: linear-gradient(135deg, rgba(30, 64, 175, 0.9), rgba(22, 163, 74, 0.5));
+      border-color: rgba(96, 165, 250, 0.8);
+      transform: translateY(-1px);
+      color: #e0f2fe;
+    }
+
+    /* Hero banner */
+    .blog-hero {
+      position: relative;
+      border-radius: 28px;
+      padding: 28px 24px 32px;
+      margin-bottom: 30px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.2), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(249, 115, 22, 0.14), transparent 50%),
+        linear-gradient(145deg, #020617 0%, #020617 40%, #020617 60%, #020617 100%);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.7fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .blog-hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .blog-hero::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.35;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.38), transparent 60%),
+        radial-gradient(circle at 80% 0%, rgba(168, 85, 247, 0.5), transparent 65%),
+        radial-gradient(circle at 40% 100%, rgba(249, 115, 22, 0.45), transparent 60%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .blog-hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      margin-bottom: 12px;
+    }
+
+    .hero-kicker span.badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #22c55e, #16a34a);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .blog-hero h1 {
+      font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+      line-height: 1.15;
+      margin: 0 0 10px;
+    }
+
+    .blog-hero h1 span {
+      background: linear-gradient(120deg, #22d3ee, #a855f7, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .blog-hero p.hero-subtitle {
+      margin: 0 0 16px;
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-meta-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .hero-btn-primary,
+    .hero-btn-ghost {
+      border-radius: var(--radius-pill);
+      padding: 9px 14px;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .hero-btn-primary {
+      background: linear-gradient(120deg, #22d3ee, #a855f7);
+      color: #0b1120;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+    }
+
+    .hero-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 40px rgba(129, 140, 248, 0.55);
+    }
+
+    .hero-btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+    }
+
+    .hero-btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: rgba(129, 140, 248, 0.8);
+      transform: translateY(-1px);
+    }
+
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 16px 16px 18px;
+      width: 100%;
+      max-width: 340px;
+      background: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.2), transparent 55%),
+                  radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.3), transparent 55%),
+                  linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .hero-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .hero-chip {
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #cbd5f5;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-lap-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 0.7rem;
+    }
+
+    .hero-lap-card {
+      padding: 6px 7px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .hero-lap-label {
+      color: var(--muted);
+      font-size: 0.65rem;
+    }
+
+    .hero-lap-value {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .hero-lap-value span {
+      color: #bbf7d0;
+    }
+
+    .hero-tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .hero-tag-row span.track-tag {
+      padding: 4px 6px;
+      border-radius: var(--radius-pill);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      color: #e0f2fe;
+    }
+
+    .hero-card-footer {
+      margin-top: 12px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .hero-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #22c55e, #16a34a);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.28);
+    }
+
+    /* Layout for main content and sidebar */
+    .blog-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1.4fr);
+      gap: 28px;
+    }
+
+    @media (max-width: 960px) {
+      .blog-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .blog-main {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Featured article */
+    .featured-article {
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      padding: 18px 18px 20px;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.8);
+      display: grid;
+      grid-template-columns: minmax(0, 1.9fr) minmax(0, 1.3fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .featured-article {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .featured-label-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      margin-bottom: 6px;
+    }
+
+    .featured-pill {
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      color: #e0f2fe;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .featured-meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .featured-article h2 {
+      margin: 4px 0 6px;
+      font-size: 1.3rem;
+    }
+
+    .featured-article h2 a:hover {
+      color: #bae6fd;
+    }
+
+    .featured-excerpt {
+      font-size: 0.92rem;
+      color: #cbd5f5;
+      margin-bottom: 10px;
+    }
+
+    .featured-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag-chip {
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .featured-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      gap: 8px;
+    }
+
+    .read-more-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #e0f2fe;
+      cursor: pointer;
+    }
+
+    .read-more-link span.arrow {
+      font-size: 0.9rem;
+      transition: transform 0.15s ease;
+    }
+
+    .read-more-link:hover span.arrow {
+      transform: translateX(2px);
+    }
+
+    .featured-thumb {
+      position: relative;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.2), transparent 55%),
+        radial-gradient(circle at 80% 0, rgba(168, 85, 247, 0.35), transparent 60%),
+        linear-gradient(145deg, #020617, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      overflow: hidden;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .featured-track-overlay {
+      width: 90%;
+      height: 70%;
+      border-radius: 999px;
+      border: 2px dashed rgba(56, 189, 248, 0.6);
+      position: relative;
+      transform: rotate(-7deg);
+      opacity: 0.9;
+    }
+
+    .featured-track-overlay::before,
+    .featured-track-overlay::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(129, 140, 248, 0.7);
+    }
+
+    .featured-track-overlay::before {
+      inset: 16px 28px;
+    }
+
+    .featured-track-overlay::after {
+      inset: 28px 40px;
+    }
+
+    .featured-car-dot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #22d3ee, #0ea5e9);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+      top: 20%;
+      left: 32%;
+    }
+
+    .featured-flag {
+      position: absolute;
+      bottom: 14%;
+      right: 16%;
+      width: 34px;
+      height: 20px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(15, 23, 42, 0.9);
+    }
+
+    .featured-flag::before,
+    .featured-flag::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(135deg, #020617 25%, #f9fafb 25%, #f9fafb 50%, #020617 50%, #020617 75%, #f9fafb 75%, #f9fafb 100%);
+      background-size: 10px 10px;
+    }
+
+    /* Articles list */
+    .articles-section {
+      margin-top: 6px;
+    }
+
+    .articles-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .articles-header h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .articles-header span.label {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .articles-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .article-card {
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 10px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .article-card:hover {
+      border-color: rgba(56, 189, 248, 0.7);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.85);
+    }
+
+    .article-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .article-category {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+      color: #a5b4fc;
+    }
+
+    .article-title {
+      font-size: 0.95rem;
+      margin: 4px 0;
+    }
+
+    .article-title a:hover {
+      color: #bae6fd;
+    }
+
+    .article-excerpt {
+      font-size: 0.82rem;
+      color: #cbd5f5;
+    }
+
+    .article-footer-row {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .article-pill {
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.72rem;
+    }
+
+    /* Sidebar */
+    .blog-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-card {
+      border-radius: var(--radius-lg);
+      padding: 16px 15px 16px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    .sidebar-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+    }
+
+    .sidebar-card p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Subscribe box */
+    .subscribe-form {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .input-row {
+        flex-direction: column;
+      }
+    }
+
+    .subscribe-input {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text);
+      font-size: 0.82rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .subscribe-input::placeholder {
+      color: rgba(148, 163, 184, 0.8);
+    }
+
+    .subscribe-input:focus {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .subscribe-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      border: none;
+      background: linear-gradient(130deg, #22d3ee, #a855f7);
+      color: #020617;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .subscribe-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.5);
+    }
+
+    .subscribe-hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* Sidebar tags */
+    .tag-cloud {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag-cloud .tag-chip {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+    }
+
+    .tag-chip.highlighted {
+      border-color: rgba(56, 189, 248, 0.9);
+      background: rgba(56, 189, 248, 0.12);
+      color: #e0f2fe;
+    }
+
+    /* Next race card */
+    .race-meta {
+      margin-top: 10px;
+      border-radius: 14px;
+      padding: 8px 10px;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.15), transparent 55%),
+                  radial-gradient(circle at 100% 0, rgba(168, 85, 247, 0.22), transparent 55%),
+                  rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 0.78rem;
+    }
+
+    .race-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .race-meta-label {
+      color: var(--muted);
+    }
+
+    .race-meta-value {
+      font-weight: 500;
+    }
+
+    .race-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      color: #e0f2fe;
+      margin-top: 6px;
+    }
+
+    .race-pill span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #22d3ee, #0ea5e9);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
+    }
+
+    /* Sidebar micro-note card */
+    .micro-note {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .micro-note strong {
+      color: #e5e7eb;
+    }
+
+    footer.blog-footer {
+      margin-top: 26px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- Simple mini-nav -->
+    <header class="mini-nav">
+      <div class="mini-nav-left">
+        <div class="mini-logo"></div>
+        <div>
+          <div class="mini-title">Coding Playground</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">Race Blog &amp; Weekend Notes</div>
+        </div>
+      </div>
+      <div class="mini-nav-right">
+        <button class="mini-pill-link" type="button">
+          <span class="dot"></span>
+          <span>Back to Lab</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero banner -->
+    <section class="blog-hero">
+      <div class="blog-hero-inner">
+        <div class="hero-kicker">
+          <span class="badge-dot"></span>
+          <span>Race Blog · Practice Content</span>
+        </div>
+        <h1>Capture every <span>race weekend</span> in one place.</h1>
+        <p class="hero-subtitle">
+          Use this page to practise writing recaps, tech notes, and learning reflections
+          from each karting or main-circuit weekend. It’s also a sandbox to test layouts and colours.
+        </p>
+
+        <div class="hero-meta-row">
+          <div class="hero-meta-pill">
+            <span class="dot"></span>
+            <span>HTML-only · no backend yet</span>
+          </div>
+          <span>Built as part of your Coding Playground lab.</span>
+        </div>
+
+        <div class="hero-actions">
+          <button class="hero-btn-primary" type="button">
+            Latest race recap
+            <span>→</span>
+          </button>
+          <button class="hero-btn-ghost" type="button">
+            View all categories
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <span>Weekend Telemetry Snapshot</span>
+            <span>v1 · Demo only</span>
+          </div>
+          <div class="hero-chip-row">
+            <div class="hero-chip">Karting</div>
+            <div class="hero-chip">Main circuit</div>
+            <div class="hero-chip">Learning Lab</div>
+          </div>
+          <div class="hero-lap-row">
+            <div class="hero-lap-card">
+              <div class="hero-lap-label">Best lap</div>
+              <div class="hero-lap-value"><span>1:02.387</span></div>
+            </div>
+            <div class="hero-lap-card">
+              <div class="hero-lap-label">Session</div>
+              <div class="hero-lap-value">Race 2</div>
+            </div>
+            <div class="hero-lap-card">
+              <div class="hero-lap-label">Track</div>
+              <div class="hero-lap-value">Zwartkops</div>
+            </div>
+          </div>
+          <div class="hero-tag-row">
+            <span class="track-tag">Conditions: cool &amp; overcast</span>
+            <span>Tyres: used set</span>
+          </div>
+          <div class="hero-card-footer">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="hero-pulse-dot"></span>
+              <span>Use this page as your “race diary”.</span>
+            </div>
+            <span>Static demo · data not live</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main content layout -->
+    <main class="blog-layout">
+      <!-- Left: feature + list -->
+      <section class="blog-main">
+        <!-- Featured article -->
+        <article class="featured-article">
+          <div>
+            <div class="featured-label-row">
+              <div class="featured-pill">Featured recap</div>
+              <div class="featured-meta">
+                Zwartkops Raceway · 08 March 2026 · <span style="color:#e5e7eb;">Race Weekend</span>
+              </div>
+            </div>
+            <h2>
+              <a href="#0">Learning from a chaotic race day at Zwartkops</a>
+            </h2>
+            <p class="featured-excerpt">
+              A full weekend recap focusing on starts, traffic management, and how we
+              use simple notes plus on-board footage to convert “messy” heats into
+              clear learning for the next event.
+            </p>
+            <div class="featured-tags">
+              <span class="tag-chip">Race recap</span>
+              <span class="tag-chip">Driver mindset</span>
+              <span class="tag-chip">Data &amp; notes</span>
+            </div>
+            <div class="featured-footer-row">
+              <span>Written by Peter · 5 min read</span>
+              <a href="#0" class="read-more-link">
+                Read recap
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+          <div class="featured-thumb">
+            <div class="featured-track-overlay"></div>
+            <span class="featured-car-dot"></span>
+            <div class="featured-flag"></div>
+          </div>
+        </article>
+
+        <!-- Articles list -->
+        <section class="articles-section">
+          <div class="articles-header">
+            <h3>More stories</h3>
+            <span class="label">Dummy content to practise layout and styling</span>
+          </div>
+
+          <div class="articles-grid">
+            <!-- Article 1 -->
+            <article class="article-card">
+              <div class="article-meta-row">
+                <span class="article-category">Race recap</span>
+                <span>Vereeniging · 22 Feb 2026</span>
+              </div>
+              <h4 class="article-title">
+                <a href="#0">Finding pace in mixed conditions at Vereeniging</a>
+              </h4>
+              <p class="article-excerpt">
+                How we set up for a track that goes from dry to damp to dry again
+                in one day, and the notes we keep to make sure we don’t repeat the
+                same mistakes at the next regional.
+              </p>
+              <div class="article-footer-row">
+                <span class="article-pill">Karting · Senior Max</span>
+                <span>4 min read</span>
+              </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="article-card">
+              <div class="article-meta-row">
+                <span class="article-category">Tech notes</span>
+                <span>Garage session · 10 Feb 2026</span>
+              </div>
+              <h4 class="article-title">
+                <a href="#0">Simple checklist before loading the race trailer</a>
+              </h4>
+              <p class="article-excerpt">
+                A practical packing checklist that we refine after every event:
+                tools, spares, data gear and those easy-to-forget items that can
+                derail a whole weekend.
+              </p>
+              <div class="article-footer-row">
+                <span class="article-pill">Setup &amp; logistics</span>
+                <span>3 min read</span>
+              </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="article-card">
+              <div class="article-meta-row">
+                <span class="article-category">Mindset</span>
+                <span>Main circuit test · 01 Feb 2026</span>
+              </div>
+              <h4 class="article-title">
+                <a href="#0">Debriefing like a pro after a test day</a>
+              </h4>
+              <p class="article-excerpt">
+                Turning test laps into real progress by keeping the debrief short,
+                disciplined, and honest. What worked, what didn’t, and what we
+                change before the next outing.
+              </p>
+              <div class="article-footer-row">
+                <span class="article-pill">Driver development</span>
+                <span>4 min read</span>
+              </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="article-card">
+              <div class="article-meta-row">
+                <span class="article-category">Learning lab</span>
+                <span>Coding session · 27 Jan 2026</span>
+              </div>
+              <h4 class="article-title">
+                <a href="#0">What building this blog page taught us</a>
+              </h4>
+              <p class="article-excerpt">
+                Notes from turning a blank page into this blog layout: practising
+                cards, grids, sidebars, and how it ties into the rest of the
+                Coding Playground project.
+              </p>
+              <div class="article-footer-row">
+                <span class="article-pill">HTML &amp; CSS practice</span>
+                <span>3 min read</span>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="blog-sidebar">
+        <!-- Subscribe -->
+        <section class="sidebar-card">
+          <h3>Subscribe to paddock updates</h3>
+          <p>
+            This is a practice subscribe box. For now it doesn’t send anywhere —
+            it just completes the layout and can later connect to a real mailing list.
+          </p>
+          <form class="subscribe-form">
+            <div class="input-row">
+              <input
+                type="text"
+                class="subscribe-input"
+                placeholder="First name"
+                autocomplete="given-name"
+              />
+              <input
+                type="email"
+                class="subscribe-input"
+                placeholder="Email address"
+                autocomplete="email"
+              />
+            </div>
+            <button class="subscribe-btn" type="button">
+              Join dummy paddock list
+            </button>
+            <div class="subscribe-hint">
+              Zero spam · only race-weekend and learning round-ups (once we wire a real backend).
+            </div>
+          </form>
+        </section>
+
+        <!-- Tags / categories -->
+        <section class="sidebar-card">
+          <h3>Topics &amp; tags</h3>
+          <p>Use these to organise future posts by theme or driver.</p>
+          <div class="tag-cloud">
+            <span class="tag-chip highlighted">Race recap</span>
+            <span class="tag-chip">Tech notes</span>
+            <span class="tag-chip">Driver mindset</span>
+            <span class="tag-chip">Main circuit</span>
+            <span class="tag-chip">Karting</span>
+            <span class="tag-chip">Data &amp; video</span>
+            <span class="tag-chip">Travel &amp; logistics</span>
+            <span class="tag-chip">Learning lab</span>
+          </div>
+        </section>
+
+        <!-- Next race widget (static for now) -->
+        <section class="sidebar-card">
+          <h3>Next race (demo)</h3>
+          <p>
+            In a future version this card can pull dates from your Race Calendar
+            page and update automatically.
+          </p>
+          <div class="race-meta">
+            <div class="race-meta-row">
+              <span class="race-meta-label">Series</span>
+              <span class="race-meta-value">Regional Extreme Festival</span>
+            </div>
+            <div class="race-meta-row">
+              <span class="race-meta-label">Track</span>
+              <span class="race-meta-value">Zwartkops · Gauteng</span>
+            </div>
+            <div class="race-meta-row">
+              <span class="race-meta-label">Date</span>
+              <span class="race-meta-value">14 March 2026 (demo)</span>
+            </div>
+            <div class="race-meta-row">
+              <span class="race-meta-label">Countdown</span>
+              <span class="race-meta-value">XX days · JS coming later</span>
+            </div>
+            <div class="race-pill">
+              <span class="dot"></span>
+              <span>Future upgrade: live countdown widget</span>
+            </div>
+          </div>
+          <div class="micro-note">
+            <strong>Idea:</strong> later you can have Weather, Race Calendar and Blog
+            all share the same event data source.
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="blog-footer">
+      Built as a practice blog page for the Coding Playground project · All race data above is placeholder.
+    </footer>
+  </div>
+</body>
+</html>
