@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Racing Plans | Pricing</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-elevated: #0b1020;
+      --bg-elevated-soft: #111827;
+      --accent: #35e6ff;
+      --accent-soft: #6b8cff;
+      --accent-pink: #ff4fd8;
+      --accent-yellow: #facc15;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --radius-lg: 1.25rem;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --transition-fast: 180ms ease-out;
+      --max-width: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.18), transparent 55%),
+        var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 1.5rem;
+    }
+
+    .page-shell {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.25rem;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: conic-gradient(from 220deg, var(--accent), var(--accent-pink), var(--accent-soft), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-logo span {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #020617;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    nav a {
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    nav a:hover {
+      background-color: rgba(15, 23, 42, 0.85);
+      border-color: var(--border-subtle);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    nav a.primary-link {
+      border-color: rgba(148, 163, 184, 0.5);
+      color: var(--text-main);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2.25rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      padding: 1.5rem 1.75rem;
+      border-radius: 1.5rem;
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.96)),
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.28), transparent 55%);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.16), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      position: relative;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero-badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--accent-yellow), #f97316);
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+    }
+
+    .hero h1 {
+      position: relative;
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero h1 span.highlight {
+      background: linear-gradient(120deg, var(--accent), var(--accent-soft), var(--accent-pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p.lead {
+      position: relative;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 32rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-actions {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.6rem 1.3rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: #020617;
+      box-shadow: 0 14px 30px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 22px 45px rgba(56, 189, 248, 0.45);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.6);
+      color: var(--text-main);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background-color: rgba(148, 163, 184, 0.8);
+    }
+
+    .hero-side {
+      padding: 1.1rem 1.1rem 1.3rem;
+      border-radius: 1.4rem;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .hero-side-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-pill {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background-color: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-tag strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Plans */
+    .section-header {
+      margin-bottom: 1.8rem;
+    }
+
+    .section-kicker {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-soft);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .plan-card {
+      position: relative;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 55%), var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 1.35rem 1.4rem 1.5rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.75);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-position 260ms ease-out;
+      background-size: 160% 160%;
+      background-position: 50% 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.6);
+      background-position: 50% 30%;
+    }
+
+    .plan-card.recommended {
+      border-image: linear-gradient(135deg, var(--accent), var(--accent-pink)) 1;
+      border-width: 1.5px;
+      background:
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.22), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.18), transparent 55%),
+        var(--bg-elevated);
+    }
+
+    .plan-badge {
+      position: absolute;
+      top: 0.9rem;
+      right: 1.1rem;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: linear-gradient(135deg, var(--accent-yellow), #f97316);
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 12px 26px rgba(247, 171, 10, 0.45);
+    }
+
+    .plan-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .plan-tagline {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .plan-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .plan-price {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .plan-price span.currency {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-right: 0.1rem;
+    }
+
+    .plan-period {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .plan-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: -0.2rem;
+    }
+
+    .plan-divider {
+      border-bottom: 1px dashed rgba(55, 65, 81, 0.9);
+      margin: 0.4rem 0 0.5rem;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      color: var(--text-muted);
+    }
+
+    .plan-feature-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-soft));
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .plan-feature-icon.muted {
+      background: transparent;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+    }
+
+    .plan-cta {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .plan-cta-button {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .plan-caption {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .plan-card.free {
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.2), transparent 55%), var(--bg-elevated);
+    }
+
+    .plan-card.pro {
+      background: radial-gradient(circle at top, rgba(236, 72, 153, 0.18), transparent 55%), var(--bg-elevated-soft);
+    }
+
+    /* Comparison */
+    .comparison {
+      margin-top: 0.5rem;
+    }
+
+    .comparison-table-wrapper {
+      border-radius: 1rem;
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96));
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .comparison-table-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.8;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .comparison-table thead {
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.7rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .comparison-table th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .comparison-table th:nth-child(2),
+    .comparison-table td:nth-child(2) {
+      border-left: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .comparison-table th:nth-child(3),
+    .comparison-table td:nth-child(3) {
+      border-left: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .comparison-table th:nth-child(4),
+    .comparison-table td:nth-child(4) {
+      border-left: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .comparison-feature {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .comparison-badge {
+      display: inline-flex;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      background-color: rgba(31, 41, 55, 0.9);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .comparison-icon {
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .comparison-icon.on {
+      color: var(--accent);
+    }
+
+    .comparison-icon.partial {
+      color: var(--accent-yellow);
+    }
+
+    .comparison-footer {
+      padding: 0.65rem 0.9rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .faq-intro {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .faq-intro p + p {
+      margin-top: 0.75rem;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    details.faq-item {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: rgba(15, 23, 42, 0.95);
+      padding: 0.6rem 0.75rem;
+      box-shadow: 0 8px 26px rgba(15, 23, 42, 0.8);
+      transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    details.faq-item[open] {
+      border-color: rgba(148, 163, 184, 0.65);
+      background: rgba(15, 23, 42, 0.98);
+      transform: translateY(-1px);
+    }
+
+    details.faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      font-size: 0.86rem;
+    }
+
+    details.faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-question {
+      font-weight: 500;
+    }
+
+    .faq-toggle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    details.faq-item[open] .faq-toggle {
+      color: var(--accent);
+    }
+
+    .faq-answer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      padding-top: 0.4rem;
+      border-top: 1px dashed rgba(55, 65, 81, 0.9);
+    }
+
+    footer {
+      border-top: 1px solid rgba(31, 41, 55, 0.85);
+      padding-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    footer span strong {
+      color: var(--accent-soft);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 1.25rem;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-side {
+        order: -1;
+      }
+
+      .plans-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+
+      .hero-copy {
+        padding: 1.2rem 1.2rem 1.35rem;
+      }
+
+      .comparison-table-wrapper {
+        overflow-x: auto;
+      }
+
+      .comparison-table {
+        min-width: 550px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">
+          <span>KB</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Karting Buddy Lab</div>
+          <div class="brand-subtitle">Playground plans for racers & builders</div>
+        </div>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="lab.html" class="primary-link">Back to Lab</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Live racing plans • Upgrade when you’re ready
+          </div>
+          <h1>
+            Choose the <span class="highlight">racing plan</span><br />
+            that matches your pace.
+          </h1>
+          <p class="lead">
+            Start free while you’re experimenting, then step up to Premium or Pro
+            when your racing program and tools get serious. Same garage, more horsepower.
+          </p>
+          <div class="hero-actions">
+            <a href="#plans" class="btn btn-primary">
+              Get started free
+              <span>→</span>
+            </a>
+            <a href="#faq" class="btn btn-ghost">
+              Questions? Read the FAQ
+            </a>
+          </div>
+          <div class="hero-meta">
+            <span><span class="hero-meta-dot"></span> No credit card required on Free</span>
+            <span><span class="hero-meta-dot"></span> Upgrade or cancel any time</span>
+          </div>
+        </div>
+
+        <aside class="hero-side" aria-label="Snapshot of plan tiers">
+          <div class="hero-side-title">Built for real race weekends</div>
+          <div class="hero-pill-row">
+            <span class="hero-pill">Track guides</span>
+            <span class="hero-pill">Race prep tools</span>
+            <span class="hero-pill">Learning lab</span>
+          </div>
+          <p class="hero-tag">
+            <strong>Free</strong> is perfect while you’re testing ideas on the
+            Coding Playground. When you’re ready to ship more serious projects
+            or use this on live race programs, <strong>Premium</strong> and
+            <strong>Pro</strong> unlock extra tools and support.
+          </p>
+          <p class="hero-tag">
+            These are demo plans for learning — you can later adapt them into a real
+            pricing page for <strong>kartingbuddy.com</strong>.
+          </p>
+        </aside>
+      </section>
+
+      <!-- Plans -->
+      <section id="plans">
+        <div class="section-header">
+          <div class="section-kicker">Plans</div>
+          <h2 class="section-title">Pick your grid slot</h2>
+          <p class="section-subtitle">
+            Start in the Free paddock and move up to Premium or Pro as your racing,
+            projects and tools grow. All plans can share one codebase and navigation.
+          </p>
+        </div>
+
+        <div class="plans-grid">
+          <!-- Free -->
+          <article class="plan-card free" aria-label="Free plan">
+            <div class="plan-name">Free · Club Paddock</div>
+            <div class="plan-tagline">Perfect while you’re learning and experimenting.</div>
+            <div class="plan-price-row">
+              <div class="plan-price">
+                <span class="currency">R</span>0
+              </div>
+              <div class="plan-period">per month</div>
+            </div>
+            <p class="plan-note">For solo drivers and side-project builders.</p>
+            <div class="plan-divider"></div>
+            <ul class="plan-features">
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Access to core pages: Home, Lab, Calculator, basic Track content.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Save and revisit your experiments in the Playground.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Basic “FAQ chatbot” access with a small preset knowledge base.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon muted"></span>
+                <span>No advanced race calendar, weather widgets or integrated APIs.</span>
+              </li>
+            </ul>
+            <div class="plan-cta">
+              <a href="#faq" class="btn btn-ghost plan-cta-button">Stay on Free for now</a>
+              <p class="plan-caption">Best place to start if you’re still wiring things up.</p>
+            </div>
+          </article>
+
+          <!-- Premium -->
+          <article class="plan-card recommended" aria-label="Premium plan">
+            <div class="plan-badge">Most popular</div>
+            <div class="plan-name">Premium · Race Weekend</div>
+            <div class="plan-tagline">For serious race weekends and live tools.</div>
+            <div class="plan-price-row">
+              <div class="plan-price">
+                <span class="currency">R</span>249
+              </div>
+              <div class="plan-period">per month</div>
+            </div>
+            <p class="plan-note">Ideal for drivers running full seasons with data.</p>
+            <div class="plan-divider"></div>
+            <ul class="plan-features">
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Everything in Free, plus live race calendar &amp; next-race countdowns.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Weather widgets for key SA circuits with real API integrations.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Upgraded AI helpers for technical, legal and driver coaching questions.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Priority “garage notes” &amp; session templates for race weekends.</span>
+              </li>
+            </ul>
+            <div class="plan-cta">
+              <a href="#comparison" class="btn btn-primary plan-cta-button">Start with Premium</a>
+              <p class="plan-caption">Recommended once you’re using the tools on real race days.</p>
+            </div>
+          </article>
+
+          <!-- Pro -->
+          <article class="plan-card pro" aria-label="Pro plan">
+            <div class="plan-name">Pro · Factory Team</div>
+            <div class="plan-tagline">For multi-driver programs and bigger projects.</div>
+            <div class="plan-price-row">
+              <div class="plan-price">
+                <span class="currency">R</span>499
+              </div>
+              <div class="plan-period">per month</div>
+            </div>
+            <p class="plan-note">For teams, agencies or creators running full programs.</p>
+            <div class="plan-divider"></div>
+            <ul class="plan-features">
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Everything in Premium, plus multi-driver dashboards and reports.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Custom chat pages wired to OpenAI Agents and ChatKit widgets.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Deeper “backend” features (APIs, spreadsheets, automations) as you add them.</span>
+              </li>
+              <li>
+                <span class="plan-feature-icon"></span>
+                <span>Priority support and early access to new experiments in the Lab.</span>
+              </li>
+            </ul>
+            <div class="plan-cta">
+              <a href="#contact" class="btn btn-ghost plan-cta-button">Talk to us about Pro</a>
+              <p class="plan-caption">Use this tier later as your real “team & sponsor” option.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Comparison -->
+      <section class="comparison" id="comparison">
+        <div class="section-header">
+          <div class="section-kicker">Compare</div>
+          <h2 class="section-title">Feature grid at a glance</h2>
+          <p class="section-subtitle">
+            The table below shows how the plans differ. You can turn this into a real
+            product matrix later – for now it’s a great playground for HTML tables and styling.
+          </p>
+        </div>
+
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table" aria-label="Plan feature comparison">
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Free</th>
+                <th scope="col">Premium</th>
+                <th scope="col">Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="comparison-feature">
+                  Core pages &amp; experiments
+                  <span class="comparison-badge">Playground</span>
+                </td>
+                <td class="comparison-icon on">✓</td>
+                <td class="comparison-icon on">✓</td>
+                <td class="comparison-icon on">✓</td>
+              </tr>
+              <tr>
+                <td class="comparison-feature">Race calendar &amp; next-race countdowns</td>
+                <td class="comparison-icon">–</td>
+                <td class="comparison-icon on">✓</td>
+                <td class="comparison-icon on">✓</td>
+              </tr>
+              <tr>
+                <td class="comparison-feature">Weather widgets for SA circuits</td>
+                <td class="comparison-icon">–</td>
+                <td class="comparison-icon partial">●</td>
+                <td class="comparison-icon on">✓</td>
+              </tr>
+              <tr>
+                <td class="comparison-feature">AI helpers (FAQ &amp; basic chat)</td>
+                <td class="comparison-icon on">✓</td>
+                <td class="comparison-icon on">✓</td>
+                <td class="comparison-icon on">✓</td>
+              </tr>
+              <tr>
+                <td class="comparison-feature">Custom OpenAI Agents &amp; ChatKit widgets</td>
+                <td class="comparison-icon">–</td>
+                <td class="comparison-icon partial">●</td>
+                <td class="comparison-icon on">✓</td>
+              </tr>
+              <tr>
+                <td class="comparison-feature">Multi-driver dashboards &amp; reporting</td>
+                <td class="comparison-icon">–</td>
+                <td class="comparison-icon">–</td>
+                <td class="comparison-icon on">✓</td>
+              </tr>
+              <tr>
+                <td class="comparison-feature">Support &amp; implementation help</td>
+                <td class="comparison-icon">Self-service</td>
+                <td class="comparison-icon">Email</td>
+                <td class="comparison-icon">“Garage call” / hands-on</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="comparison-footer">
+            Icons: ✓ = included · ● = partial / limited · – = not included (yet).
+            You can adjust features and naming once you define real product tiers.
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <div class="section-header">
+          <div class="section-kicker">FAQ</div>
+          <h2 class="section-title">Common questions</h2>
+          <p class="section-subtitle">
+            This is also your practice area for accessible FAQs. Each question uses
+            a simple HTML <code>&lt;details&gt;</code> element — no JavaScript needed.
+          </p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="faq-intro">
+            <p>
+              In this learning version, the plans are just labels you can reuse later
+              on <strong>kartingbuddy.com</strong> or any future fintech / racing projects.
+              Focus on layout, colours and clarity first.
+            </p>
+            <p>
+              As you progress, you can connect this page to a real “backend” (for example a
+              JSON file, a small API or a CMS) so the prices and features come from actual data.
+            </p>
+          </div>
+
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>
+                <span class="faq-question">Can I start on Free and upgrade later?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <div class="faq-answer">
+                Yes. The idea is that you build and test everything on the Free/Club plan
+                while you’re experimenting in the Coding Playground. Once you’re ready to
+                use the tools on real race weekends or with sponsors, you can move to
+                Premium or Pro and unlock more features.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span class="faq-question">Are these real prices or demo values?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <div class="faq-answer">
+                The numbers on this page are demo values for learning and layout only.
+                When you adapt this into a real Karting Buddy or fintech product, you
+                can plug in actual pricing from a JSON file, CMS or database.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span class="faq-question">What does “backend later” actually mean?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <div class="faq-answer">
+                For now this page is 100% front-end: HTML, CSS and a tiny bit of semantics.
+                “Backend later” means you can keep the design but pull the plan names,
+                features and prices from somewhere else — for example a spreadsheet that
+                is exported as JSON, or a small Node/Express API that lives next to your site.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span class="faq-question">Can I reuse this layout for other projects?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <div class="faq-answer">
+                Absolutely. Pricing pages with three tiers show up in almost every modern
+                product site. Once you’re happy with this version, you can copy the same
+                HTML &amp; CSS into a version 2 of Karting Buddy or your “Best Bank for Me”
+                fintech project and just swap the wording.
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Built in the <strong>Learn-by-Doing Lab</strong> as a practice pricing page.</span>
+      <span>Next step: wire this into your existing navigation and GitHub workflow.</span>
+    </footer>
+  </div>
+</body>
+</html>
