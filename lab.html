@@ -138,6 +138,102 @@
       border-color: var(--accent-strong);
     }
 
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-dropdown summary {
+      list-style: none;
+      margin: 0;
+      border: 1px solid rgba(37, 99, 235, 0.65);
+      border-radius: var(--radius-pill);
+      padding: 0.45rem 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #f8fafc;
+      background: linear-gradient(130deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+      cursor: pointer;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-dropdown summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .nav-dropdown summary:focus-visible {
+      outline: 2px solid rgba(248, 250, 252, 0.8);
+      outline-offset: 3px;
+    }
+
+    .nav-dropdown summary:hover {
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .nav-dropdown-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.1rem;
+      height: 1.1rem;
+      background: rgba(15, 23, 42, 0.35);
+      border-radius: 999px;
+    }
+
+    .nav-dropdown-icon svg {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.8rem);
+      right: 0;
+      min-width: 16rem;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background: rgba(2, 6, 23, 0.98);
+      border: 1px solid rgba(15, 23, 42, 0.75);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-soft);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(0.65rem);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 25;
+    }
+
+    .nav-dropdown[open] .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu,
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .nav-dropdown-link {
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.65rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .nav-dropdown-link:hover,
+    .nav-dropdown-link:focus-visible {
+      background: rgba(37, 99, 235, 0.15);
+      color: #f9fafb;
+    }
+
     @media (max-width: 640px) {
       .site-header-inner {
         flex-direction: column;
@@ -706,6 +802,25 @@
         <a href="#experiments">Experiments</a>
         <a href="#workflow">Workflow</a>
         <a href="#roadmap" class="nav-primary">Up next</a>
+        <details class="nav-dropdown" aria-label="Playground Pages">
+          <summary>
+            Playground Pages
+            <span class="nav-dropdown-icon" aria-hidden="true">
+              <svg viewBox="0 0 12 12" focusable="false" aria-hidden="true">
+                <path d="M3 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </summary>
+          <div class="nav-dropdown-menu" role="menu" aria-label="Playground Pages links">
+            <a class="nav-dropdown-link" href="pricing.html">Pricing &amp; Plans</a>
+            <a class="nav-dropdown-link" href="#">Newsletter / Blog</a>
+            <a class="nav-dropdown-link" href="#">Forums</a>
+            <a class="nav-dropdown-link" href="#">Weather Widgets</a>
+            <a class="nav-dropdown-link" href="#">Race Calendar</a>
+            <a class="nav-dropdown-link" href="#">KartingBuddy Home v2</a>
+            <a class="nav-dropdown-link" href="#">Technical Buddy Chat</a>
+          </div>
+        </details>
       </nav>
     </div>
   </header>
