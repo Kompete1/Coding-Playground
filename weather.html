@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Race Day Weather — Coding Playground</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Weather dashboard for key South African race circuits." />
+
+  <style>
+    :root {
+      --bg-gradient-from: #020617;
+      --bg-gradient-to: #050816;
+      --card-bg: #020617;
+      --card-border: rgba(148, 163, 184, 0.4);
+      --accent: #22d3ee;
+      --accent-soft: rgba(34, 211, 238, 0.15);
+      --accent-secondary: #f97316;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --text-soft: #6b7280;
+      --surface-alt: #020617;
+      --danger: #f87171;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-card: 0 18px 40px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #000 100%);
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1120px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(2, 6, 23, 0.96));
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page-shell::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: conic-gradient(
+        from 130deg,
+        rgba(34, 211, 238, 0.0),
+        rgba(34, 211, 238, 0.3),
+        rgba(129, 140, 248, 0.3),
+        rgba(248, 113, 113, 0.25),
+        rgba(34, 211, 238, 0.0)
+      );
+      opacity: 0.35;
+      filter: blur(40px);
+      z-index: -1;
+    }
+
+    .page-inner {
+      padding: 20px clamp(18px, 3vw, 28px) 24px;
+    }
+
+    /* Top bar / breadcrumb */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .crumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .crumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+    }
+
+    .crumbs span {
+      opacity: 0.7;
+    }
+
+    .theme-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      background: radial-gradient(circle at top left, rgba(34, 211, 238, 0.24), transparent 55%);
+      color: var(--text-muted);
+    }
+
+    .theme-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-secondary);
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.7);
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.5fr);
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-main {
+      position: relative;
+      padding-right: 6px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--accent-soft);
+      border: 1px solid rgba(34, 211, 238, 0.5);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .hero-pill span:nth-child(1) {
+      font-size: 0.9rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 3vw, 2.3rem);
+      line-height: 1.15;
+      margin: 0 0 8px;
+    }
+
+    .hero-title-highlight {
+      background: linear-gradient(120deg, var(--accent), #a855f7, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      max-width: 34rem;
+      margin-bottom: 14px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+
+    .hero-tag {
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-secondary);
+    }
+
+    .hero-meta {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .hero-meta strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-panel {
+      border-radius: 20px;
+      padding: 16px 14px 14px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.7), rgba(2, 6, 23, 0.96));
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.16), transparent 60%);
+      opacity: 0.9;
+      z-index: -1;
+    }
+
+    .hero-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .hero-panel-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-panel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+    }
+
+    .hero-panel-tag {
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(107, 114, 128, 0.9);
+      font-size: 0.7rem;
+    }
+
+    .hero-panel-body {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    @media (max-width: 480px) {
+      .hero-panel-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-track {
+      font-size: 0.78rem;
+    }
+
+    .hero-track h3 {
+      margin: 0 0 4px;
+      font-size: 0.9rem;
+    }
+
+    .hero-track small {
+      color: var(--text-soft);
+    }
+
+    .hero-temp {
+      font-size: 2.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .hero-temp span {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    .hero-conditions {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-conditions span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-mini-graph {
+      justify-self: flex-end;
+      border-radius: 14px;
+      padding: 8px 10px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    .hero-mini-graph h4 {
+      margin: 0 0 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .mini-temps {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .mini-temps span {
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .mini-lap-line {
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), #a855f7, var(--accent-secondary));
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.9);
+    }
+
+    /* Grid */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 6px 0 14px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+    }
+
+    .section-header span {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .weather-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .weather-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .weather-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .weather-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 12px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.98));
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transform: translateY(0);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      cursor: default;
+    }
+
+    .weather-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+      border-color: rgba(248, 250, 252, 0.85);
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 1));
+    }
+
+    .weather-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .track-meta {
+      font-size: 0.78rem;
+    }
+
+    .track-meta h3 {
+      margin: 0 0 2px;
+      font-size: 0.92rem;
+    }
+
+    .track-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+    }
+
+    .track-badge {
+      padding: 3px 7px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 0.7rem;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .track-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent-secondary);
+    }
+
+    .weather-icon {
+      font-size: 1.5rem;
+      padding: 6px 9px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.9);
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .temp {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .temp span {
+      font-size: 0.9rem;
+      margin-left: 4px;
+      color: var(--text-soft);
+    }
+
+    .condition {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .detail-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .detail-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.9);
+    }
+
+    .forecast {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    .forecast-day {
+      flex: 1;
+      padding: 4px 5px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      text-align: center;
+    }
+
+    .forecast-day strong {
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .forecast-day span {
+      display: block;
+    }
+
+    .forecast-day .hi {
+      color: var(--accent-secondary);
+      font-weight: 500;
+    }
+
+    .forecast-day .lo {
+      opacity: 0.7;
+    }
+
+    /* Footer / meta */
+    .page-footer {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+    }
+
+    .last-updated {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .last-updated-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    }
+
+    .demo-label {
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text-soft);
+    }
+
+    .demo-label strong {
+      color: var(--danger);
+      font-weight: 500;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 12px 8px;
+      }
+
+      .page-inner {
+        padding: 16px 14px 18px;
+      }
+
+      .page-footer {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="page-inner">
+      <header class="top-bar">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">🏁 Coding Playground</a>
+          <span>›</span>
+          <span>Weather widgets</span>
+        </nav>
+        <div class="theme-pill">
+          <span class="theme-dot"></span>
+          <span>Motorsport · Demo widgets</span>
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="weather-hero-heading">
+        <div class="hero-main">
+          <div class="hero-pill">
+            <span>●</span>
+            <span>Race-day conditions</span>
+            <span>South Africa · 4 circuits</span>
+          </div>
+
+          <h1 id="weather-hero-heading" class="hero-title">
+            Race day <span class="hero-title-highlight">weather dashboard</span>
+          </h1>
+
+          <p class="hero-sub">
+            Quick-glance weather for key South African circuits. Today this page is powered by
+            <strong>fake demo data in JavaScript</strong>&nbsp;– later we can swap in a real weather API.
+          </p>
+
+          <div class="hero-tags">
+            <div class="hero-tag">
+              <span class="dot"></span>
+              <span>Tracks: Zwartkops, Killarney, Formula-K, iDube</span>
+            </div>
+            <div class="hero-tag">
+              <span class="dot"></span>
+              <span>Tech: HTML · CSS · JS</span>
+            </div>
+          </div>
+
+          <p class="hero-meta">
+            This page is designed as a <strong>learning lab widget</strong> so you can practise layout, fake data, and later:
+            API calls &amp; live updates.
+          </p>
+        </div>
+
+        <aside class="hero-panel" aria-label="Highlight track weather">
+          <div class="hero-panel-header">
+            <div class="hero-panel-title">
+              <span class="hero-panel-dot"></span>
+              <span>Live highlight (demo)</span>
+            </div>
+            <span class="hero-panel-tag">Updated on load</span>
+          </div>
+
+          <div class="hero-panel-body">
+            <div class="hero-track">
+              <h3>Zwartkops Raceway</h3>
+              <small>Pretoria · Gauteng · Mock data</small>
+
+              <div class="hero-temp">
+                <span>24°</span>
+                <span>Sunny stint</span>
+              </div>
+
+              <div class="hero-conditions">
+                <span>💨 12 km/h crosswind</span>
+                <span>💧 35% humidity</span>
+              </div>
+            </div>
+
+            <div class="hero-mini-graph">
+              <h4>Next stints · temp</h4>
+              <div class="mini-temps">
+                <span>FP1 · 21°</span>
+                <span>QP · 23°</span>
+                <span>Race · 25°</span>
+              </div>
+              <div class="mini-lap-line"></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="section-header">
+        <h2>Track weather widgets</h2>
+        <span>Hover a card to see it light up like a hot lap ✨</span>
+      </div>
+
+      <section class="weather-grid" id="weather-grid" aria-label="Weather cards for race circuits">
+        <!-- Cards injected by JavaScript -->
+      </section>
+
+      <footer class="page-footer">
+        <div class="last-updated">
+          <span class="last-updated-dot"></span>
+          <span id="last-updated-text">Fake data last refreshed: —</span>
+        </div>
+        <div class="demo-label">
+          <strong>Demo mode:</strong> all weather values are hard-coded in a JS array for learning. We can later swap this for a real API or backend.
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Hard-coded "fake" weather data for four SA race circuits
+    const fakeWeatherData = [
+      {
+        id: "zwartkops",
+        name: "Zwartkops Raceway",
+        location: "Pretoria, Gauteng",
+        regionLabel: "Highveld",
+        icon: "☀️",
+        temperature: 24,
+        condition: "Sunny and dry",
+        wind: "12 km/h crosswind",
+        humidity: "35% humidity",
+        trackStatus: "Prime grip, warm tyres",
+        forecast: [
+          { label: "Today", hi: 25, lo: 14, note: "Sunny" },
+          { label: "Tomorrow", hi: 23, lo: 13, note: "Partly cloudy" },
+          { label: "Race day", hi: 26, lo: 15, note: "Hot & grippy" }
+        ]
+      },
+      {
+        id: "killarney",
+        name: "Killarney International Raceway",
+        location: "Cape Town, Western Cape",
+        regionLabel: "Coastal",
+        icon: "🌤️",
+        temperature: 19,
+        condition: "Cool with light breeze",
+        wind: "21 km/h coastal wind",
+        humidity: "68% humidity",
+        trackStatus: "Watch for changing wind",
+        forecast: [
+          { label: "Today", hi: 20, lo: 15, note: "Breezy" },
+          { label: "Tomorrow", hi: 18, lo: 14, note: "Cloudy" },
+          { label: "Race day", hi: 21, lo: 15, note: "Mild & stable" }
+        ]
+      },
+      {
+        id: "formula-k",
+        name: "Formula-K Raceway",
+        location: "Benoni, Gauteng",
+        regionLabel: "Inland",
+        icon: "⛅",
+        temperature: 22,
+        condition: "Partly cloudy",
+        wind: "9 km/h headwind on main straight",
+        humidity: "42% humidity",
+        trackStatus: "Stable temps for long runs",
+        forecast: [
+          { label: "Today", hi: 23, lo: 13, note: "Partly cloudy" },
+          { label: "Tomorrow", hi: 24, lo: 14, note: "Sunny" },
+          { label: "Race day", hi: 25, lo: 15, note: "Warm & stable" }
+        ]
+      },
+      {
+        id: "idube",
+        name: "iDube Raceway",
+        location: "Camperdown, KwaZulu-Natal",
+        regionLabel: "Humidity special",
+        icon: "🌦️",
+        temperature: 20,
+        condition: "Cloudy with possible showers",
+        wind: "7 km/h variable",
+        humidity: "78% humidity",
+        trackStatus: "Risk of mixed conditions",
+        forecast: [
+          { label: "Today", hi: 21, lo: 16, note: "Showers" },
+          { label: "Tomorrow", hi: 22, lo: 15, note: "Cloud & sun" },
+          { label: "Race day", hi: 23, lo: 16, note: "Chance of rain" }
+        ]
+      }
+    ];
+
+    function renderWeatherCards() {
+      const grid = document.getElementById("weather-grid");
+      if (!grid) return;
+
+      const cardsHtml = fakeWeatherData
+        .map((track) => {
+          const forecastHtml = track.forecast
+            .map(
+              (f) => `
+            <div class="forecast-day">
+              <strong>${f.label}</strong>
+              <span class="hi">${f.hi}°</span>
+              <span class="lo">${f.lo}° · ${f.note}</span>
+            </div>
+          `
+            )
+            .join("");
+
+          return `
+          <article class="weather-card" aria-label="${track.name} weather widget">
+            <div class="weather-card-header">
+              <div class="track-meta">
+                <h3>${track.name}</h3>
+                <span>
+                  <span class="detail-dot"></span>
+                  <span>${track.location}</span>
+                </span>
+              </div>
+              <div class="weather-icon" aria-hidden="true">${track.icon}</div>
+            </div>
+
+            <div class="weather-main">
+              <div class="temp">${track.temperature}°<span>Ambient</span></div>
+              <div class="condition">${track.condition}</div>
+            </div>
+
+            <div class="detail-row">
+              <span><span class="detail-dot"></span>${track.wind}</span>
+              <span><span class="detail-dot"></span>${track.humidity}</span>
+            </div>
+
+            <div class="detail-row">
+              <span><span class="detail-dot"></span>${track.trackStatus}</span>
+              <span class="track-badge">
+                <span class="track-badge-dot"></span>
+                ${track.regionLabel}
+              </span>
+            </div>
+
+            <div class="forecast" aria-label="3 day forecast">
+              ${forecastHtml}
+            </div>
+          </article>
+        `;
+        })
+        .join("");
+
+      grid.innerHTML = cardsHtml;
+    }
+
+    function updateLastUpdated() {
+      const el = document.getElementById("last-updated-text");
+      if (!el) return;
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      const dateString = now.toLocaleDateString([], {
+        year: "numeric",
+        month: "short",
+        day: "2-digit"
+      });
+      el.textContent = `Fake data last refreshed: ${dateString} · ${timeString}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderWeatherCards();
+      updateLastUpdated();
+    });
+  </script>
+</body>
+</html>
