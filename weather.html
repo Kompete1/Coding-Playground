@@ -122,6 +122,42 @@
       box-shadow: 0 0 10px rgba(249, 115, 22, 0.7);
     }
 
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-nav a {
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out, transform 180ms ease-out;
+    }
+
+    .top-nav a:hover {
+      background-color: rgba(15, 23, 42, 0.85);
+      border-color: rgba(148, 163, 184, 0.45);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .top-nav a.primary-link {
+      border-color: rgba(148, 163, 184, 0.45);
+      color: var(--text-main);
+    }
+
     /* Hero */
     .hero {
       display: grid;
@@ -621,9 +657,15 @@
           <span>›</span>
           <span>Weather widgets</span>
         </nav>
-        <div class="theme-pill">
-          <span class="theme-dot"></span>
-          <span>Motorsport · Demo widgets</span>
+        <div class="top-actions">
+          <nav class="top-nav" aria-label="Primary navigation">
+            <a href="index.html">Home</a>
+            <a href="lab.html" class="primary-link">Back to Lab</a>
+          </nav>
+          <div class="theme-pill">
+            <span class="theme-dot"></span>
+            <span>Motorsport · Demo widgets</span>
+          </div>
         </div>
       </header>
 
