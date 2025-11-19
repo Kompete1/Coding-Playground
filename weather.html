@@ -763,13 +763,16 @@
   </div>
 
   <script>
-    // Hard-coded "fake" weather data for four SA race circuits
+    // Hard-coded "base" weather data for four SA race circuits
+    // Now also includes latitude/longitude so we can call a real API.
     const fakeWeatherData = [
       {
         id: "zwartkops",
         name: "Zwartkops Raceway",
         location: "Pretoria, Gauteng",
         regionLabel: "Highveld",
+        latitude: -25.81161,
+        longitude: 28.11483,
         icon: "☀️",
         temperature: 24,
         condition: "Sunny and dry",
@@ -787,6 +790,8 @@
         name: "Killarney International Raceway",
         location: "Cape Town, Western Cape",
         regionLabel: "Coastal",
+        latitude: -33.8253602,
+        longitude: 18.5270231,
         icon: "🌤️",
         temperature: 19,
         condition: "Cool with light breeze",
@@ -804,6 +809,8 @@
         name: "Formula-K Raceway",
         location: "Benoni, Gauteng",
         regionLabel: "Inland",
+        latitude: -26.1815443,
+        longitude: 28.3362646,
         icon: "⛅",
         temperature: 22,
         condition: "Partly cloudy",
@@ -821,6 +828,8 @@
         name: "iDube Raceway",
         location: "Camperdown, KwaZulu-Natal",
         regionLabel: "Humidity special",
+        latitude: -29.69679,
+        longitude: 30.52507,
         icon: "🌦️",
         temperature: 20,
         condition: "Cloudy with possible showers",
@@ -835,11 +844,78 @@
       }
     ];
 
-    function renderWeatherCards() {
+    // Open-Meteo base URL – free, no API key required.
+    // Docs: https://open-meteo.com/en/docs
+    const OPEN_METEO_BASE_URL = "https://api.open-meteo.com/v1/forecast";
+
+    // Very simple mapping from Open-Meteo weather codes to text
+    const weatherCodeDescriptions = {
+      0: "Clear sky",
+      1: "Mainly clear",
+      2: "Partly cloudy",
+      3: "Overcast",
+      45: "Foggy",
+      48: "Rime fog",
+      51: "Light drizzle",
+      53: "Drizzle",
+      55: "Heavy drizzle",
+      61: "Light rain",
+      63: "Rain",
+      65: "Heavy rain",
+      71: "Snow",
+      80: "Rain showers",
+      95: "Thunderstorm"
+    };
+
+    function mapWeatherCodeToDescription(code) {
+      return weatherCodeDescriptions[code] || "Mixed conditions";
+    }
+
+    function buildWeatherUrl(track) {
+      const params = new URLSearchParams({
+        latitude: track.latitude,
+        longitude: track.longitude,
+        current_weather: "true",
+        timezone: "Africa/Johannesburg"
+      });
+      return `${OPEN_METEO_BASE_URL}?${params.toString()}`;
+    }
+
+    // Fetch live weather from Open-Meteo for a single track.
+    // If anything fails, we just return the original track unchanged.
+    async function loadRealWeatherForTrack(track) {
+      try {
+        const response = await fetch(buildWeatherUrl(track));
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+        const data = await response.json();
+        const current = data.current_weather;
+
+        if (!current) {
+          return track;
+        }
+
+        const updatedTrack = {
+          ...track,
+          temperature: Math.round(current.temperature),
+          condition: mapWeatherCodeToDescription(current.weathercode),
+          wind: `${Math.round(current.windspeed)} km/h wind`
+          // Note: humidity, trackStatus and forecast stay as per the original object
+        };
+
+        return updatedTrack;
+      } catch (err) {
+        console.error("Failed to load weather for", track.name, err);
+        return track;
+      }
+    }
+
+    function renderWeatherCards(data) {
       const grid = document.getElementById("weather-grid");
       if (!grid) return;
 
-      const cardsHtml = fakeWeatherData
+      const cardsHtml = data
         .map((track) => {
           const forecastHtml = track.forecast
             .map(
@@ -895,7 +971,7 @@
       grid.innerHTML = cardsHtml;
     }
 
-    function updateLastUpdated() {
+    function updateLastUpdated(extraNote) {
       const el = document.getElementById("last-updated-text");
       if (!el) return;
       const now = new Date();
@@ -908,12 +984,30 @@
         month: "short",
         day: "2-digit"
       });
-      el.textContent = `Fake data last refreshed: ${dateString} · ${timeString}`;
+      const suffix = extraNote ? ` (${extraNote})` : "";
+      el.textContent = `Weather last refreshed: ${dateString} · ${timeString}${suffix}`;
+    }
+
+    async function initWeatherPage() {
+      // 1) Render immediately with the baked-in demo data
+      renderWeatherCards(fakeWeatherData);
+      updateLastUpdated("demo data");
+
+      // 2) Then try to fetch real-time data and update the cards
+      try {
+        const updatedTracks = await Promise.all(
+          fakeWeatherData.map(loadRealWeatherForTrack)
+        );
+        renderWeatherCards(updatedTracks);
+        updateLastUpdated("live from Open-Meteo");
+      } catch (err) {
+        console.error("Failed to update live weather", err);
+        updateLastUpdated("demo data only (API error)");
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      renderWeatherCards();
-      updateLastUpdated();
+      initWeatherPage();
     });
   </script>
 </body>
