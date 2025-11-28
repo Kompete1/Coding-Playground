@@ -819,6 +819,7 @@
             <a class="nav-dropdown-link" href="#">Race Calendar</a>
             <a class="nav-dropdown-link" href="#">KartingBuddy Home v2</a>
             <a class="nav-dropdown-link" href="#">Technical Buddy Chat</a>
+            <a class="nav-dropdown-link" href="playground-agent.html">Playground Agent Chat</a>
           </div>
         </details>
       </nav>
@@ -936,6 +937,58 @@
             <footer class="experiment-footer">
               <a class="button primary" href="sliding_calculator.html">View demo</a>
               <a class="button ghost" href="#workflow">See workflow</a>
+            </footer>
+          </article>
+
+          <!-- Experiment card: Playground Agent -->
+          <article class="experiment-card">
+            <header class="experiment-header">
+              <p class="status-pill status--shipped">✅ Shipped</p>
+              <h3 class="experiment-title">Playground Agent v1</h3>
+              <p class="experiment-summary">
+                Embedded the Playground Agent chat UI from Vercel into this site so it can be tested directly inside the Coding Playground.
+              </p>
+            </header>
+
+            <dl class="experiment-meta">
+              <div>
+                <dt>Category</dt>
+                <dd>Agent / Chat</dd>
+              </div>
+              <div>
+                <dt>Difficulty</dt>
+                <dd>Medium</dd>
+              </div>
+              <div>
+                <dt>Shipped</dt>
+                <dd>Nov 2025 · v1.0</dd>
+              </div>
+            </dl>
+
+            <div class="tools-list" aria-label="Tools used">
+              <span class="tool-pill">HTML</span>
+              <span class="tool-pill">CSS</span>
+              <span class="tool-pill">JavaScript</span>
+              <span class="tool-pill">Codex (cloud)</span>
+              <span class="tool-pill">OpenAI Agent</span>
+              <span class="tool-pill">ChatKit</span>
+              <span class="tool-pill">Vercel</span>
+            </div>
+
+            <div class="experiment-notes">
+              <p>
+                <strong>Learning focus:</strong>
+                Wiring OpenAI Agent Builder with a small knowledge base to a ChatKit front-end and a Vercel backend, then embedding that UI inside the Coding Playground experience.
+              </p>
+              <p>
+                <strong>Workflow:</strong>
+                Built the agent and knowledge base in Agent Builder → forked the ChatKit starter backend, set up <code>.env.local</code>, and deployed to Vercel → embedded the deployed UI via a new iframe page and linked it in the lab nav.
+              </p>
+            </div>
+
+            <footer class="experiment-footer">
+              <a class="button primary" href="playground-agent.html">View demo</a>
+              <a class="button ghost" href="#playground-agent-workflow">See workflow</a>
             </footer>
           </article>
 
