@@ -1,5 +1,5 @@
 ﻿const CALENDAR_URL = "content/race-calendar/base-calendar.json";
-const UPDATES_URL = "https://example.com/race-calendar/updates.json";
+const UPDATES_URL = "https://race-calendar-checker.vercel.app/api/race-calendar-check";
 
 const monthNames = [
   "Jan",
