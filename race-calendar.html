@@ -1,0 +1,522 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Race Calendar - Coding Playground</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="2026 race calendar for national and regional events." />
+  <style>
+    :root {
+      --page-bg: #020617;
+      --surface-bg: #020617;
+      --card-bg: #0b1120;
+      --card-border: #1f2937;
+      --card-border-soft: #111827;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --text-soft: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.12);
+      --accent-strong: #1d4ed8;
+      --gold: #fbbf24;
+      --green: #4ade80;
+      --shell-max: 72rem;
+      --radius-lg: 1.25rem;
+      --radius-md: 0.75rem;
+      --radius-pill: 999px;
+      --shadow-soft: 0 12px 40px rgba(15, 23, 42, 0.6);
+      --shadow-subtle: 0 10px 25px rgba(15, 23, 42, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      max-width: var(--shell-max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header / Nav */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), transparent 55%),
+                  rgba(15, 23, 42, 0.92);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+    }
+
+    .site-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      gap: 1.25rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .brand-pill {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.75rem;
+      background: radial-gradient(circle at 20% 0%, #38bdf8, #1d4ed8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: white;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+    }
+
+    .brand span:last-child {
+      opacity: 0.8;
+      font-weight: 500;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .main-nav a {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .main-nav a:hover {
+      color: #f9fafb;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .main-nav a.nav-primary {
+      background: var(--accent-soft);
+      color: #eff6ff;
+      border: 1px solid rgba(37, 99, 235, 0.35);
+    }
+
+    .main-nav a.nav-primary:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-dropdown summary {
+      list-style: none;
+      margin: 0;
+      border: 1px solid rgba(37, 99, 235, 0.65);
+      border-radius: var(--radius-pill);
+      padding: 0.45rem 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #f8fafc;
+      background: linear-gradient(130deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+      cursor: pointer;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-dropdown summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .nav-dropdown summary:focus-visible {
+      outline: 2px solid rgba(248, 250, 252, 0.8);
+      outline-offset: 3px;
+    }
+
+    .nav-dropdown summary:hover {
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .nav-dropdown-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.1rem;
+      height: 1.1rem;
+      background: rgba(15, 23, 42, 0.35);
+      border-radius: 999px;
+    }
+
+    .nav-dropdown-icon svg {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.8rem);
+      right: 0;
+      min-width: 16rem;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background: rgba(2, 6, 23, 0.98);
+      border: 1px solid rgba(15, 23, 42, 0.75);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-soft);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(0.65rem);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 25;
+    }
+
+    .nav-dropdown[open] .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu,
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .nav-dropdown-link {
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.65rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .nav-dropdown-link:hover,
+    .nav-dropdown-link:focus-visible {
+      background: rgba(37, 99, 235, 0.15);
+      color: #f9fafb;
+    }
+
+    @media (max-width: 640px) {
+      .site-header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Hero */
+
+    .race-hero {
+      padding: 3.25rem 0 2.5rem;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 60%),
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.25), transparent 65%),
+        linear-gradient(to bottom, #020617 0%, #020617 100%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .race-hero h1 {
+      margin: 0 0 0.6rem;
+      font-size: clamp(2.2rem, 3.2vw + 1rem, 3rem);
+      letter-spacing: -0.04em;
+      color: #f9fafb;
+    }
+
+    .race-hero p {
+      margin: 0;
+      max-width: 44rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Layout */
+
+    main {
+      padding-bottom: 3.5rem;
+    }
+
+    .race-content {
+      padding: 2.75rem 0 3.5rem;
+      background: var(--surface-bg);
+    }
+
+    .race-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .calendar-column {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 980px) {
+      .race-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Calendar cards */
+
+    .calendar-card {
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), transparent 60%),
+                  rgba(2, 6, 23, 0.95);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-subtle);
+      overflow: hidden;
+    }
+
+    .calendar-header {
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .calendar-title {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .calendar-meta {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .calendar-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .calendar-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      padding: 0.9rem 1.5rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      align-items: center;
+    }
+
+    .calendar-item:first-child {
+      border-top: none;
+    }
+
+    .calendar-venue {
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .calendar-date {
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+
+    .calendar-card[data-accent="gold"] .calendar-title {
+      color: #fde68a;
+    }
+
+    .calendar-card[data-accent="gold"] .calendar-date {
+      color: var(--gold);
+    }
+
+    .calendar-card[data-accent="green"] .calendar-title {
+      color: #bbf7d0;
+    }
+
+    .calendar-card[data-accent="green"] .calendar-date {
+      color: var(--green);
+    }
+
+    /* Updates panel */
+
+    .updates-panel {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: var(--shadow-soft);
+      padding: 1.5rem;
+      display: grid;
+      gap: 1rem;
+      position: sticky;
+      top: 5.5rem;
+    }
+
+    .updates-panel h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #e5e7eb;
+    }
+
+    .updates-output {
+      width: 100%;
+      min-height: 9rem;
+      resize: none;
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(2, 6, 23, 0.9);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .updates-button {
+      border: 1px solid rgba(37, 99, 235, 0.65);
+      background: linear-gradient(130deg, var(--accent), var(--accent-strong));
+      color: #f8fafc;
+      border-radius: var(--radius-pill);
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .updates-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(37, 99, 235, 0.45);
+    }
+
+    @media (max-width: 980px) {
+      .updates-panel {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell site-header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-pill">CP</span>
+        <span>Coding&nbsp;Playground A· Lab</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="lab.html#experiments">Experiments</a>
+        <a href="lab.html#workflow">Workflow</a>
+        <a href="lab.html#roadmap" class="nav-primary">Up next</a>
+        <details class="nav-dropdown" aria-label="Playground Pages">
+          <summary>
+            Playground Pages
+            <span class="nav-dropdown-icon" aria-hidden="true">
+              <svg viewBox="0 0 12 12" focusable="false" aria-hidden="true">
+                <path d="M3 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </summary>
+          <div class="nav-dropdown-menu" role="menu" aria-label="Playground Pages links">
+            <a class="nav-dropdown-link" href="pricing.html">Pricing &amp; Plans</a>
+            <a class="nav-dropdown-link" href="blog.html">Newsletter / Blog</a>
+            <a class="nav-dropdown-link" href="forums.html">Forums</a>
+            <a class="nav-dropdown-link" href="weather.html">Weather Widgets</a>
+            <a class="nav-dropdown-link" href="race-calendar.html">Race Calendar</a>
+            <a class="nav-dropdown-link" href="#">KartingBuddy Home v2</a>
+            <a class="nav-dropdown-link" href="#">Technical Buddy Chat</a>
+            <a class="nav-dropdown-link" href="playground-agent.html">Playground Agent Chat</a>
+            <a class="nav-dropdown-link" href="kart-setup-advisor.html">Kart Setup Advisor</a>
+            <a class="nav-dropdown-link" href="tagline-generator.html">Tagline Generator</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="race-hero" id="top">
+      <div class="shell">
+        <h1>Race Calendar</h1>
+        <p>
+          A single view of the 2026 National Extreme Festival and Regional / BMW Performance Parts
+          calendars. This page pulls from a local JSON file so updates are easy to manage.
+        </p>
+      </div>
+    </section>
+
+    <section class="race-content">
+      <div class="shell race-grid">
+        <div class="calendar-column">
+          <article class="calendar-card" data-calendar="national" data-accent="gold">
+            <header class="calendar-header">
+              <h2 class="calendar-title">National Extreme Festival</h2>
+              <span class="calendar-meta">2026 season</span>
+            </header>
+            <ul class="calendar-list" aria-label="National Extreme Festival dates">
+              <li class="calendar-item">
+                <span class="calendar-venue">Loading calendar...</span>
+                <span class="calendar-date">--</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="calendar-card" data-calendar="regional" data-accent="green">
+            <header class="calendar-header">
+              <h2 class="calendar-title">Regional / BMW Performance Parts</h2>
+              <span class="calendar-meta">2026 season</span>
+            </header>
+            <ul class="calendar-list" aria-label="Regional calendar dates">
+              <li class="calendar-item">
+                <span class="calendar-venue">Loading calendar...</span>
+                <span class="calendar-date">--</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+
+        <aside class="updates-panel" aria-labelledby="updates-heading">
+          <h2 id="updates-heading">Updates</h2>
+          <textarea
+            id="updates-output"
+            class="updates-output"
+            readonly
+          >No updates available.</textarea>
+          <button class="updates-button" id="check-updates" type="button">
+            Check for updates
+          </button>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="assets/js/race-calendar.js"></script>
+</body>
+</html>

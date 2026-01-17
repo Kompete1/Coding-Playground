@@ -1,0 +1,26 @@
+﻿{
+  "national": {
+    "title": "National Extreme Festival",
+    "events": [
+      { "date": "14/03", "venue": "Killarney International Raceway" },
+      { "date": "18/04", "venue": "Red Star Raceway" },
+      { "date": "23/05", "venue": "Zwartkops Raceway" },
+      { "date": "27/06", "venue": "Aldo Scribante Raceway" },
+      { "date": "15/08", "venue": "East London Grand Prix Circuit" },
+      { "date": "19/09", "venue": "Killarney International Raceway" },
+      { "date": "17/10", "venue": "Zwartkops Raceway" }
+    ]
+  },
+  "regional": {
+    "title": "Regional / BMW Performance Parts",
+    "events": [
+      { "date": "07/03", "venue": "Zwartkops Raceway" },
+      { "date": "16/05", "venue": "Red Star Raceway" },
+      { "date": "13/06", "venue": "Zwartkops Raceway" },
+      { "date": "08/08", "venue": "Autódromo Internacional de Maputo" },
+      { "date": "12/09", "venue": "Zwartkops Raceway" },
+      { "date": "10/10", "venue": "Red Star Raceway" },
+      { "date": "21/11", "venue": "Zwartkops Raceway" }
+    ]
+  }
+}
