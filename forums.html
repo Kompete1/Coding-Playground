@@ -4,24 +4,37 @@
   <meta charset="UTF-8" />
   <title>Coding Playground — Forums</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
 
   <style>
     :root {
-      --bg: #020617;
-      --bg-alt: #020617;
-      --card-bg: #020617;
-      --card-elevated: #0b1120;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.18);
-      --accent-strong: #f97316;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --border-subtle: rgba(148, 163, 184, 0.25);
+      --color-bg: #020617;
+      --color-bg-glow: #1f2937;
+      --color-surface: #020617;
+      --color-elevated: #0b1120;
+      --color-text: #e5e7eb;
+      --color-text-muted: #9ca3af;
+      --color-accent: #38bdf8;
+      --color-accent-soft: rgba(56, 189, 248, 0.18);
+      --color-accent-strong: #f97316;
+      --color-border-subtle: rgba(148, 163, 184, 0.25);
       --radius-lg: 18px;
       --radius-pill: 999px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+      --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.75);
       --shadow-chip: 0 10px 30px rgba(15, 23, 42, 0.7);
       --nav-height: 64px;
+
+      --bg: var(--color-bg);
+      --bg-alt: var(--color-surface);
+      --card-bg: var(--color-surface);
+      --card-elevated: var(--color-elevated);
+      --accent: var(--color-accent);
+      --accent-soft: var(--color-accent-soft);
+      --accent-strong: var(--color-accent-strong);
+      --text: var(--color-text);
+      --muted: var(--color-text-muted);
+      --border-subtle: var(--color-border-subtle);
+      --shadow-soft: var(--shadow-card);
     }
 
     * {
@@ -35,7 +48,7 @@
         "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top, #1f2937 0, #020617 48%, #020617 100%);
+        radial-gradient(circle at top, var(--color-bg-glow) 0, var(--color-bg) 48%, var(--color-bg) 100%);
       min-height: 100%;
     }
 

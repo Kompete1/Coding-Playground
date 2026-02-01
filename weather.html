@@ -4,25 +4,40 @@
   <meta charset="UTF-8" />
   <title>Race Day Weather — Coding Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
   <meta name="description" content="Weather dashboard for key South African race circuits." />
 
   <style>
     :root {
+      --color-bg: #020617;
+      --color-bg-glow: #0f172a;
+      --color-bg-deep: #000000;
+      --color-surface: #020617;
+      --color-elevated: #020617;
+      --color-border: rgba(148, 163, 184, 0.4);
+      --color-text: #e5e7eb;
+      --color-text-muted: #9ca3af;
+      --color-text-soft: #6b7280;
+      --color-accent: #22d3ee;
+      --color-accent-soft: rgba(34, 211, 238, 0.15);
+      --color-accent-secondary: #f97316;
+      --color-danger: #f87171;
       --bg-gradient-from: #020617;
       --bg-gradient-to: #050816;
-      --card-bg: #020617;
-      --card-border: rgba(148, 163, 184, 0.4);
-      --accent: #22d3ee;
-      --accent-soft: rgba(34, 211, 238, 0.15);
-      --accent-secondary: #f97316;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --text-soft: #6b7280;
-      --surface-alt: #020617;
-      --danger: #f87171;
       --radius-lg: 18px;
       --radius-pill: 999px;
       --shadow-card: 0 18px 40px rgba(15, 23, 42, 0.9);
+
+      --card-bg: var(--color-surface);
+      --card-border: var(--color-border);
+      --accent: var(--color-accent);
+      --accent-soft: var(--color-accent-soft);
+      --accent-secondary: var(--color-accent-secondary);
+      --text-main: var(--color-text);
+      --text-muted: var(--color-text-muted);
+      --text-soft: var(--color-text-soft);
+      --surface-alt: var(--color-surface);
+      --danger: var(--color-danger);
     }
 
     * {
@@ -34,7 +49,7 @@
       min-height: 100vh;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text-main);
-      background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #000 100%);
+      background: radial-gradient(circle at top, var(--color-bg-glow) 0, var(--color-bg) 40%, var(--color-bg-deep) 100%);
       display: flex;
       justify-content: center;
       padding: 24px 16px;
