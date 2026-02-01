@@ -4,29 +4,46 @@
   <meta charset="UTF-8" />
   <title>Playground Lab — Coding Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
   <style>
     :root {
-      --page-bg: #020617;       /* very dark navy */
-      --surface-bg: #020617;
-      --card-bg: #0b1120;       /* deep slate/blue */
-      --card-border: #1f2937;
-      --card-border-soft: #111827;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --text-soft: #6b7280;
-      --accent: #2563eb;
-      --accent-soft: rgba(37, 99, 235, 0.12);
-      --accent-strong: #1d4ed8;
-      --danger: #f97316;
-      --success: #22c55e;
-      --idea: #eab308;
+      --color-bg: #020617;       /* very dark navy */
+      --color-surface: #020617;
+      --color-elevated: #0b1120;       /* deep slate/blue */
+      --color-border: #1f2937;
+      --color-border-soft: #111827;
+      --color-text: #e5e7eb;
+      --color-text-muted: #9ca3af;
+      --color-text-soft: #6b7280;
+      --color-accent: #2563eb;
+      --color-accent-soft: rgba(37, 99, 235, 0.12);
+      --color-accent-strong: #1d4ed8;
+      --color-danger: #f97316;
+      --color-success: #22c55e;
+      --color-idea: #eab308;
       --shell-max: 72rem;
       --radius-lg: 1.25rem;
       --radius-md: 0.75rem;
       --radius-pill: 999px;
-      --shadow-soft: 0 12px 40px rgba(15, 23, 42, 0.6);
+      --shadow-card: 0 12px 40px rgba(15, 23, 42, 0.6);
       --shadow-subtle: 0 10px 25px rgba(15, 23, 42, 0.35);
       --gap-section: 4rem;
+
+      --page-bg: var(--color-bg);
+      --surface-bg: var(--color-surface);
+      --card-bg: var(--color-elevated);
+      --card-border: var(--color-border);
+      --card-border-soft: var(--color-border-soft);
+      --text-main: var(--color-text);
+      --text-muted: var(--color-text-muted);
+      --text-soft: var(--color-text-soft);
+      --accent: var(--color-accent);
+      --accent-soft: var(--color-accent-soft);
+      --accent-strong: var(--color-accent-strong);
+      --danger: var(--color-danger);
+      --success: var(--color-success);
+      --idea: var(--color-idea);
+      --shadow-soft: var(--shadow-card);
     }
 
     * {

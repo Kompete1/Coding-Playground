@@ -1,5 +1,5 @@
 :root {
-  /* Color system keeps contrast high and consistent */
+  /* Core color system */
   --color-bg: #ffffff;
   --color-text: #12172a;
   --color-text-muted: #4b5675;
@@ -47,19 +47,48 @@
   --icon-toggle-bg: var(--color-accent);
   --icon-toggle-spot: var(--color-elevated);
 
+  /* Typography scale */
+  --font-sans: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.25rem;
+  --font-size-4xl: 2.75rem;
+  --line-height-body: 1.6;
+  --line-height-heading: 1.2;
+
   /* Spacing scale used across layout */
+  --spacing-2xs: 0.25rem;
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
   --spacing-lg: 2.5rem;
   --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
 
+  /* Radius + shadow scale */
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
   --max-width: 68rem;
   --hero-max: 1200px;
   --hero-pad-y: clamp(4rem, 10vw, 8rem);
   --container-pad-x: clamp(1rem, 4vw, 3rem);
   --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-pill: 999px;
+  --shadow-xs: 0 0.5rem 1.5rem -1rem rgba(18, 23, 42, 0.18);
+  --shadow-sm: 0 0.75rem 2rem -1.25rem rgba(18, 23, 42, 0.2);
+  --shadow-md: var(--shadow-card);
+  --shadow-lg: var(--shadow-floating);
   --transition-speed: 220ms;
+  --transition-fast: 140ms;
+  --transition-slow: 300ms;
   --scroll-target-offset: 4.5rem;
 }
 
@@ -132,10 +161,45 @@ html {
 
 body {
   margin: 0;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
   color: var(--color-text);
   background-color: var(--color-bg);
-  line-height: 1.6;
+  line-height: var(--line-height-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  line-height: var(--line-height-heading);
+}
+
+p,
+li {
+  font-size: var(--font-size-md);
+}
+
+small {
+  font-size: var(--font-size-sm);
+}
+
+a {
+  color: inherit;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-accent);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 @keyframes fadeIn {
@@ -203,12 +267,12 @@ body {
     animation: none;
   }
 
-  .hero {
+  .site-hero, .site-home .hero {
     animation: none;
     background-position: center, 50% 50%;
   }
 
-  .scroll-indicator {
+  .site-hero .scroll-indicator, .site-home .hero .scroll-indicator {
     animation: none;
     transform: translate(-50%, 0);
   }
@@ -532,7 +596,7 @@ main {
   gap: var(--spacing-xl);
 }
 
-.hero {
+.site-hero, .site-home .hero {
   position: relative;
   padding-block: var(--hero-pad-y);
   background-image: var(--gradient-hero-overlay), var(--gradient-hero-animated);
@@ -542,7 +606,7 @@ main {
   animation: heroGradientShift 24s ease-in-out infinite;
 }
 
-.hero-container {
+.site-hero .hero-container, .site-home .hero .hero-container {
   margin: 0 auto;
   max-width: var(--hero-max);
   padding-inline: var(--container-pad-x);
@@ -551,22 +615,22 @@ main {
   align-items: center;
 }
 
-.hero-inner {
+.site-hero .hero-inner, .site-home .hero .hero-inner {
   display: grid;
   gap: var(--spacing-sm);
   max-width: 32rem;
 }
 
-.hero h1 {
+.site-hero h1, .site-home .hero h1 {
   font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
   line-height: 1.1;
 }
 
-.hero-copy {
+.site-hero .hero-copy, .site-home .hero .hero-copy {
   color: var(--color-text-muted);
 }
 
-.hero-actions {
+.site-hero .hero-actions, .site-home .hero .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
@@ -636,13 +700,90 @@ main {
   box-shadow: var(--shadow-card-hover);
 }
 
-.hero-visual {
+/* Shared button patterns across pages */
+.btn,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-elevated);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease,
+    background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.btn-primary,
+.button.primary {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast, #ffffff);
+  border-color: var(--color-accent-strong);
+  box-shadow: var(--shadow-accent-soft);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible,
+.button.primary:hover,
+.button.primary:focus-visible {
+  background: var(--color-accent-strong);
+  box-shadow: var(--shadow-accent-strong);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.btn-ghost,
+.button.ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible,
+.button.ghost:hover,
+.button.ghost:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.btn[aria-disabled="true"],
+.btn:disabled,
+.button[aria-disabled="true"],
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Shared card pattern */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: var(--spacing-md);
+}
+
+.site-hero .hero-visual, .site-home .hero .hero-visual {
   display: grid;
   align-items: center;
   justify-content: center;
 }
 
-.scroll-indicator {
+.site-hero .scroll-indicator, .site-home .hero .scroll-indicator {
   position: absolute;
   left: 50%;
   bottom: clamp(1.5rem, 4vw, 3rem);
@@ -657,7 +798,7 @@ main {
   animation: scrollIndicatorFloat 3.5s ease-in-out infinite;
 }
 
-.scroll-indicator__line {
+.site-hero .scroll-indicator__line, .site-home .hero .scroll-indicator__line {
   width: 2px;
   height: 1.5rem;
   border-radius: 999px;
@@ -665,7 +806,7 @@ main {
   opacity: 0.5;
 }
 
-.scroll-indicator__chevron {
+.site-hero .scroll-indicator__chevron, .site-home .hero .scroll-indicator__chevron {
   width: 0.75rem;
   height: 0.75rem;
   border-right: 2px solid currentColor;
@@ -674,7 +815,7 @@ main {
   opacity: 0.8;
 }
 
-.hero-card {
+.site-hero .hero-card, .site-home .hero .hero-card {
   min-width: 16rem;
   max-width: 20rem;
   padding: var(--spacing-lg) var(--spacing-md);
@@ -685,11 +826,11 @@ main {
   gap: var(--spacing-xs);
 }
 
-.hero-card-title {
+.site-hero .hero-card-title, .site-home .hero .hero-card-title {
   font-weight: 700;
 }
 
-.hero-card-copy {
+.site-hero .hero-card-copy, .site-home .hero .hero-card-copy {
   margin: 0;
   color: var(--color-text-muted);
 }
@@ -1154,7 +1295,7 @@ button[type="submit"]:focus-visible {
 
 /* Responsive adjustments for larger screens */
 @media (min-width: 48rem) {
-  .hero-container {
+  .site-hero .hero-container, .site-home .hero .hero-container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1238,11 +1379,11 @@ button[type="submit"]:focus-visible {
     gap: var(--spacing-lg);
   }
 
-  .hero {
+  .site-hero, .site-home .hero {
     padding-block: clamp(3.5rem, 18vw, 6rem);
   }
 
-  .hero-container,
+  .site-hero .hero-container, .site-home .hero .hero-container,
   .section-heading,
   .features,
   .contact,
@@ -1250,16 +1391,16 @@ button[type="submit"]:focus-visible {
     padding-inline: clamp(1.5rem, 7vw, 2.25rem);
   }
 
-  .hero-inner {
+  .site-hero .hero-inner, .site-home .hero .hero-inner {
     gap: var(--spacing-md);
   }
 
-  .hero h1 {
+  .site-hero h1, .site-home .hero h1 {
     font-size: clamp(1.9rem, 7vw + 1rem, 2.6rem);
     line-height: 1.2;
   }
 
-  .hero-copy,
+  .site-hero .hero-copy, .site-home .hero .hero-copy,
   .section-intro {
     font-size: 1.05rem;
     line-height: 1.75;
@@ -1333,3 +1474,8 @@ textarea:focus-visible {
 ::selection {
   background: var(--color-accent-selection);
 }
+
+
+
+
+

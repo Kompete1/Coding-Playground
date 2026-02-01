@@ -3,23 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
   <title>Racing Plans | Pricing</title>
   <style>
     :root {
-      --bg: #050816;
-      --bg-elevated: #0b1020;
-      --bg-elevated-soft: #111827;
-      --accent: #35e6ff;
-      --accent-soft: #6b8cff;
-      --accent-pink: #ff4fd8;
-      --accent-yellow: #facc15;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --border-subtle: #1f2937;
+      --color-bg: #050816;
+      --color-surface: #0b1020;
+      --color-elevated: #111827;
+      --color-text: #f9fafb;
+      --color-text-muted: #9ca3af;
+      --color-accent: #35e6ff;
+      --color-accent-strong: #6b8cff;
+      --color-accent-pink: #ff4fd8;
+      --color-accent-yellow: #facc15;
+      --color-border: #1f2937;
+      --color-accent-glow: rgba(56, 189, 248, 0.18);
+      --color-accent-secondary-glow: rgba(168, 85, 247, 0.18);
       --radius-lg: 1.25rem;
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --shadow-card: 0 18px 45px rgba(0, 0, 0, 0.55);
       --transition-fast: 180ms ease-out;
       --max-width: 1100px;
+
+      --bg: var(--color-bg);
+      --bg-elevated: var(--color-surface);
+      --bg-elevated-soft: var(--color-elevated);
+      --accent: var(--color-accent);
+      --accent-soft: var(--color-accent-strong);
+      --accent-pink: var(--color-accent-pink);
+      --accent-yellow: var(--color-accent-yellow);
+      --text-main: var(--color-text);
+      --text-muted: var(--color-text-muted);
+      --border-subtle: var(--color-border);
+      --shadow-soft: var(--shadow-card);
     }
 
     * {
@@ -31,8 +46,8 @@
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.18), transparent 55%),
+        radial-gradient(circle at top left, var(--color-accent-glow), transparent 55%),
+        radial-gradient(circle at bottom right, var(--color-accent-secondary-glow), transparent 55%),
         var(--bg);
       color: var(--text-main);
       line-height: 1.6;
