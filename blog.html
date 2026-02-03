@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/experiment-header.css" />
 
   <style>
     :root {
@@ -79,6 +80,10 @@
       justify-content: space-between;
       margin-bottom: 24px;
       gap: 16px;
+    }
+
+    .cp-exp-header {
+      margin-bottom: 24px;
     }
 
     .mini-nav-left {
@@ -879,21 +884,7 @@
 <body>
   <div class="page-shell">
     <!-- Simple mini-nav -->
-    <header class="mini-nav">
-      <div class="mini-nav-left">
-        <div class="mini-logo"></div>
-        <div>
-          <div class="mini-title">Coding Playground</div>
-          <div style="font-size: 0.8rem; color: var(--muted);">Race Blog &amp; Weekend Notes</div>
-        </div>
-      </div>
-      <div class="mini-nav-right">
-        <a class="mini-pill-link" href="lab.html">
-          <span class="dot"></span>
-          <span>Back to Lab</span>
-        </a>
-      </div>
-    </header>
+    <header class="cp-exp-header" data-experiment-header data-experiment-name="Newsletter / Blog"></header>
 
     <!-- Hero banner -->
     <section class="blog-hero">
@@ -1189,5 +1180,6 @@
       Built as a practice blog page for the Coding Playground project · All race data above is placeholder.
     </footer>
   </div>
+  <script src="assets/experiment-header.js" defer></script>
 </body>
 </html>

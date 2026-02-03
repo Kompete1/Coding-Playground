@@ -5,6 +5,7 @@
   <title>Race Day Weather — Coding Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/experiment-header.css" />
   <meta name="description" content="Weather dashboard for key South African race circuits." />
 
   <style>
@@ -84,6 +85,8 @@
     }
 
     .page-inner {
+      --cp-exp-edge-x: clamp(18px, 3vw, 28px);
+      --cp-exp-edge-top: 20px;
       padding: 20px clamp(18px, 3vw, 28px) 24px;
     }
 
@@ -654,6 +657,8 @@
       }
 
       .page-inner {
+        --cp-exp-edge-x: 14px;
+        --cp-exp-edge-top: 16px;
         padding: 16px 14px 18px;
       }
 
@@ -666,23 +671,7 @@
 <body>
   <div class="page-shell">
     <div class="page-inner">
-      <header class="top-bar">
-        <nav class="crumbs" aria-label="Breadcrumb">
-          <a href="index.html">🏁 Coding Playground</a>
-          <span>›</span>
-          <span>Weather widgets</span>
-        </nav>
-        <div class="top-actions">
-          <nav class="top-nav" aria-label="Primary navigation">
-            <a href="index.html">Home</a>
-            <a href="lab.html" class="primary-link">Back to Lab</a>
-          </nav>
-          <div class="theme-pill">
-            <span class="theme-dot"></span>
-            <span>Motorsport · Demo widgets</span>
-          </div>
-        </div>
-      </header>
+      <header class="cp-exp-header" data-experiment-header data-experiment-name="Weather Widgets"></header>
 
       <section class="hero" aria-labelledby="weather-hero-heading">
         <div class="hero-main">
@@ -777,6 +766,7 @@
     </div>
   </div>
 
+  <script src="assets/experiment-header.js" defer></script>
   <script>
     // Hard-coded "base" weather data for four SA race circuits
     // Now also includes latitude/longitude so we can call a real API.

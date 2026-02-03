@@ -5,6 +5,7 @@
   <title>Playground Agent Chat — Coding Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/experiment-header.css" />
   <meta name="description" content="Embedded Playground Agent chat experience for the Coding Playground lab." />
 
   <style>
@@ -82,6 +83,8 @@
     }
 
     .page-inner {
+      --cp-exp-edge-x: clamp(18px, 3vw, 28px);
+      --cp-exp-edge-top: 20px;
       padding: 20px clamp(18px, 3vw, 28px) 26px;
     }
 
@@ -290,6 +293,8 @@
       }
 
       .page-inner {
+        --cp-exp-edge-x: 14px;
+        --cp-exp-edge-top: 16px;
         padding: 16px 14px 18px;
       }
 
@@ -303,23 +308,7 @@
 <body>
   <div class="page-shell">
     <div class="page-inner">
-      <header class="top-bar">
-        <nav class="crumbs" aria-label="Breadcrumb">
-          <a href="index.html">Coding Playground</a>
-          <span aria-hidden="true">/</span>
-          <span>Playground Agent</span>
-        </nav>
-        <div class="top-actions">
-          <nav class="top-nav" aria-label="Primary navigation">
-            <a href="index.html">Home</a>
-            <a href="lab.html" class="primary-link">Back to Lab</a>
-          </nav>
-          <div class="theme-pill">
-            <span class="theme-dot"></span>
-            <span>OpenAI Agent · Vercel backend</span>
-          </div>
-        </div>
-      </header>
+      <header class="cp-exp-header" data-experiment-header data-experiment-name="Playground Agent Chat"></header>
 
       <section class="hero" aria-labelledby="agent-hero-heading">
         <div class="hero-main">
@@ -360,5 +349,6 @@
       </section>
     </div>
   </div>
+  <script src="assets/experiment-header.js" defer></script>
 </body>
 </html>
