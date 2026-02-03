@@ -5,6 +5,7 @@
   <title>Race Calendar - Coding Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/experiment-header.css" />
   <meta name="description" content="2026 race calendar for national and regional events." />
   <style>
     :root {
@@ -439,46 +440,9 @@
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="shell site-header-inner">
-      <a class="brand" href="index.html">
-        <span class="brand-pill">CP</span>
-        <span>Coding&nbsp;Playground A· Lab</span>
-      </a>
-      <nav class="main-nav" aria-label="Primary">
-        <a href="index.html">Home</a>
-        <a href="lab.html#experiments">Experiments</a>
-        <a href="lab.html#workflow">Workflow</a>
-        <a href="lab.html#roadmap" class="nav-primary">Up next</a>
-        <details class="nav-dropdown" aria-label="Experiments">
-          <summary>
-            Experiments
-            <span class="nav-dropdown-icon" aria-hidden="true">
-              <svg viewBox="0 0 12 12" focusable="false" aria-hidden="true">
-                <path d="M3 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </summary>
-          <div class="nav-dropdown-menu" role="menu" aria-label="Experiments links">
-            <a class="nav-dropdown-link" href="pricing.html">Pricing &amp; Plans</a>
-            <a class="nav-dropdown-link" href="blog.html">Newsletter / Blog</a>
-            <a class="nav-dropdown-link" href="forums.html">Forums</a>
-            <a class="nav-dropdown-link" href="weather.html">Weather Widgets</a>
-            <a class="nav-dropdown-link" href="race-calendar.html">Race Calendar</a>
-            <a class="nav-dropdown-link" href="#">KartingBuddy Home v2</a>
-            <a class="nav-dropdown-link" href="#">Technical Buddy Chat</a>
-            <a class="nav-dropdown-link" href="playground-agent.html">Playground Agent Chat</a>
-            <a class="nav-dropdown-link" href="kart-setup-advisor.html">Kart Setup Advisor</a>
-            <a class="nav-dropdown-link" href="tagline-generator.html">Tagline Generator</a>
-            <a class="nav-dropdown-link" href="sliding_calculator.html">Calculator</a>
-            <a class="nav-dropdown-link" href="neonquest-dm.html">NeonQuest DM</a>
-          </div>
-        </details>
-      </nav>
-    </div>
-  </header>
+  <header class="cp-exp-header" data-experiment-header data-experiment-name="Race Calendar"></header>
 
-  <main>
+<main>
     <section class="race-hero" id="top">
       <div class="shell">
         <h1>Race Calendar</h1>
@@ -534,6 +498,7 @@
     </section>
   </main>
 
+  <script src="assets/experiment-header.js" defer></script>
   <script type="module" src="assets/js/race-calendar.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/experiment-header.css" />
   <title>Racing Plans | Pricing</title>
   <style>
     :root {
@@ -66,6 +67,10 @@
       align-items: center;
       margin-bottom: 2.25rem;
       gap: 1rem;
+    }
+
+    .cp-exp-header {
+      margin-bottom: 2.25rem;
     }
 
     .brand {
@@ -749,21 +754,7 @@
 </head>
 <body>
   <div class="page-shell">
-    <header>
-      <div class="brand">
-        <div class="brand-logo">
-          <span>KB</span>
-        </div>
-        <div class="brand-text">
-          <div class="brand-title">Karting Buddy Lab</div>
-          <div class="brand-subtitle">Playground plans for racers & builders</div>
-        </div>
-      </div>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="lab.html" class="primary-link">Back to Lab</a>
-      </nav>
-    </header>
+    <header class="cp-exp-header" data-experiment-header data-experiment-name="Pricing &amp; Plans"></header>
 
     <main>
       <!-- Hero -->
@@ -1100,5 +1091,6 @@
       <span>Next step: wire this into your existing navigation and GitHub workflow.</span>
     </footer>
   </div>
+  <script src="assets/experiment-header.js" defer></script>
 </body>
 </html>

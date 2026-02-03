@@ -5,6 +5,7 @@
   <title>Coding Playground — Forums</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/experiment-header.css" />
 
   <style>
     :root {
@@ -665,25 +666,7 @@
 </head>
 
 <body>
-  <header class="nav">
-    <div class="nav-brand">
-      <div class="nav-logo">
-        <span>CP</span>
-      </div>
-      <div class="nav-title">
-        <div class="nav-title-main">Coding Playground</div>
-        <div class="nav-title-sub">Forums · Paddock Chat</div>
-      </div>
-    </div>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="lab.html" class="nav-link">Lab</a>
-      <a href="calculator.html" class="nav-link">Calculator</a>
-      <a href="pricing.html" class="nav-link">Pricing</a>
-      <a href="forums.html" class="nav-link nav-link--active" aria-current="page">Forums</a>
-      <a href="contact.html" class="nav-link nav-link--primary">Contact</a>
-    </nav>
-  </header>
+  <header class="cp-exp-header" data-experiment-header data-experiment-name="Forums"></header>
 
   <main class="page">
     <!-- Intro / hero -->
@@ -1041,5 +1024,6 @@
     Built as part of the Coding Playground · Forums prototype. This page is
     static, for layout practice only.
   </footer>
+  <script src="assets/experiment-header.js" defer></script>
 </body>
 </html>

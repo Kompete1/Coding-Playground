@@ -10,7 +10,7 @@
     />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
-    <script defer src="main.js"></script>
+    <link rel="stylesheet" href="assets/experiment-header.css" />
     <!-- Chart.js for the small doughnut chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
@@ -100,29 +100,7 @@
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header" role="banner">
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a class="brand" href="index.html" aria-label="Site home">
-          <span class="brand-pill">CP</span>
-          <span>Coding&nbsp;Playground · Lab</span>
-        </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu">
-          <span class="menu-label">Menu</span>
-          <span class="menu-icon" aria-hidden="true"></span>
-        </button>
-        <ul id="primary-menu" class="nav-links" aria-hidden="true">
-          <li><a href="index.html">Home</a></li>
-          <li><a class="nav-link-lab" href="lab.html">LAB</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-        <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
-          <span class="theme-toggle__icon" aria-hidden="true"></span>
-          <span class="theme-toggle__label">Theme</span>
-        </button>
-        <span id="clock" aria-live="polite"></span>
-      </nav>
-    </header>
+    <header class="cp-exp-header" data-experiment-header data-experiment-name="Calculator"></header>
 
     <main id="main-content">
       <div class="wrap">
@@ -234,6 +212,8 @@
       <span class="back-to-top__icon" aria-hidden="true">↑</span>
       <span class="back-to-top__label" aria-hidden="true">Top</span>
     </button>
+
+    <script src="assets/experiment-header.js" defer></script>
 
     <script>
 (function(){
