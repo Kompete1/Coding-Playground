@@ -488,6 +488,34 @@
       overflow: hidden;
     }
 
+    .experiment-thumbnail {
+      border-radius: calc(var(--radius-md) + 0.2rem);
+      min-height: 120px;
+      padding: 0.75rem;
+      background: var(--thumb-gradient, linear-gradient(135deg, rgba(37, 99, 235, 0.7), rgba(15, 23, 42, 0.85)));
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.35);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.5rem;
+      color: rgba(226, 232, 240, 0.85);
+    }
+
+    .experiment-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    .thumb-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+    }
+
     .experiment-card--placeholder {
       background: radial-gradient(circle at top left, rgba(107, 114, 128, 0.4), #020617);
       border-style: dashed;
@@ -567,6 +595,25 @@
     .experiment-meta dd {
       margin: 0;
       color: #e5e7eb;
+    }
+
+    .experiment-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.2rem 0 0.35rem;
+    }
+
+    .tag-chip {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      background: rgba(37, 99, 235, 0.12);
+      color: #dbeafe;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
     }
 
     .tools-list {
@@ -911,6 +958,9 @@
         <div class="lab-experiments-grid">
           <!-- Experiment card 1 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(37, 99, 235, 0.85), rgba(15, 23, 42, 0.85));">
+              <span class="thumb-label">Calculator</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Home Loan Calculator v1</h3>
@@ -933,6 +983,13 @@
                 <dd>Nov 2025 · v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">HTML</span>
+              <span class="tag-chip">JS</span>
+              <span class="tag-chip">UI</span>
+              <span class="tag-chip">Calculator</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -962,6 +1019,9 @@
 
           <!-- Experiment card: Playground Agent -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(16, 185, 129, 0.65), rgba(30, 41, 59, 0.9));">
+              <span class="thumb-label">Agent UI</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Playground Agent v1</h3>
@@ -984,6 +1044,13 @@
                 <dd>Nov 2025 · v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">HTML</span>
+              <span class="tag-chip">JS</span>
+              <span class="tag-chip">API</span>
+              <span class="tag-chip">UI</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1014,6 +1081,9 @@
 
           <!-- Experiment card: Kart Setup Advisor -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(249, 115, 22, 0.7), rgba(30, 41, 59, 0.9));">
+              <span class="thumb-label">Advisor</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Kart Setup Advisor v1</h3>
@@ -1037,6 +1107,13 @@
               </div>
             </dl>
 
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">Agent</span>
+              <span class="tag-chip">Chat</span>
+              <span class="tag-chip">API</span>
+              <span class="tag-chip">UI</span>
+            </div>
+
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">ChatKit</span>
               <span class="tool-pill">Vercel</span>
@@ -1051,6 +1128,9 @@
 
           <!-- Experiment card: Tagline Generator -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(244, 114, 182, 0.7), rgba(17, 24, 39, 0.9));">
+              <span class="thumb-label">Taglines</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Tagline Generator</h3>
@@ -1074,6 +1154,13 @@
               </div>
             </dl>
 
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">AI</span>
+              <span class="tag-chip">Copy</span>
+              <span class="tag-chip">API</span>
+              <span class="tag-chip">UI</span>
+            </div>
+
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">Next.js</span>
               <span class="tool-pill">Vercel</span>
@@ -1088,6 +1175,9 @@
 
           <!-- Experiment card: NeonQuest DM -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(15, 23, 42, 0.95));">
+              <span class="thumb-label">Streaming</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">NeonQuest DM</h3>
@@ -1111,6 +1201,13 @@
               </div>
             </dl>
 
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">AI</span>
+              <span class="tag-chip">Streaming</span>
+              <span class="tag-chip">API</span>
+              <span class="tag-chip">Demo</span>
+            </div>
+
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">AI</span>
               <span class="tool-pill">Railway</span>
@@ -1124,6 +1221,9 @@
           </article>
           <!-- Experiment card 2 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(148, 163, 184, 0.7), rgba(30, 41, 59, 0.95));">
+              <span class="thumb-label">Readability</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">FAQ Chatbot Panel Readability</h3>
@@ -1146,6 +1246,13 @@
                 <dd>Nov 2025 · v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">UI</span>
+              <span class="tag-chip">HTML</span>
+              <span class="tag-chip">CSS</span>
+              <span class="tag-chip">UX</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1174,6 +1281,9 @@
 
           <!-- Experiment card 3 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(56, 189, 248, 0.7), rgba(30, 41, 59, 0.9));">
+              <span class="thumb-label">Navigation</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Sticky header, theme toggle &amp; live clock</h3>
@@ -1196,6 +1306,13 @@
                 <dd>Oct 2025 &middot; v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">JS</span>
+              <span class="tag-chip">UI</span>
+              <span class="tag-chip">Navigation</span>
+              <span class="tag-chip">Theme</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1225,6 +1342,9 @@
 
           <!-- Experiment card 4 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(14, 165, 233, 0.65), rgba(15, 23, 42, 0.95));">
+              <span class="thumb-label">Smooth Scroll</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Back-to-top button with smooth scroll</h3>
@@ -1247,6 +1367,13 @@
                 <dd>19 Oct 2025 &middot; v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">JS</span>
+              <span class="tag-chip">UX</span>
+              <span class="tag-chip">UI</span>
+              <span class="tag-chip">Motion</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1275,6 +1402,9 @@
 
           <!-- Experiment card 5 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(244, 114, 182, 0.6), rgba(30, 41, 59, 0.95));">
+              <span class="thumb-label">Carousel</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Testimonial carousel &amp; gradients</h3>
@@ -1297,6 +1427,13 @@
                 <dd>Nov 2025 &middot; v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">JS</span>
+              <span class="tag-chip">UI</span>
+              <span class="tag-chip">Carousel</span>
+              <span class="tag-chip">Animation</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1325,6 +1462,9 @@
 
           <!-- Experiment card 6 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(251, 191, 36, 0.6), rgba(30, 41, 59, 0.9));">
+              <span class="thumb-label">Pages</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">About &amp; Contact pages</h3>
@@ -1347,6 +1487,13 @@
                 <dd>Nov 2025 &middot; v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">HTML</span>
+              <span class="tag-chip">Content</span>
+              <span class="tag-chip">Layout</span>
+              <span class="tag-chip">Navigation</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1375,6 +1522,9 @@
 
           <!-- Experiment card 7 -->
           <article class="experiment-card">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(94, 234, 212, 0.65), rgba(15, 23, 42, 0.95));">
+              <span class="thumb-label">404</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--shipped">✅ Shipped</p>
               <h3 class="experiment-title">Custom 404 page</h3>
@@ -1397,6 +1547,13 @@
                 <dd>Nov 2025 &middot; v1.0</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">HTML</span>
+              <span class="tag-chip">UX</span>
+              <span class="tag-chip">Error</span>
+              <span class="tag-chip">Content</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools used">
               <span class="tool-pill">HTML</span>
@@ -1425,6 +1582,9 @@
 
           <!-- Placeholder card for next experiment -->
           <article class="experiment-card experiment-card--placeholder">
+            <div class="experiment-thumbnail" style="--thumb-gradient: linear-gradient(135deg, rgba(148, 163, 184, 0.35), rgba(15, 23, 42, 0.95));">
+              <span class="thumb-label">Coming Soon</span>
+            </div>
             <header class="experiment-header">
               <p class="status-pill status--idea">💡 Idea</p>
               <h3 class="experiment-title">New experiment</h3>
@@ -1447,6 +1607,13 @@
                 <dd>–</dd>
               </div>
             </dl>
+
+            <div class="experiment-tags" aria-label="Tags">
+              <span class="tag-chip">Idea</span>
+              <span class="tag-chip">Planning</span>
+              <span class="tag-chip">Next</span>
+              <span class="tag-chip">Draft</span>
+            </div>
 
             <div class="tools-list" aria-label="Tools you plan to use">
               <span class="tool-pill">HTML</span>
@@ -1595,5 +1762,3 @@
   </footer>
 </body>
 </html>
-
-
