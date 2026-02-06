@@ -860,6 +860,89 @@ main {
   color: var(--color-text-muted);
 }
 
+.site-hero .hero-experiments, .site-home .hero .hero-experiments {
+  display: grid;
+  gap: var(--spacing-sm);
+  min-width: min(22rem, 100%);
+}
+
+.site-hero .hero-experiments__heading, .site-home .hero .hero-experiments__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xs);
+}
+
+.site-hero .hero-experiments__eyebrow, .site-home .hero .hero-experiments__eyebrow {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.site-hero .hero-experiments__cta, .site-home .hero .hero-experiments__cta {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-hero .hero-experiments__cta:hover, .site-home .hero .hero-experiments__cta:hover,
+.site-hero .hero-experiments__cta:focus-visible, .site-home .hero .hero-experiments__cta:focus-visible {
+  text-decoration: underline;
+}
+
+.site-hero .hero-experiments__grid, .site-home .hero .hero-experiments__grid {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.site-hero .hero-experiment-card, .site-home .hero .hero-experiment-card {
+  padding: var(--spacing-sm);
+  gap: var(--spacing-2xs);
+  background-color: var(--color-elevated);
+  box-shadow: var(--shadow-xs);
+}
+
+.site-hero .hero-experiment-card h3, .site-home .hero .hero-experiment-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.site-hero .hero-experiment-card p, .site-home .hero .hero-experiment-card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.site-hero .hero-experiment-links, .site-home .hero .hero-experiment-links {
+  display: grid;
+  gap: var(--spacing-2xs);
+}
+
+.site-hero .hero-experiment-link, .site-home .hero .hero-experiment-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.site-hero .hero-experiment-link::after, .site-home .hero .hero-experiment-link::after {
+  content: "↗";
+  font-size: 0.85em;
+}
+
+.site-hero .hero-experiment-link:hover, .site-home .hero .hero-experiment-link:hover,
+.site-hero .hero-experiment-link:focus-visible, .site-home .hero .hero-experiment-link:focus-visible {
+  text-decoration: underline;
+}
+
 .section-heading {
   margin: 0 auto;
   max-width: 36rem;
@@ -1324,6 +1407,14 @@ button[type="submit"]:focus-visible {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .site-hero .hero-experiments__grid, .site-home .hero .hero-experiments__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .site-hero .hero-experiment-card:last-child, .site-home .hero .hero-experiment-card:last-child {
+    grid-column: span 2;
+  }
+
   .features-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1499,8 +1590,6 @@ textarea:focus-visible {
 ::selection {
   background: var(--color-accent-selection);
 }
-
-
 
 
 
