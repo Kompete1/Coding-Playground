@@ -41,6 +41,26 @@
       --danger: var(--color-danger);
     }
 
+
+    html[data-theme="light"] {
+      --color-bg: #f8fafc;
+      --color-bg-glow: #dbeafe;
+      --color-bg-deep: #eff6ff;
+      --color-surface: #ffffff;
+      --color-elevated: #f8fafc;
+      --color-border: rgba(100, 116, 139, 0.35);
+      --color-text: #0f172a;
+      --color-text-muted: #475569;
+      --color-text-soft: #64748b;
+      --color-accent: #0891b2;
+      --color-accent-soft: rgba(8, 145, 178, 0.14);
+      --color-accent-secondary: #ea580c;
+      --color-danger: #dc2626;
+      --bg-gradient-from: #f8fafc;
+      --bg-gradient-to: #dbeafe;
+      --shadow-card: 0 18px 40px rgba(148, 163, 184, 0.35);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -666,12 +686,25 @@
         align-items: flex-start;
       }
     }
+
+    .experiment-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin: -6px 0 16px;
+    }
+
   </style>
 </head>
 <body>
   <div class="page-shell">
     <div class="page-inner">
       <header class="cp-exp-header" data-experiment-header data-experiment-name="Weather Widgets"></header>
+  <div class="experiment-toolbar">
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
+      <span class="theme-toggle__icon" aria-hidden="true"></span>
+      <span class="theme-toggle__label">Theme</span>
+    </button>
+  </div>
 
       <section class="hero" aria-labelledby="weather-hero-heading">
         <div class="hero-main">
@@ -767,6 +800,7 @@
   </div>
 
   <script src="assets/experiment-header.js" defer></script>
+  <script src="assets/js/theme-toggle.js" defer></script>
   <script>
     // Hard-coded "base" weather data for four SA race circuits
     // Now also includes latitude/longitude so we can call a real API.

@@ -38,6 +38,22 @@
       --shadow-soft: var(--shadow-card);
     }
 
+    html[data-theme="light"] {
+      --color-bg: #f8fafc;
+      --color-surface: #ffffff;
+      --color-elevated: #eef2ff;
+      --color-text: #0f172a;
+      --color-text-muted: #475569;
+      --color-accent: #0891b2;
+      --color-accent-strong: #6366f1;
+      --color-accent-pink: #db2777;
+      --color-accent-yellow: #ca8a04;
+      --color-border: #cbd5e1;
+      --color-accent-glow: rgba(8, 145, 178, 0.15);
+      --color-accent-secondary-glow: rgba(99, 102, 241, 0.16);
+      --shadow-card: 0 18px 45px rgba(148, 163, 184, 0.35);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -750,11 +766,24 @@
         min-width: 550px;
       }
     }
+
+    .experiment-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin: -6px 0 16px;
+    }
+
   </style>
 </head>
 <body>
   <div class="page-shell">
     <header class="cp-exp-header" data-experiment-header data-experiment-name="Pricing &amp; Plans"></header>
+  <div class="experiment-toolbar">
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
+      <span class="theme-toggle__icon" aria-hidden="true"></span>
+      <span class="theme-toggle__label">Theme</span>
+    </button>
+  </div>
 
     <main>
       <!-- Hero -->
@@ -1092,5 +1121,6 @@
     </footer>
   </div>
   <script src="assets/experiment-header.js" defer></script>
+  <script src="assets/js/theme-toggle.js" defer></script>
 </body>
 </html>
