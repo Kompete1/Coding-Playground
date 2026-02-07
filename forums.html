@@ -35,6 +35,8 @@
       --text-muted: var(--color-text-muted);
       --text-soft: var(--color-text-soft);
       --surface-alt: var(--color-elevated);
+      --forums-embed-height-desktop: min(2400px, 230vh);
+      --forums-embed-height-mobile: min(3000px, 360vh);
     }
 
     * {
@@ -231,7 +233,7 @@
     .iframe-wrap {
       margin-top: 12px;
       width: 100%;
-      min-height: 70vh;
+      height: var(--forums-embed-height-desktop);
       border-radius: 22px;
       overflow: hidden;
       border: 1px solid var(--card-border);
@@ -242,7 +244,6 @@
     .iframe-wrap iframe {
       width: 100%;
       height: 100%;
-      min-height: 70vh;
       border: 0;
       display: block;
     }
@@ -259,11 +260,11 @@
       }
 
       .iframe-wrap {
-        min-height: 70vh;
+        height: var(--forums-embed-height-mobile);
       }
 
       .iframe-wrap iframe {
-        min-height: 70vh;
+        height: 100%;
       }
     }
   </style>
@@ -281,7 +282,7 @@
           </div>
           <h1 id="forums-hero-heading" class="hero-title">Forums</h1>
           <p class="hero-sub">
-            Access the live Forums app directly inside Coding Playground. Use it here for in-site testing, or open it in a dedicated tab when needed.
+            Access the live SA Racing Forum directly inside Coding Playground. Use it here for in-site testing, or open it in a dedicated tab when needed.
           </p>
           <div class="hero-actions">
             <a class="hero-action" href="https://forums-app-next-js.vercel.app/" target="_blank" rel="noopener">Open Forums</a>
@@ -294,13 +295,13 @@
         </div>
 
         <aside class="panel" aria-label="Embed summary">
-          <p><strong>Embed mode:</strong> The production forums app is loaded below in an iframe-first layout.</p>
-          <p><strong>Fallback:</strong> If the embedded forum does not load, use Open Forums.</p>
+          <p><strong>Embed mode:</strong> The live SA Racing Forum is loaded below in an iframe-first layout.</p>
+          <p><strong>Fallback:</strong> If the embedded forum does not load, use Open Forums in a new tab.</p>
         </aside>
       </section>
 
       <section class="embed-section" aria-labelledby="forums-embed-heading">
-        <h2 id="forums-embed-heading" class="embed-title">Live forums demo</h2>
+        <h2 id="forums-embed-heading" class="embed-title">Live SA Racing Forum</h2>
         <p class="embed-note">
           If the embedded forum does not load, use
           <a href="https://forums-app-next-js.vercel.app/" target="_blank" rel="noopener">Open Forums</a>.
@@ -311,6 +312,7 @@
             src="https://forums-app-next-js.vercel.app/"
             title="Forums App"
             loading="lazy"
+            scrolling="no"
             allow="clipboard-write; clipboard-read"
           ></iframe>
         </div>
